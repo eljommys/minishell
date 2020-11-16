@@ -12,13 +12,51 @@
 
 #include "minishell.h"
 
+int		add_char(char **str, char c)
+{
+	char	*new;
+	int		len;
+	int		i;
+
+	if (!(*str))
+	{
+		if (!(*str = (char *)malloc(sizeof(char) * 2)))
+			return (-1);
+		(*str)[0] = c;
+		(*str)[1] = 0;
+		return (0);
+	}
+	len = ft_strlen(*str);
+	if (!(new = (char *)malloc(sizeof(char) * (len + 2))))
+		return (-1);
+	i = -1;
+	while (++i < len)
+		new[i] = (*str)[i];
+	new[i] = c;
+	new[i + 1] = 0;
+	if (len)
+		free(*str);
+	*str = new;
+	return (0);
+}
+
 int		main(void)
 {
+	char	c;
+	char	*str;
 
 	while (1)
 	{
+		str = 0;
 		write(1, "minishell$", 11);
-		//hacer que a partir de aqui espere a que metas algo por consola y le des al enter.
-		//luego lea a partir del caracter 9 sin incluir
+		while (1)
+		{
+			if (read(1, &c, 1) == 1 && c == '\n')
+				break ;
+			if (add_char(&str, c))
+				return (-1);
+		}
+		check_command(str);
+		free(str);
 	}
 }
