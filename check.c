@@ -60,6 +60,8 @@ void		check_command(char *str)
 			echo_command(str);
 		else if (!ft_memcmp(str, "pwd", 3))
 			pwd_command();
+		else if (!ft_memcmp(str, "./", 2) || !ft_memcmp(str, "bash ", 5))
+			bash_command(str);
 		else if (!ft_memcmp(str, "quit", 4) || !ft_memcmp(str, "exit", 4) ||
 				!ft_memcmp(str, "close", 5) || !ft_memcmp(str, "q", 1))
 			close_command(str);
