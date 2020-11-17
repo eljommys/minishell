@@ -63,8 +63,8 @@ void	bash_command(char *str)
 	char	buff[4097];
 	char	*path;
 
-	argv = (char **)ft_calloc(1, 1);
-	env = (char **)ft_calloc(1, 1);
+	argv = (char **)ft_calloc(1, sizeof(char *));
+	env = (char **)ft_calloc(1, sizeof(char *));
 	str += (!ft_memcmp(str, "bash ", 5)) ? 5 : 2;
 	skip_spaces(&str);
 	printf("str = %s\n", str);

@@ -10,9 +10,14 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+/*
+**	librerias de prueba (eliminar en la version final)
+*/
+
+#include <stdio.h>
+
 #include "libft/libft.h"
 #include <stdlib.h>
-#include <stdio.h>
 #include <unistd.h>
 #include <fcntl.h>
 #include <dirent.h>
