@@ -1,9 +1,12 @@
 NAME	=	minishell
 
 SRCS	=	main.c\
-			check.c\
+			check/check.c\
+			check/bash.c\
 
-OBJS	= $(SRCS:.c=.o)
+OBJS	=	main.o\
+			check.o\
+			bash.o\
 
 LIBFT	= libft/libft.a
 L_PATH	= ./libft/
@@ -28,5 +31,8 @@ ffclean: fclean
 	make -C $(L_PATH) fclean
 
 re: fclean $(NAME)
+
+leaks:
+	valgrind --leak-check=full --show-leak-kinds=all ./$(NAME)
 
 .PHONY: all clean fclean ffclean re
