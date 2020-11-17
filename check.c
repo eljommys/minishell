@@ -36,7 +36,7 @@ static void	echo_command(char *str)
 		write(1, "\n", 1);
 }
 
-static void pwd_command(void)
+static void	pwd_command(void)
 {
 	char *cwd;
 	char buff[4097];
