@@ -44,11 +44,16 @@ int		main(void)
 {
 	char	c;
 	char	*str;
+	char	*cwd;
+	char	buff[4097];
 
+	cwd = getcwd(buff, 4096);
 	while (1)
 	{
 		str = 0;
-		write(1, "minishell$", 11);
+		write(1, "\033[0;32mminishell:\033[0;0m\033[\033[0;34m", 32);
+		ft_putstr_fd(cwd, 1);
+		write(1, "\033[0;0m$ ", 8);
 		while (1)
 		{
 			if (read(1, &c, 1) == 1 && c == '\n')

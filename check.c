@@ -36,6 +36,16 @@ static void	echo_command(char *str)
 		write(1, "\n", 1);
 }
 
+static void pwd_command(void)
+{
+	char *cwd;
+	char buff[4097];
+
+	cwd = getcwd(buff, 4096);
+	ft_putstr_fd(cwd, 1);
+	write (1, "\n", 1);
+}
+
 static void	close_command(char *str)
 {
 	free(str);
@@ -48,8 +58,10 @@ void		check_command(char *str)
 	{
 		if (!ft_memcmp(str, "echo ", 5))
 			echo_command(str);
-		else if (!ft_memcmp(str, "quit", 5) || !ft_memcmp(str, "exit", 5) ||
-				!ft_memcmp(str, "close", 5) || !ft_memcmp(str, "q", 2))
+		else if (!ft_memcmp(str, "pwd", 3))
+			pwd_command();
+		else if (!ft_memcmp(str, "quit", 4) || !ft_memcmp(str, "exit", 4) ||
+				!ft_memcmp(str, "close", 5) || !ft_memcmp(str, "q", 1))
 			close_command(str);
 		free(str);
 	}

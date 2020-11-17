@@ -10,11 +10,14 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-
+#include "libft/libft.h"
 #include <stdlib.h>
 #include <unistd.h>
 #include <fcntl.h>
-#include "libft/libft.h"
+#include <dirent.h>
+#include <signal.h>
+#include <errno.h>
+#include <sys/wait.h>
+#include <sys/stat.h>
 
 void		check_command(char *str);
