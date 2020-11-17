@@ -28,3 +28,5 @@ ffclean: fclean
 	make -C $(L_PATH) fclean
 
 re: fclean $(NAME)
+
+.PHONY: all clean fclean ffclean re
