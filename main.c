@@ -57,6 +57,5 @@ int		main(void)
 				return (-1);
 		}
 		check_command(str);
-		free(str);
 	}
 }

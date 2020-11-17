@@ -15,12 +15,16 @@ all: $(NAME)
 
 $(NAME):
 	make -C $(L_PATH)
-	$(CC) $(SRCS) $(LIBFT) -o $(NAME)
+	$(CC) -c $(SRCS)
+	$(CC) $(OBJS) $(LIBFT) -o $(NAME)
 
 clean:
 	rm -rf $(OBJS)
 
 fclean: clean
 	rm -rf $(NAME)
+
+ffclean: fclean
+	make -C $(L_PATH) fclean
 
 re: fclean $(NAME)
