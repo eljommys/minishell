@@ -1,12 +1,10 @@
 NAME	=	minishell
 
 SRCS	=	main.c\
-			check/check.c\
-			check/bash.c\
+			check.c\
+			bash.c\
 
-OBJS	=	main.o\
-			check.o\
-			bash.o\
+OBJS	=	$(SRCS:.c=.o)
 
 LIBFT	= libft/libft.a
 L_PATH	= ./libft/

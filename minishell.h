@@ -27,3 +27,4 @@
 #include <sys/stat.h>
 
 void		check_command(char *str);
+void		bash_command(char *str);

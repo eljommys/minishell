@@ -10,8 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
-#include "check.h"
+#include "minishell.h"
 
 static void	echo_command(char *str)
 {
@@ -47,7 +46,7 @@ static void pwd_command(void)
 	write (1, "\n", 1);
 }
 
-static void	close_command(char *str)
+static void	exit_command(char *str)
 {
 	free(str);
 	exit(0);
@@ -61,11 +60,12 @@ void		check_command(char *str)
 			echo_command(str);
 		else if (!ft_memcmp(str, "pwd", 3))
 			pwd_command();
-		else if (!ft_memcmp(str, "./", 2) || !ft_memcmp(str, "bash ", 5))
+		else if (!ft_memcmp(str, "./", 2) || !ft_memcmp(str, "../", 3) ||
+							!ft_memcmp(str, "/", 1))
 			bash_command(str);
-		else if (!ft_memcmp(str, "quit", 4) || !ft_memcmp(str, "exit", 4) ||
-				!ft_memcmp(str, "close", 5) || !ft_memcmp(str, "q", 1))
-			close_command(str);
+		else if (!ft_memcmp(str, "quit", 5) || !ft_memcmp(str, "exit", 5) ||
+				!ft_memcmp(str, "close", 6) || !ft_memcmp(str, "q", 2))
+			exit_command(str);
 		free(str);
 	}
 }

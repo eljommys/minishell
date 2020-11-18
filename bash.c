@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "check.h"
+#include "minishell.h"
 
 static void skip_spaces(char **str)
 {
@@ -33,11 +33,8 @@ static void set_path(char *str, char **path)
 		*path = ft_strdup(str);
 	else
 	{
-		if (!ft_memcmp(str, "./", 2))
-			str += 2;
-		else
-			while (!ft_memcmp(str + i, "../", 3))
-				i += 3;
+		while (!ft_memcmp(str + i, "../", 3))
+			i += 3;
 		filename = ft_strdup(str + i);
 		i /= 3;
 		while (i-- > 0)
@@ -65,8 +62,9 @@ void	bash_command(char *str)
 
 	argv = (char **)ft_calloc(1, sizeof(char *));
 	env = (char **)ft_calloc(1, sizeof(char *));
-	str += (!ft_memcmp(str, "bash ", 5)) ? 5 : 2;
 	skip_spaces(&str);
+	if (ft_memcmp(str, "/", 1))
+		str += (!ft_memcmp(str, "./", 2)) ? 2 : 3;
 	printf("str = %s\n", str);
 	path = getcwd(buff, 4096);
 	set_path(str, &path);
