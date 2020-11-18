@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "libft/libft.h"
+#include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include <fcntl.h>
@@ -20,4 +21,7 @@
 #include <sys/wait.h>
 #include <sys/stat.h>
 
-void		check_command(char *str);
+void	echo_command(char *str);
+void	pwd_command(void);
+void	exit_command(char *str);
+void	bash_command(char *str);
