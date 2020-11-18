@@ -69,7 +69,7 @@ void		bash_command(char *str)
 	path = getcwd(buff, 4096);
 	set_path(str, &path);
 	printf("path = %s\n", path);
-	if (execve(path, argv, env) == -1)
+	if (!fork() && execve(path, argv, env) == -1)
 		write(1, "Wrong file or directory\n", 24);
 	free(argv);
 	free(env);
