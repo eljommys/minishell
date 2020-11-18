@@ -1,7 +1,11 @@
 NAME	=	minishell
 
 SRCS	=	main.c\
+<<<<<<< HEAD
 			check.c\
+=======
+			commands.c\
+>>>>>>> 632089504f9258d8c69af4ac1629954b24af3ddc
 			bash.c\
 
 OBJS	=	$(SRCS:.c=.o)

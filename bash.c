@@ -53,7 +53,7 @@ static void set_path(char *str, char **path)
 	}
 }
 
-void	bash_command(char *str)
+void		bash_command(char *str)
 {
 	char	**argv;
 	char	**env;
