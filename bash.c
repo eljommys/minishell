@@ -59,6 +59,7 @@ void		bash_command(char *str)
 	char	**env;
 	char	buff[4097];
 	char	*path;
+	int		status;
 
 	argv = (char **)ft_calloc(1, sizeof(char *));
 	env = (char **)ft_calloc(1, sizeof(char *));
@@ -71,6 +72,7 @@ void		bash_command(char *str)
 	printf("path = %s\n", path);
 	if (!fork() && execve(path, argv, env) == -1)
 		write(1, "Wrong file or directory\n", 24);
+	wait(&status);
 	free(argv);
 	free(env);
 	free(path);
