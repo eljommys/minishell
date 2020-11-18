@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "check.h"
+#include "minishell.h"
 
 static void skip_spaces(char **str)
 {
@@ -56,7 +56,7 @@ static void set_path(char *str, char **path)
 	}
 }
 
-void	bash_command(char *str)
+void		bash_command(char *str)
 {
 	char	**argv;
 	char	**env;
