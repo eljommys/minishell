@@ -14,6 +14,10 @@
 **	librerias de prueba (eliminar en la version final)
 */
 
+#ifndef MINISHELL_H
+# define MINISHELL_H
+#endif
+
 #include "libft/libft.h"
 #include <stdio.h>
 #include <stdlib.h>
