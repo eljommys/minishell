@@ -51,7 +51,6 @@ static void set_path(char *str, char **path)
 		free(new);
 		new = ft_strjoin(aux, filename);
 		free(aux);
-		free(filename);
 		*path = new;
 	}
 }
