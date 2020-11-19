@@ -66,13 +66,12 @@ void		bash_command(char *str)
 	skip_spaces(&str);
 	if (ft_memcmp(str, "/", 1))
 		str += (!ft_memcmp(str, "./", 2)) ? 2 : 3;
-	printf("str = %s\n", str);
 	path = getcwd(buff, 4096);
 	set_path(str, &path);
-	printf("path = %s\n", path);
 	if (!fork() && execve(path, argv, env) == -1)
 		write(1, "Wrong file or directory\n", 24);
-	wait(&status);
+	else
+		wait(&status);
 	free(argv);
 	free(env);
 	free(path);
