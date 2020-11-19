@@ -12,7 +12,25 @@
 
 #include "minishell.h"
 
-int		add_char(char **str, char c)
+static void	check_command(char *str)
+{
+	if (str)
+	{
+		if (!ft_memcmp(str, "echo ", 5))
+			echo_command(str);
+		else if (!ft_memcmp(str, "pwd", 3))
+			pwd_command();
+		else if (!ft_memcmp(str, "./", 2) || !ft_memcmp(str, "../", 3) ||
+				!ft_memcmp(str, "/", 1))
+			bash_command(str);
+		else if (!ft_memcmp(str, "quit", 4) || !ft_memcmp(str, "exit", 4) ||
+				!ft_memcmp(str, "close", 5) || !ft_memcmp(str, "q", 1))
+			exit_command(str);
+		free(str);
+	}
+}
+
+static int	add_char(char **str, char c)
 {
 	char	*new;
 	int		len;
@@ -40,7 +58,7 @@ int		add_char(char **str, char c)
 	return (0);
 }
 
-int		main(void)
+int			main(void)
 {
 	char	c;
 	char	*str;
