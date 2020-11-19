@@ -29,6 +29,9 @@
 #include <sys/wait.h>
 #include <sys/stat.h>
 
+void	skip_spaces(char **str);
+void	set_path(char *str, char **path);
+
 void	echo_command(char *str);
 void	pwd_command(void);
 void	exit_command(char *str);

@@ -3,6 +3,7 @@ NAME	=	minishell
 SRCS	=	main.c\
 			commands.c\
 			bash.c\
+			echo.c\
 
 OBJS	=	$(SRCS:.c=.o)
 
