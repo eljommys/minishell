@@ -81,5 +81,4 @@ void		bash_command(char *str)
 	free(path);
 	if (status[0])
 		exit(0);
-
 }
