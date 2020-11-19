@@ -59,18 +59,19 @@ void		bash_command(char *str)
 	char	**env;
 	char	buff[4097];
 	char	*path;
+	int		status;
 
 	argv = (char **)ft_calloc(1, sizeof(char *));
 	env = (char **)ft_calloc(1, sizeof(char *));
 	skip_spaces(&str);
 	if (ft_memcmp(str, "/", 1))
 		str += (!ft_memcmp(str, "./", 2)) ? 2 : 3;
-	printf("str = %s\n", str);
 	path = getcwd(buff, 4096);
 	set_path(str, &path);
-	printf("path = %s\n", path);
-	if (execve(path, argv, env) == -1)
+	if (!fork() && execve(path, argv, env) == -1)
 		write(1, "Wrong file or directory\n", 24);
+	else
+		wait(&status);
 	free(argv);
 	free(env);
 	free(path);
