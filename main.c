@@ -20,6 +20,10 @@ static void	check_command(char *str)
 			echo_command(str);
 		else if (!ft_memcmp(str, "pwd", 3))
 			pwd_command();
+		else if (!ft_memcmp(str, "ls", 2))
+			ls_command();
+		else if (!ft_memcmp(str, "cd ", 3))
+			cd_command(str);
 		else if (!ft_memcmp(str, "./", 2) || !ft_memcmp(str, "../", 3) ||
 				!ft_memcmp(str, "/", 1))
 			bash_command(str);
@@ -65,10 +69,10 @@ int			main(void)
 	char	*cwd;
 	char	buff[4097];
 
-	cwd = getcwd(buff, 4096);
 	while (1)
 	{
 		str = 0;
+		cwd = getcwd(buff, 4096);
 		write(1, "\033[0;32mminishell:\033[0;0m\033[\033[0;34m", 32);
 		ft_putstr_fd(cwd, 1);
 		write(1, "\033[0;0m$ ", 8);

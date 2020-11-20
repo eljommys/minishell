@@ -34,5 +34,7 @@ void	set_path(char *str, char **path);
 
 void	echo_command(char *str);
 void	pwd_command(void);
+void	ls_command(void);
+void	cd_command(char *str);
 void	exit_command(char *str);
 void	bash_command(char *str);
