@@ -18,9 +18,9 @@ static void	check_command(char *str)
 	{
 		if (!ft_memcmp(str, "echo ", 5))
 			echo_command(str);
-		else if (!ft_memcmp(str, "pwd", 3))
+		else if (!ft_memcmp(str, "pwd", 4))
 			pwd_command();
-		else if (!ft_memcmp(str, "ls", 2))
+		else if (!ft_memcmp(str, "ls", 3))
 			ls_command();
 		else if (!ft_memcmp(str, "cd ", 3))
 			cd_command(str);
