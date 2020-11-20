@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-static void	check_command(char *str)
+static void	check_command(char *str, char **envp)
 {
 	if (str)
 	{
@@ -24,6 +24,8 @@ static void	check_command(char *str)
 			ls_command();
 		else if (!ft_memcmp(str, "cd ", 3))
 			cd_command(str);
+		else if (!ft_memcmp(str, "env", 4))
+			env_command(envp);
 		else if (!ft_memcmp(str, "./", 2) || !ft_memcmp(str, "../", 3) ||
 				!ft_memcmp(str, "/", 1))
 			bash_command(str);
@@ -83,6 +85,6 @@ int			main(int argc, char **argv, char **envp)
 			if (add_char(&str, c))
 				return (-1);
 		}
-		check_command(str);
+		check_command(str, envp);
 	}
 }

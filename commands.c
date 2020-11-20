@@ -55,3 +55,15 @@ void	cd_command(char *str)
 	str += 3;
 	chdir(str);
 }
+
+void	env_command(char **envp)
+{
+	int	i;
+
+	i = 0;
+	while(envp[i] != NULL)
+	{
+		ft_putstr_fd(envp[i++], 1);
+		write(1, "\n", 1);
+	}
+}
