@@ -18,11 +18,13 @@ static void	check_command(char *str)
 	{
 		if (!ft_memcmp(str, "echo ", 5))
 			echo_command(str);
-		else if (!ft_memcmp(str, "pwd", 3))
+		else if (!ft_memcmp(str, "pwd", 4))
 			pwd_command();
 		else if (!ft_memcmp(str, "./", 2) || !ft_memcmp(str, "../", 3) ||
 				!ft_memcmp(str, "/", 1))
 			bash_command(str);
+		else if (!ft_memcmp(str, "cd ", 3))
+			cd_command(str);
 		else if (!ft_memcmp(str, "quit", 4) || !ft_memcmp(str, "exit", 4) ||
 				!ft_memcmp(str, "close", 5) || !ft_memcmp(str, "q", 1))
 			exit_command(str);
