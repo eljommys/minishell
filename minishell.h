@@ -38,4 +38,4 @@ void	ls_command(void);
 void	cd_command(char *str);
 void	exit_command(char *str);
 void	env_command(char **envp);
-void	bash_command(char *str);
+void	bash_command(char *str, char **argv, char **envp);

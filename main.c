@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-static void	check_command(char *str, char **envp)
+static void	check_command(char *str, char **argv, char **envp)
 {
 	if (str)
 	{
@@ -28,7 +28,7 @@ static void	check_command(char *str, char **envp)
 			env_command(envp);
 		else if (!ft_memcmp(str, "./", 2) || !ft_memcmp(str, "../", 3) ||
 				!ft_memcmp(str, "/", 1))
-			bash_command(str);
+			bash_command(str, argv, envp);
 		else if (!ft_memcmp(str, "quit", 4) || !ft_memcmp(str, "exit", 4) ||
 				!ft_memcmp(str, "close", 5) || !ft_memcmp(str, "q", 1))
 			exit_command(str);
@@ -85,6 +85,6 @@ int			main(int argc, char **argv, char **envp)
 			if (add_char(&str, c))
 				return (-1);
 		}
-		check_command(str, envp);
+		check_command(str, argv, envp);
 	}
 }
