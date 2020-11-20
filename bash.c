@@ -12,13 +12,13 @@
 
 #include "minishell.h"
 
-static void skip_spaces(char **str)
+void skip_spaces(char **str)
 {
 	while (**str == ' ')
 		(*str)++;
 }
 
-static void set_path(char *str, char **path)
+void set_path(char *str, char **path)
 {
 	int		i;
 	int		len;
@@ -26,6 +26,8 @@ static void set_path(char *str, char **path)
 	char	*new;
 	char	*aux;
 
+	skip_spaces(&str);
+	skip_spaces(path);
 	new = ft_strdup(*path);
 	len = ft_strlen(*path);
 	i = 0;
@@ -59,7 +61,7 @@ void		bash_command(char *str)
 	char	**env;
 	char	buff[4097];
 	char	*path;
-	int		status;
+	int		status[2];
 
 	argv = (char **)ft_calloc(1, sizeof(char *));
 	env = (char **)ft_calloc(1, sizeof(char *));
@@ -68,11 +70,17 @@ void		bash_command(char *str)
 		str += (!ft_memcmp(str, "./", 2)) ? 2 : 3;
 	path = getcwd(buff, 4096);
 	set_path(str, &path);
+	status[0] = 0;
 	if (!fork() && execve(path, argv, env) == -1)
+	{
 		write(1, "Wrong file or directory\n", 24);
+		status[0] = 1;
+	}
 	else
-		wait(&status);
+		wait(&status[1]);
 	free(argv);
 	free(env);
 	free(path);
+	if (status[0])
+		exit(0);
 }
