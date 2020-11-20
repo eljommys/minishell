@@ -64,7 +64,7 @@ static int	add_char(char **str, char c)
 	return (0);
 }
 
-int			main(void)
+int			main(int argc, char **argv)
 {
 	char	c;
 	char	*str;
