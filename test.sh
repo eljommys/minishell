@@ -11,3 +11,17 @@ echo -n "hola que tal      " yo me llamo '   paris'
 echo "<-  final"
 
 pwd
+
+env
+export PRUEBA=hola
+echo "\n\n"
+env
+export HOLA=prueba
+echo "\n\n"
+env
+unset PRUEBA
+echo "\n\n"
+env
+unset HOLA
+echo "\n\n"
+env

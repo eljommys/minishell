@@ -91,11 +91,11 @@ static char		**erase_elm(char **envp, int i)
 	if (!(cpy = (char **)malloc(sizeof(char *) * len)))
 		return (0);
 	j = -1;
-	while (++j != i)
+	while (++j < i)
 		cpy[j] = ft_strdup(envp[j]);
 	i++;
 	while (envp[i])
-		cpy[j++] = envp[i++];
+		cpy[j++] = ft_strdup(envp[i++]);
 	cpy[j] = 0;
 	free_env(envp);
 	return (cpy);
@@ -130,7 +130,7 @@ char			**unset_command(char *str, char **envp)
 	var_len = strlen(str);
 	var_search = ft_strjoin(str, "=");
 	i = 0;
-	while (ft_memcmp(var_search, envp[i], var_len + 1) && envp[i])
+	while (envp[i] && ft_memcmp(var_search, envp[i], var_len + 1))
 		i++;
 	cpy = envp;
 	if (envp[i])

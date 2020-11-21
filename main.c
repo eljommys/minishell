@@ -111,5 +111,4 @@ int			main(int argc, char **argv, char **envp)
 		}
 		envp = check_command(str, argv, envp);
 	}
-	return (0);
 }
