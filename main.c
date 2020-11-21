@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-static void	check_command(char *str, char **argv, char **envp)
+static char 	**check_command(char *str, char **argv, char **envp)
 {
 	if (str)
 	{
@@ -29,11 +29,16 @@ static void	check_command(char *str, char **argv, char **envp)
 		else if (!ft_memcmp(str, "./", 2) || !ft_memcmp(str, "../", 3) ||
 				!ft_memcmp(str, "/", 1))
 			bash_command(str, argv, envp);
+		else if (!ft_memcmp(str, "export ", 7))
+			envp = export_command(str, envp);
+		else if (!ft_memcmp(str, "unset ", 6))
+			envp = unset_command(str, envp);
 		else if (!ft_memcmp(str, "quit", 4) || !ft_memcmp(str, "exit", 4) ||
 				!ft_memcmp(str, "close", 5) || !ft_memcmp(str, "q", 1))
-			exit_command(str);
+			exit_command(str, envp);
 		free(str);
 	}
+	return (envp);
 }
 
 static int	add_char(char **str, char c)
@@ -64,6 +69,24 @@ static int	add_char(char **str, char c)
 	return (0);
 }
 
+char		**copy_env(char **envp, int add)
+{
+	int		len;
+	int		i;
+	char	**cpy;
+
+	len = 0;
+	while (envp[len])
+		len++;
+	if (!(cpy = (char **)malloc(sizeof(char *) * (len + add + 1))))
+		return (0);
+	i = -1;
+	while (++i < len)
+		cpy[i] = ft_strdup(envp[i]);
+	cpy[i] = 0;
+	return (cpy);
+}
+
 int			main(int argc, char **argv, char **envp)
 {
 	char	c;
@@ -71,6 +94,7 @@ int			main(int argc, char **argv, char **envp)
 	char	*cwd;
 	char	buff[4097];
 
+	envp = copy_env(envp, 0);
 	while (1)
 	{
 		str = 0;
@@ -85,6 +109,7 @@ int			main(int argc, char **argv, char **envp)
 			if (add_char(&str, c))
 				return (-1);
 		}
-		check_command(str, argv, envp);
+		envp = check_command(str, argv, envp);
 	}
+	return (0);
 }
