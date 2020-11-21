@@ -55,31 +55,25 @@ void set_path(char *str, char **path)
 	}
 }
 
-void		bash_command(char *str)
+void		bash_command(char *str, char **argv, char **envp)
 {
-	char	**argv;
-	char	**env;
 	char	buff[4097];
 	char	*path;
 	int		status[2];
 
-	argv = (char **)ft_calloc(1, sizeof(char *));
-	env = (char **)ft_calloc(1, sizeof(char *));
 	skip_spaces(&str);
 	if (ft_memcmp(str, "/", 1))
 		str += (!ft_memcmp(str, "./", 2)) ? 2 : 3;
 	path = getcwd(buff, 4096);
 	set_path(str, &path);
 	status[0] = 0;
-	if (!fork() && execve(path, argv, env) == -1)
+	if (!fork() && execve(path, argv, envp) == -1)
 	{
 		write(1, "Wrong file or directory\n", 24);
 		status[0] = 1;
 	}
 	else
 		wait(&status[1]);
-	free(argv);
-	free(env);
 	free(path);
 	if (status[0])
 		exit(0);
