@@ -25,47 +25,6 @@ static int		ft_strlen_spa(char *str)
 	return (len);
 }
 
-void			set_fd(char *str, int *fd)
-{
-	char	*path;
-	int		len;
-	char	buff[4097];
-	char	c;
-
-	*fd = 1;
-	while (*str && *str != '>')
-		str++;
-	if (*str == '>')
-	{
-		len = ft_strlen(str);
-		while (str[len] != '>')
-			len--;
-		len++;
-		path = getcwd(buff, 4096);
-		printf("str = %s\n", str + len);
-		set_path(str + len, &path);
-		printf("path = %s\n", path);
-		if (*(str + len - 2) == '>')
-		{
-			printf("añadir\n");
-			*fd = open(path, O_RDWR || O_CREAT);
-			while (1)
-			{
-				len = read(*fd, &c, 1);
-				printf("c = %c\n", c);
-				printf("len = %d\n", len);
-				if (!len || len == -1)
-					break ;
-			}
-			//while ((len == read(*fd, &c, 1)) && len != -1);
-		}
-		else
-			*fd = open(path, O_CREAT || O_WRONLY);
-		if (*fd == -1)
-			write(1, "Couldn't open file\n", 19);
-		free(path);
-	}
-}
 
 void			write_words(char *str, int fd)
 {
@@ -97,14 +56,11 @@ void			write_words(char *str, int fd)
 	}
 }
 
-void			echo_command(char *str)
+void			echo_command(char *str, int fd)
 {
 	int		is_flag;
-	int		len;
-	int		fd;
 
 	is_flag = 0;
-	fd = 1;
 	str += 5;
 	skip_spaces(&str);
 	if (!ft_memcmp(str, "-n ", 3))
@@ -112,7 +68,6 @@ void			echo_command(char *str)
 		is_flag = 1;
 		str += 3;
 	}
-	//set_fd(str, &fd);
 	write_words(str, fd);
 	if (!is_flag)
 		write(fd, "\n", 1);

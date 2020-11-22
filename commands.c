@@ -12,14 +12,14 @@
 
 #include "minishell.h"
 
-void	pwd_command(void)
+void	pwd_command(int fd)
 {
 	char *cwd;
 	char buff[4097];
 
 	cwd = getcwd(buff, 4096);
-	ft_putstr_fd(cwd, 1);
-	write (1, "\n", 1);
+	ft_putstr_fd(cwd, fd);
+	write (fd, "\n", 1);
 }
 
 static void		free_env(char **envp)
@@ -39,7 +39,7 @@ void	exit_command(char *str, char **envp)
 	exit(0);
 }
 
-void	ls_command(void)
+void	ls_command(int fd)
 {
 	DIR				*dir;
 	struct dirent	*d;
@@ -47,18 +47,18 @@ void	ls_command(void)
 	dir = opendir(".");
 	if(dir == NULL)
 	{
-		ft_putstr_fd("Error! Unable to open directory.\n", 1);
+		ft_putstr_fd("Error! Unable to open directory.\n", fd);
 		exit(1);
 	}
 	while((d = readdir(dir)) != NULL)
 	{
 		if(d->d_name[0] != '.')
 		{
-			ft_putstr_fd(d->d_name , 1);
-			write(1, "  ", 2);
+			ft_putstr_fd(d->d_name , fd);
+			write(fd, "  ", 2);
 		}
 	}
-	write(1, "\n", 1);
+	write(fd, "\n", 1);
 }
 
 void	cd_command(char *str)
@@ -67,15 +67,15 @@ void	cd_command(char *str)
 	chdir(str);
 }
 
-void	env_command(char **envp)
+void	env_command(char **envp, int fd)
 {
 	int	i;
 
 	i = 0;
 	while(envp[i])
 	{
-		ft_putstr_fd(envp[i++], 1);
-		write(1, "\n", 1);
+		ft_putstr_fd(envp[i++], fd);
+		write(fd, "\n", 1);
 	}
 }
 

@@ -12,20 +12,58 @@
 
 #include "minishell.h"
 
-static char 	**check_command(char *str, char **argv, char **envp)
+static int		set_fd(char *str)
 {
+	int		fd;
+	int		append;
+	char	c;
+	int		len;
+
+	fd = 1;
+	while (*str && *str != '>')
+		str++;
+	if (*str == '>')
+	{
+		str++;
+		append = (*str == '>') ? 1 : 0;
+		skip_spaces(&str);
+		if (append)
+		{
+			str++;
+			skip_spaces(&str);
+			fd = open(str, O_RDWR | O_CREAT | O_APPEND, 0666);
+			while (len = read(fd, &c, 1))
+				if (len == -1)
+				{
+					write(1, "Couldn't read file\n", 19);
+					break;
+				}
+		}
+		else
+			fd = open(str, O_RDWR | O_CREAT | O_TRUNC, 0666);
+	}
+	if (fd < 0)
+		write(1, "Couldn't open file\n", 19);
+	return (fd);
+}
+
+static char		**check_command(char *str, char **argv, char **envp)
+{
+	int	fd;
+
 	if (str)
 	{
+		fd = set_fd(str);
 		if (!ft_memcmp(str, "echo ", 5))
-			echo_command(str);
-		else if (!ft_memcmp(str, "pwd", 4))
-			pwd_command();
-		else if (!ft_memcmp(str, "ls", 3))
-			ls_command();
+			echo_command(str, fd);
+		else if (!ft_memcmp(str, "pwd", 4) || !ft_memcmp(str, "pwd ", 4))
+			pwd_command(fd);
+		else if (!ft_memcmp(str, "ls", 3) || !ft_memcmp(str, "ls ", 3))
+			ls_command(fd);
 		else if (!ft_memcmp(str, "cd ", 3))
 			cd_command(str);
-		else if (!ft_memcmp(str, "env", 4))
-			env_command(envp);
+		else if (!ft_memcmp(str, "env", 4) || !ft_memcmp(str, "env ", 4))
+			env_command(envp, fd);
 		else if (!ft_memcmp(str, "./", 2) || !ft_memcmp(str, "../", 3) ||
 				!ft_memcmp(str, "/", 1))
 			bash_command(str, argv, envp);
@@ -37,6 +75,8 @@ static char 	**check_command(char *str, char **argv, char **envp)
 				!ft_memcmp(str, "close", 5) || !ft_memcmp(str, "q", 1))
 			exit_command(str, envp);
 		free(str);
+		if (fd > 1)
+			close(fd);
 	}
 	return (envp);
 }

@@ -33,12 +33,12 @@ void	skip_spaces(char **str);
 void	set_path(char *str, char **path);
 char	**copy_env(char **envp, int add);
 
-void	echo_command(char *str);
-void	pwd_command(void);
-void	ls_command(void);
+void	echo_command(char *str, int fd);
+void	pwd_command(int fd);
+void	ls_command(int fd);
 void	cd_command(char *str);
 void	exit_command(char *str, char **envp);
-void	env_command(char **envp);
+void	env_command(char **envp, int fd);
 void	bash_command(char *str, char **argv, char **envp);
 char	**export_command(char *str, char **envp);
 char	**unset_command(char *str, char **envp);
