@@ -8,7 +8,8 @@ echo -n "hola"
 echo -n 'hola'
 echo "hola que tal   " me llamo 'jaime  '
 echo -n "hola que tal      " yo me llamo '   paris'
-echo "<-  final"
+echo "<-  final
+"
 
 pwd
 
@@ -16,18 +17,29 @@ cd ../..
 
 ls
 
+echo "
+
+"
+
 env
 export PRUEBA=hola
-echo "\n\n"
+echo "
+"
 env
 export HOLA=prueba
-echo "\n\n"
+echo "
+
+"
 env
 unset PRUEBA
-echo "\n\n"
+echo "
+
+"
 env
 unset HOLA
-echo "\n\n"
+echo "
+
+"
 env
 
 exit
