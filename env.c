@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   unset.c                                            :+:      :+:    :+:   */
+/*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/22 15:42:40 by marvin            #+#    #+#             */
-/*   Updated: 2020/11/22 15:42:40 by marvin           ###   ########.fr       */
+/*   Updated: 2020/11/22 16:23:11 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,24 +52,6 @@ char			**unset_command(char *str, char **envp)
 	if (envp[i])
 		cpy = erase_elm(envp, i);
 	free(var_search);
-	return (cpy);
-}
-
-static char		**copy_env(char **envp, int add)
-{
-	int		len;
-	int		i;
-	char	**cpy;
-
-	len = 0;
-	while (envp[len])
-		len++;
-	if (!(cpy = (char **)malloc(sizeof(char *) * (len + add + 1))))
-		return (0);
-	i = -1;
-	while (++i < len)
-		cpy[i] = ft_strdup(envp[i]);
-	cpy[i] = 0;
 	return (cpy);
 }
 
