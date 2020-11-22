@@ -109,24 +109,6 @@ static int	add_char(char **str, char c)
 	return (0);
 }
 
-char		**copy_env(char **envp, int add)
-{
-	int		len;
-	int		i;
-	char	**cpy;
-
-	len = 0;
-	while (envp[len])
-		len++;
-	if (!(cpy = (char **)malloc(sizeof(char *) * (len + add + 1))))
-		return (0);
-	i = -1;
-	while (++i < len)
-		cpy[i] = ft_strdup(envp[i]);
-	cpy[i] = 0;
-	return (cpy);
-}
-
 int			main(int argc, char **argv, char **envp)
 {
 	char	c;

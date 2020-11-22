@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-static int		ft_strlen_spa(char *str)
+static int	ft_strlen_spa(char *str)
 {
 	int		len;
 
@@ -25,8 +25,7 @@ static int		ft_strlen_spa(char *str)
 	return (len);
 }
 
-
-void			write_words(char *str, int fd)
+static void	write_words(char *str, int fd)
 {
 	int		len;
 	char	*start;
@@ -56,7 +55,7 @@ void			write_words(char *str, int fd)
 	}
 }
 
-void			echo_command(char *str, int fd)
+void		echo_command(char *str, int fd)
 {
 	int		is_flag;
 

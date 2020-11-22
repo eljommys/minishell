@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 echo hola
 echo -n hola
@@ -11,6 +11,10 @@ echo -n "hola que tal      " yo me llamo '   paris'
 echo "<-  final"
 
 pwd
+
+cd ../..
+
+ls
 
 env
 export PRUEBA=hola
@@ -25,3 +29,5 @@ env
 unset HOLA
 echo "\n\n"
 env
+
+exit

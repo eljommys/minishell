@@ -12,13 +12,7 @@
 
 #include "minishell.h"
 
-void skip_spaces(char **str)
-{
-	while (**str == ' ')
-		(*str)++;
-}
-
-void set_path(char *str, char **path)
+static void	set_path(char *str, char **path)
 {
 	int		i;
 	int		len;

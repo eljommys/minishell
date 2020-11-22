@@ -3,16 +3,28 @@
 ## Developed commands
 
 	```bash
+	Buscar y lanzar el ejecutable adecuado (basándose en una variable de entorno PATH o utilizando un path absoluto),
+
+	### Builtins:
 	echo (-n flag included)
+	cd (con solo dirección absoluta)
 	pwd
-	exit, close, quit, q
+	export
+	unset
+	env
+	exit
+	ls
 	```
 
 ## In progress commands
 
 	```bash
-	Cambiar el comportamiento de echo (cuando pones "" o '' que lo interprete como strings)
-	bash, sh or ./file
+	cd con dirección relativa
+	; tendrá que separar los comandos en la línea de comandos
+	Las redirecciones <, > y “>>”
+	Las tuberías (también llamadas pipes) | 
+	Las variables de entorno ($ seguido de caracteres)
+	ctrl-C, ctrl-D y ctrl-\ 
 	```
 
 ## References

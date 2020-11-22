@@ -10,10 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-/*
-**	librerias de prueba (eliminar en la version final)
-*/
-
 #ifndef MINISHELL_H
 # define MINISHELL_H
 #endif
@@ -30,7 +26,7 @@
 #include <sys/stat.h>
 
 void	skip_spaces(char **str);
-void	set_path(char *str, char **path);
+void    free_env(char **envp);
 char	**copy_env(char **envp, int add);
 
 void	echo_command(char *str, int fd);
@@ -38,7 +34,7 @@ void	pwd_command(int fd);
 void	ls_command(int fd);
 void	cd_command(char *str);
 void	exit_command(char *str, char **envp);
-void	env_command(char **envp, int fd);
 void	bash_command(char *str, char **argv, char **envp);
+void	env_command(char **envp, int fd);
 char	**export_command(char *str, char **envp);
 char	**unset_command(char *str, char **envp);
