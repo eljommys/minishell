@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/22 15:42:40 by marvin            #+#    #+#             */
-/*   Updated: 2020/11/22 16:23:11 by marvin           ###   ########.fr       */
+/*   Updated: 2020/11/22 17:18:10 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,5 +82,4 @@ void			env_command(char **envp, int fd)
 		ft_putstr_fd(envp[i++], fd);
 		write(fd, "\n", 1);
 	}
-	free_env(envp);
 }
