@@ -28,8 +28,8 @@
 	```
 
 ## References
-
 - [Variables de entorno](https://www.youtube.com/watch?v=ZX58AHhXpyA)
+- [Sintaxis del shell](https://pubs.opengroup.org/onlinepubs/009695399/utilities/xcu_chap02.html)
 ### Functions
 - [fork: parte 1](https://www.youtube.com/watch?v=VwjP-KFuZCM)
 - [fork: parte 2](https://www.youtube.com/watch?v=Dt9z_ohQWHI)
