@@ -2,34 +2,32 @@
 
 ## Developed commands
 
-	```bash
-	Buscar y lanzar el ejecutable adecuado (basándose en una variable de entorno PATH o utilizando un path absoluto),
-
-	### Builtins:
-	echo (-n flag included)
-	cd (con solo dirección absoluta)
-	pwd
-	export
-	unset
-	env
-	exit
-	ls
-	```
+```bash
+- Buscar y lanzar el ejecutable adecuado.
+- echo (-n flag included)
+- cd (con solo dirección absoluta)
+- pwd
+- export
+- unset
+- env
+- exit
+- ls
+```
 
 ## In progress commands
 
-	```bash
-	cd con dirección relativa
-	; tendrá que separar los comandos en la línea de comandos
-	Las redirecciones <, > y “>>”
-	Las tuberías (también llamadas pipes) | 
-	Las variables de entorno ($ seguido de caracteres)
-	ctrl-C, ctrl-D y ctrl-\ 
-	```
+```bash
+- cd con dirección relativa
+- ; tendrá que separar los comandos en la línea de comandos
+- Las redirecciones <, > y “>>”
+- Las tuberías (también llamadas pipes) | 
+- Las variables de entorno ($ seguido de caracteres)
+- ctrl-C, ctrl-D y ctrl-\ 
+```
 
 ## References
-
 - [Variables de entorno](https://www.youtube.com/watch?v=ZX58AHhXpyA)
+- [Sintaxis del shell](https://pubs.opengroup.org/onlinepubs/009695399/utilities/xcu_chap02.html)
 ### Functions
 - [fork: parte 1](https://www.youtube.com/watch?v=VwjP-KFuZCM)
 - [fork: parte 2](https://www.youtube.com/watch?v=Dt9z_ohQWHI)
