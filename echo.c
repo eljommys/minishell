@@ -17,7 +17,7 @@ static int	ft_strlen_spa(char *str)
 	int		len;
 
 	len = 0;
-	while (*str && *str != ' ' && *str != '>')
+	while (*str && *str != ' ' && *str != '>' && *str != ';')
 	{
 		len++;
 		str++;
@@ -33,7 +33,7 @@ static void	write_words(char *str, int fd)
 
 	skip_spaces(&str);
 	start = str;
-	while (*str && *str != '>')
+	while (*str && *str != '>' && *str != ';')
 	{
 		if (str != start)
 			write(fd, " ", 1);
