@@ -2,7 +2,7 @@
 
 ## Developed commands
 
-	```bash
+	```
 	Buscar y lanzar el ejecutable adecuado (basándose en una variable de entorno PATH o utilizando un path absoluto),
 
 	### Builtins:
