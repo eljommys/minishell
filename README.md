@@ -2,7 +2,7 @@
 
 ## Developed commands
 
-	```shell
+```shell
 	Buscar y lanzar el ejecutable adecuado (basándose en una variable de entorno PATH o utilizando un path absoluto),
 
 	### Builtins:
@@ -14,7 +14,7 @@
 	env
 	exit
 	ls
-	```
+```
 
 ## In progress commands
 
