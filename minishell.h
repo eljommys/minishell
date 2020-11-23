@@ -27,6 +27,7 @@
 
 void	skip_spaces(char **str);
 void    free_env(char **envp);
+char	*get_env(char **envp, char *env);
 char	**copy_env(char **envp, int add);
 
 void	echo_command(char *str, int fd);
