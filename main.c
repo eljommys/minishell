@@ -74,7 +74,7 @@ static char		**check_command(char *str, char **argv, char **envp)
 		else if (!ft_memcmp(str, "pwd", 4) || !ft_memcmp(str, "pwd ", 4))
 			pwd_command(fd);
 		else if (!ft_memcmp(str, "cd ", 3))
-			cd_command(str);
+			cd_command(envp, str);
 		else if (!ft_memcmp(str, "env", 4) || !ft_memcmp(str, "env ", 4))
 			env_command(envp, fd);
 		else if (!ft_memcmp(str, "./", 2) || !ft_memcmp(str, "../", 3) ||

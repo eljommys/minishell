@@ -12,10 +12,18 @@
 
 #include "minishell.h"
 
-void	cd_command(char *str)
+void	cd_command(char **envp, char *str)
 {
+	char	*home;
+
 	str += 3;
+	if (*str == '~')
+	{
+		home = get_env(envp, "HOME");
+		str = ft_strjoin(home, str + 1);
+	}
 	chdir(str);
+	free(str);
 }
 
 void	pwd_command(int fd)

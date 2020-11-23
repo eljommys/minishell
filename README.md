@@ -5,24 +5,24 @@
 ```bash
 - Buscar y lanzar el ejecutable adecuado.
 - echo (-n flag included)
-- cd (con solo dirección absoluta)
+- cd (con solo dirección absoluta y relativa)
 - pwd
 - export
 - unset
 - env
 - exit
 - ls
+- ; tendrá que separar los comandos en la línea de comandos
+- Las redirecciones > y “>>”
 ```
 
 ## In progress commands
 
 ```bash
-- cd con dirección relativa
-- ; tendrá que separar los comandos en la línea de comandos
-- Las redirecciones <, > y “>>”
-- Las tuberías (también llamadas pipes) | 
+- La redireccion <
+- Las tuberías (también llamadas pipes) |
 - Las variables de entorno ($ seguido de caracteres)
-- ctrl-C, ctrl-D y ctrl-\ 
+- ctrl-C, ctrl-D y ctrl-\
 ```
 
 ## References
