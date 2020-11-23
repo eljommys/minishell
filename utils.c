@@ -6,7 +6,7 @@
 /*   By: paris <paris@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/22 15:41:14 by marvin            #+#    #+#             */
-/*   Updated: 2020/11/23 20:26:09 by paris            ###   ########.fr       */
+/*   Updated: 2020/11/23 20:57:21 by paris            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void    skip_spaces(char **str)
 		(*str)++;
 }
 
-void    free_env(char **envp)
+void	free_env(char **envp)
 {
 	int	i;
 
@@ -60,4 +60,17 @@ char	**copy_env(char **envp, int add)
 		cpy[i] = ft_strdup(envp[i]);
 	cpy[i] = 0;
 	return (cpy);
+}
+
+int		ft_strlen_spa(char *str)
+{
+	int		len;
+
+	len = 0;
+	while (*str && *str != ' ' && *str != '>' && *str != ';')
+	{
+		len++;
+		str++;
+	}
+	return (len);
 }

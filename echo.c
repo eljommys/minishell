@@ -12,19 +12,6 @@
 
 #include "minishell.h"
 
-static int	ft_strlen_spa(char *str)
-{
-	int		len;
-
-	len = 0;
-	while (*str && *str != ' ' && *str != '>' && *str != ';')
-	{
-		len++;
-		str++;
-	}
-	return (len);
-}
-
 static void	write_words(char *str, int fd)
 {
 	int		len;
