@@ -47,13 +47,28 @@ static int		set_fd(char *str)
 	return (fd);
 }
 
+static int		move_next(char **str)
+{
+	while (**str && **str != ';')
+		(*str)++;
+	if (**str)
+	{
+		(*str)++;
+		return (1);
+	}
+	return (0);
+}
+
 static char		**check_command(char *str, char **argv, char **envp)
 {
 	int	fd;
+	char *start;
 
-	if (str)
+	start = str;
+	while (str && *str)
 	{
 		fd = set_fd(str);
+		skip_spaces(&str);
 		if (!ft_memcmp(str, "echo ", 5))
 			echo_command(str, fd);
 		else if (!ft_memcmp(str, "pwd", 4) || !ft_memcmp(str, "pwd ", 4))
@@ -74,10 +89,11 @@ static char		**check_command(char *str, char **argv, char **envp)
 		else if (!ft_memcmp(str, "quit", 4) || !ft_memcmp(str, "exit", 4) ||
 				!ft_memcmp(str, "close", 5) || !ft_memcmp(str, "q", 1))
 			exit_command(str, envp);
-		free(str);
 		if (fd > 1)
 			close(fd);
+		move_next(&str);
 	}
+	free(start);
 	return (envp);
 }
 
