@@ -4,16 +4,14 @@
 
 ```bash
 Buscar y lanzar el ejecutable adecuado (basándose en una variable de entorno PATH o utilizando un path absoluto),
-
-### Builtins:
-echo (-n flag included)
-cd (con solo dirección absoluta)
-pwd
-export
-unset
-env
-exit
-ls
+- echo (-n flag included)
+- cd (con solo dirección absoluta)
+--pwd
+--export
+--unset
+--env
+--exit
+- ls
 ```
 
 ## In progress commands
