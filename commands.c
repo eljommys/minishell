@@ -35,25 +35,41 @@ void	exit_command(char *str, char **envp)
 	exit(0);
 }
 
-void	ls_command(int fd)
+void	check_bin(char *str, char **argv, char **envp)
 {
 	DIR				*dir;
 	struct dirent	*d;
+	int				is;
+	char			*path;
+	int				status[2];
 
-	dir = opendir(".");
+	skip_spaces(&str);
+	dir = opendir("/bin");
 	if(dir == NULL)
-	{
-		ft_putstr_fd("Error! Unable to open directory.\n", fd);
 		exit(1);
-	}
-	while((d = readdir(dir)) != NULL)
-	{
-		if(d->d_name[0] != '.')
+	is = 0;
+	while(d = readdir(dir))
+		if (!ft_memcmp(str, d->d_name, ft_strlen(d->d_name)))
 		{
-			ft_putstr_fd(d->d_name , fd);
-			write(fd, "  ", 2);
+			is = 1;
+			break ;
 		}
+		else if (!d)
+			break ;
+	if (is)
+	{
+		path = ft_strjoin("/bin/", d->d_name);
+		status[0] = 0;
+		if (!fork() && execve(path, argv, envp))
+		{
+			write(1, "Coudn't execute command\n", 24);
+			status[0] = 1;
+		}
+		else
+			wait(&status[1]);
+		free(path);
+		if (status[0])
+			exit(0);
 	}
-	write(fd, "\n", 1);
 	closedir(dir);
 }

@@ -73,8 +73,6 @@ static char		**check_command(char *str, char **argv, char **envp)
 			echo_command(str, fd);
 		else if (!ft_memcmp(str, "pwd", 4) || !ft_memcmp(str, "pwd ", 4))
 			pwd_command(fd);
-		else if (!ft_memcmp(str, "ls", 3) || !ft_memcmp(str, "ls ", 3))
-			ls_command(fd);
 		else if (!ft_memcmp(str, "cd ", 3))
 			cd_command(str);
 		else if (!ft_memcmp(str, "env", 4) || !ft_memcmp(str, "env ", 4))
@@ -89,6 +87,8 @@ static char		**check_command(char *str, char **argv, char **envp)
 		else if (!ft_memcmp(str, "quit", 4) || !ft_memcmp(str, "exit", 4) ||
 				!ft_memcmp(str, "close", 5) || !ft_memcmp(str, "q", 1))
 			exit_command(str, envp);
+		else
+			check_bin(str, argv, envp);
 		if (fd > 1)
 			close(fd);
 		move_next(&str);
