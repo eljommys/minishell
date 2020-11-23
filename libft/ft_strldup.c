@@ -1,36 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   check.c                                            :+:      :+:    :+:   */
+/*   ft_strldup.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/11/17 00:01:09 by marvin            #+#    #+#             */
-/*   Updated: 2020/11/17 00:01:09 by marvin           ###   ########.fr       */
+/*   Created: 2020/11/23 21:56:24 by marvin            #+#    #+#             */
+/*   Updated: 2020/11/23 21:56:24 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include <stdlib.h>
+#include "libft.h"
 
-void	cd_command(char *str)
+char	*ft_strldup(const char *s, int len)
 {
-	str += 3;
-	chdir(str);
-}
+	char	*ptr;
+	int		size;
+	int		i;
 
-void	pwd_command(int fd)
-{
-	char *cwd;
-	char buff[4097];
-
-	cwd = getcwd(buff, 4096);
-	ft_putstr_fd(cwd, fd);
-	write (fd, "\n", 1);
-}
-
-void	exit_command(char *str, char **envp)
-{
-	free(str);
-	free_env(envp);
-	exit(0);
+	size = 0;
+	while (s[size])
+		size++;
+	size = (len < size) ? len : size;
+	if (!(ptr = (char *)malloc(sizeof(char) * (size + 1))))
+		return (NULL);
+	i = 0;
+	while (i < size)
+	{
+		ptr[i] = s[i];
+		i++;
+	}
+	ptr[i] = '\0';
+	return (ptr);
 }

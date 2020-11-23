@@ -88,7 +88,7 @@ static char		**check_command(char *str, char **argv, char **envp)
 				!ft_memcmp(str, "close", 5) || !ft_memcmp(str, "q", 1))
 			exit_command(str, envp);
 		else
-			check_bin(str, argv, envp);
+			check_bin(str, envp);
 		if (fd > 1)
 			close(fd);
 		move_next(&str);
