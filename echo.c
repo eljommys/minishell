@@ -12,12 +12,25 @@
 
 #include "minishell.h"
 
+static void write_env(char **envp, char *str, int fd)
+{
+	char	*env;
+	int		len;
+
+
+	len = ft_strlen_spa(str);
+	env = ft_strdup(str + 1);
+	env[len - 1] = 0;
+	ft_putstr_fd(get_env(envp, env), fd);
+	free(env);
+}
+
 static void	write_words(char **envp, char *str, int fd)
 {
 	int		len;
 	char	*start;
 	char	str_char;
-	char	*env;
+	char	*aux;
 
 	skip_spaces(&str);
 	start = str;
@@ -30,19 +43,25 @@ static void	write_words(char **envp, char *str, int fd)
 		{
 			str_char = *str;
 			str++;
-			while (*str != str_char)
-				write(fd, str++, 1);
-			str++;
+			if (str_char == '"' && *str == '$')
+			{
+				aux = ft_strdup(str);
+				aux[len - 2] = 0;
+				write_env(envp, aux, fd);
+				free(aux);
+				str += len - 1; 
+			}
+			else
+			{
+				while (*str != str_char)
+					write(fd, str++, 1);
+				str++;
+			}
 		}
 		else
 		{
 			if (*str == '$')
-				{
-					env = ft_strdup(str + 1);
-					env[len - 1] = 0;
-					env = get_env(envp, env);
-					ft_putstr_fd(env, fd);
-				}
+				write_env(envp, str, fd);
 			else
 				write(fd, str, len);
 			str += len;
