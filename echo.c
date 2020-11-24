@@ -12,11 +12,12 @@
 
 #include "minishell.h"
 
-static void	write_words(char *str, int fd)
+static void	write_words(char **envp, char *str, int fd)
 {
 	int		len;
 	char	*start;
 	char	str_char;
+	char	*env;
 
 	skip_spaces(&str);
 	start = str;
@@ -35,14 +36,22 @@ static void	write_words(char *str, int fd)
 		}
 		else
 		{
-			write(fd, str, len);
+			if (*str == '$')
+				{
+					env = ft_strdup(str + 1);
+					env[len - 1] = 0;
+					env = get_env(envp, env);
+					ft_putstr_fd(env, fd);
+				}
+			else
+				write(fd, str, len);
 			str += len;
 		}
 		skip_spaces(&str);
 	}
 }
 
-void		echo_command(char *str, int fd)
+void		echo_command(char **envp, char *str, int fd)
 {
 	int		is_flag;
 
@@ -54,7 +63,7 @@ void		echo_command(char *str, int fd)
 		is_flag = 1;
 		str += 3;
 	}
-	write_words(str, fd);
+	write_words(envp, str, fd);
 	if (!is_flag)
 		write(fd, "\n", 1);
 	if (fd != 1)

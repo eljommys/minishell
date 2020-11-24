@@ -31,7 +31,7 @@ char	*get_env(char **envp, char *env);
 char	**copy_env(char **envp, int add);
 int		ft_strlen_spa(char *str);
 
-void	echo_command(char *str, int fd);
+void	echo_command(char **envp, char *str, int fd);
 void	pwd_command(int fd);
 void	cd_command(char **envp, char *str);
 void	exit_command(char *str, char **envp);

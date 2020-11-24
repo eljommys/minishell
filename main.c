@@ -70,7 +70,7 @@ static char		**check_command(char *str, char **argv, char **envp)
 		fd = set_fd(str);
 		skip_spaces(&str);
 		if (!ft_memcmp(str, "echo ", 5))
-			echo_command(str, fd);
+			echo_command(envp, str, fd);
 		else if (!ft_memcmp(str, "pwd", 4) || !ft_memcmp(str, "pwd ", 4))
 			pwd_command(fd);
 		else if (!ft_memcmp(str, "cd ", 3))
