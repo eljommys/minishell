@@ -4,14 +4,14 @@
 
 ```bash
 - Buscar y lanzar el ejecutable adecuado.
-- echo (-n flag included)
-- cd (con solo dirección absoluta y relativa)
-- pwd
-- export
-- unset
-- env
-- exit
-- ls
+- Builtins:
+    - echo (-n flag included)
+    - cd (con solo dirección absoluta y relativa)
+    - pwd
+    - export
+    - unset
+    - env
+    - exit
 - ; tendrá que separar los comandos en la línea de comandos
 - Las redirecciones > y “>>”
 - Las variables de entorno ($ seguido de caracteres)

@@ -32,7 +32,7 @@ static char	*check_quotes(char **envp, char *str, int fd, int len)
 	if (str_char == '"' && *str == '$')
 	{
 		aux = ft_strldup(str, len - 2);
-		write_env(envp, aux, fd);
+		write_env(envp, aux, fd, len);
 		free(aux);
 		str += len - 1; 
 	}
