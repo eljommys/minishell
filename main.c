@@ -67,28 +67,31 @@ static void		check_env(char **str, char **envp)
 	char	*start;
 	char	*var;
 
-	cpy = ft_strdup(*str);
-	start = cpy;
-	skip_spaces(&cpy);
-	if (*cpy == '$')
+	if (*str && **str)
 	{
-		cpy++;
-		len = ft_strlen_spa(cpy);
-		var = ft_strldup(cpy, len);
-		free(start);
-		cpy = ft_strjoin(var, "=");
+		cpy = ft_strdup(*str);
 		start = cpy;
-		free(var);
-		i = 0;
-		while (envp[i] && ft_memcmp(cpy, envp[i], len + 1))
-			i++;
-		if (envp[i])
+		skip_spaces(&cpy);
+		if (*cpy == '$')
 		{
-			free(*str);
-			*str = ft_strdup(envp[i] + len + 1);
+			cpy++;
+			len = ft_strlen_spa(cpy);
+			var = ft_strldup(cpy, len);
+			free(start);
+			cpy = ft_strjoin(var, "=");
+			start = cpy;
+			free(var);
+			i = 0;
+			while (envp[i] && ft_memcmp(cpy, envp[i], len + 1))
+				i++;
+			if (envp[i])
+			{
+				free(*str);
+				*str = ft_strdup(envp[i] + len + 1);
+			}
 		}
+		free(start);
 	}
-	free(start);
 }
 
 char		**check_command(char *str, char **argv, char **envp)
