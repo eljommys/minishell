@@ -39,4 +39,4 @@ void	bash_command(char *str, char **argv, char **envp);
 void	env_command(char **envp, int fd);
 char	**export_command(char *str, char **envp);
 char	**unset_command(char *str, char **envp);
-void	check_bin(char *str, char **argv, char **envp);
+void	check_bin(char *str, char **envp);
