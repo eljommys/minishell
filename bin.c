@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-static int		count_args(char *str)
+int		count_args(char *str)
 {
 	int		i;
 
@@ -30,7 +30,7 @@ static int		count_args(char *str)
 	return (i);
 }
 
-static void		set_args(char **argv, char *str, int argc)
+void		set_args(char **argv, char *str, int argc)
 {
 	int i;
 	int len;
@@ -65,16 +65,16 @@ static int		is_coincidence(char *str, char **envp, DIR **dir, struct dirent **d)
 	return (is);
 }
 
-void	check_bin(char *str, char **envp)
+int		check_bin(char *str, char **envp)
 {
 	DIR				*dir;
 	struct dirent	*d;
 	char			*path;
-	int				status_argc[3];
+	int				status_argc[4];
 	char			**argv;
 
 	skip_spaces(&str);
-	if (is_coincidence(str, envp, &dir, &d))
+	if (status_argc[3] = is_coincidence(str, envp, &dir, &d))
 	{
 		status_argc[2] = count_args(str);
 		argv = (char **)ft_calloc(sizeof(char *), (status_argc[2] + 1));
@@ -92,7 +92,8 @@ void	check_bin(char *str, char **envp)
 		free(path);
 		if (status_argc[0])
 			exit(0);
+		free_env(argv);
 	}
-	free_env(argv);
 	closedir(dir);
+	return (status_argc[3]);
 }

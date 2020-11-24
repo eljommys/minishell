@@ -24,11 +24,11 @@ static void	set_path(char *str, char **path)
 	skip_spaces(path);
 	new = ft_strdup(*path);
 	len = ft_strlen(*path);
-	i = 0;
 	if (!ft_memcmp(str, "/", 1))
 		*path = ft_strdup(str);
 	else
 	{
+		i = 0;
 		while (!ft_memcmp(str + i, "../", 3))
 			i += 3;
 		filename = ft_strdup(str + i);
@@ -49,21 +49,70 @@ static void	set_path(char *str, char **path)
 	}
 }
 
+/*
+**	0 = plain text, 1 = binary, 2 = folder
+*/
+
+static void	check_file_type(char *path, char **envp, char *str)
+{
+	DIR				*dir;
+	struct dirent	*d;
+	char			*filename;
+	int				len;
+	char			*line;
+	int				fd;
+	char			**argv;
+	int				argc;
+	int				i;
+
+	len = ft_strlen_spa(path);
+	if (len > 1)
+	{
+		while (path[len - 1] != '/')
+			len--;
+	}
+	filename = ft_strdup(path + len);
+	if (!(dir = opendir(path)))
+	{
+		fd = open(path, O_RDONLY, 0666);
+		while (get_next_line(fd, &line))
+		{
+			argc = count_args(line);
+			argv = (char **)ft_calloc(sizeof(char *), argc + 1);
+			if (argc)
+				set_args(argv, line, argc);
+			check_command(line, argv, envp);
+			free_env(argv);
+		}
+		close(fd);
+	}
+	else
+	{
+		write(1, "-bash: ", 7);
+		ft_putstr_fd(str, 1);
+		write(1, ": Is a directory\n", 17);
+		closedir(dir);
+	}
+}
+
 void		bash_command(char *str, char **argv, char **envp)
 {
 	char	buff[4097];
 	char	*path;
+	char	*start;
 	int		status[2];
+	int		type;
 
 	skip_spaces(&str);
+	start = str;
 	if (ft_memcmp(str, "/", 1))
-		str += (!ft_memcmp(str, "./", 2)) ? 2 : 3;
+		str += (!ft_memcmp(str, "./", 2)) ? 2 : 0;
 	path = getcwd(buff, 4096);
 	set_path(str, &path);
 	status[0] = 0;
 	if (!fork() && execve(path, argv, envp) == -1)
 	{
-		write(1, "Wrong file or directory\n", 24);
+		check_file_type(path, envp, start);
 		status[0] = 1;
 	}
 	else

@@ -16,6 +16,7 @@ SRC =	ft_memset.c \
 		ft_strchr.c \
 		ft_strrchr.c \
 		ft_strnstr.c \
+		ft_strncpy.c \
 		ft_strncmp.c \
 		ft_atoi.c \
 		ft_isalpha.c \
@@ -38,6 +39,7 @@ SRC =	ft_memset.c \
 		ft_strtrim.c\
 		ft_substr.c\
 		ft_strldup.c\
+		get_next_line.c\
 
 SRC2 =	ft_lstnew.c\
 		ft_lstadd_front.c\

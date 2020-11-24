@@ -59,11 +59,44 @@ static int		move_next(char **str)
 	return (0);
 }
 
-static char		**check_command(char *str, char **argv, char **envp)
+static void		check_env(char **str, char **envp)
+{
+	int		i;
+	int		len;
+	char	*cpy;
+	char	*start;
+	char	*var;
+
+	cpy = ft_strdup(*str);
+	start = cpy;
+	skip_spaces(&cpy);
+	if (*cpy == '$')
+	{
+		cpy++;
+		len = ft_strlen_spa(cpy);
+		var = ft_strldup(cpy, len);
+		free(start);
+		cpy = ft_strjoin(var, "=");
+		start = cpy;
+		free(var);
+		i = 0;
+		while (envp[i] && ft_memcmp(cpy, envp[i], len + 1))
+			i++;
+		if (envp[i])
+		{
+			free(*str);
+			*str = ft_strdup(envp[i] + len + 1);
+		}
+	}
+	free(start);
+}
+
+char		**check_command(char *str, char **argv, char **envp)
 {
 	int	fd;
 	char *start;
 
+	check_env(&str, envp);
 	start = str;
 	while (str && *str)
 	{
@@ -87,8 +120,12 @@ static char		**check_command(char *str, char **argv, char **envp)
 		else if (!ft_memcmp(str, "quit", 4) || !ft_memcmp(str, "exit", 4) ||
 				!ft_memcmp(str, "close", 5) || !ft_memcmp(str, "q", 1))
 			exit_command(str, envp);
-		else
-			check_bin(str, envp);
+		else if (!check_bin(str, envp))
+		{
+			write(1, "Command \'", 9);
+			ft_putstr_fd(str, 1);
+			write(1, "\' not found.\n", 13);
+		}
 		if (fd > 1)
 			close(fd);
 		move_next(&str);

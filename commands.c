@@ -14,16 +14,15 @@
 
 void	cd_command(char **envp, char *str)
 {
-	char	*home;
+	char	*aux;
 
 	str += 3;
+	aux = str;
 	if (*str == '~')
-	{
-		home = get_env(envp, "HOME");
-		str = ft_strjoin(home, str + 1);
-	}
-	chdir(str);
-	free(str);
+		aux = ft_strjoin(get_env(envp, "HOME"), str + 1);
+	chdir(aux);
+	if (aux != str)
+		free(aux);
 }
 
 void	pwd_command(int fd)

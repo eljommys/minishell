@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/01 09:02:17 by jserrano          #+#    #+#             */
-/*   Updated: 2020/07/10 10:10:40 by marvin           ###   ########.fr       */
+/*   Updated: 2020/11/24 21:42:42 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,3 +35,4 @@ size_t	ft_strlcat(char *dst, const char *src, size_t size)
 	dst[len1] = 0;
 	return (len);
 }
+
