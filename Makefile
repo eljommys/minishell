@@ -5,7 +5,8 @@ SRCS	=	main.c\
 			bash.c\
 			echo.c\
 			env.c\
-			utils.c
+			bin.c\
+			utils.c\
 
 OBJS	=	$(SRCS:.c=.o)
 
