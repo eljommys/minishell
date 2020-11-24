@@ -46,7 +46,7 @@ static void		set_args(char **argv, char *str, int argc)
 	}
 }
 
-static int		is_in(char *str, char **envp, DIR **dir, struct dirent **d)
+static int		is_coincidence(char *str, char **envp, DIR **dir, struct dirent **d)
 {
 	int	is;
 
@@ -74,7 +74,7 @@ void	check_bin(char *str, char **envp)
 	char			**argv;
 
 	skip_spaces(&str);
-	if (is_in(str, envp, &dir, &d))
+	if (is_coincidence(str, envp, &dir, &d))
 	{
 		status_argc[2] = count_args(str);
 		argv = (char **)ft_calloc(sizeof(char *), (status_argc[2] + 1));
