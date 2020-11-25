@@ -44,13 +44,11 @@ void		set_args(char **argv, char *str, int argc)
 	}
 }
 
-static int		is_coincidence(char *str, char **envp, DIR **dir, struct dirent **d)
+static int		is_coincidence(char *str, DIR **dir, struct dirent **d)
 {
 	int	is;
 
 	*dir = opendir("/bin");
-	if(!(*dir))
-		exit_command(str, envp);
 	is = 0;
 	while(*d = readdir(*dir))
 		if (!ft_memcmp(str, (*d)->d_name, ft_strlen((*d)->d_name)))
@@ -69,7 +67,7 @@ int		check_bin(char *str, char **envp, int fd)
 	int				status_argc[4];
 	char			**argv;
 
-	if (status_argc[3] = is_coincidence(str, envp, &dir, &d))
+	if (status_argc[3] = is_coincidence(str, &dir, &d))
 	{
 		status_argc[2] = count_args(str);
 		argv = (char **)ft_calloc(sizeof(char *), (status_argc[2] + 1));
