@@ -23,8 +23,6 @@ echo " "
 
 export PRUEBA=hola
 export HOLA=prueba
-echo " "
-echo " "
 env
 unset PRUEBA
 unset HOLA
