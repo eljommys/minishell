@@ -123,7 +123,7 @@ char		**check_command(char *str, char **argv, char **envp)
 		else if (!ft_memcmp(str, "quit", 4) || !ft_memcmp(str, "exit", 4) ||
 				!ft_memcmp(str, "close", 5) || !ft_memcmp(str, "q", 1))
 			exit_command(start, envp);
-		else if (!check_bin(str, envp))
+		else if (!check_bin(str, envp, fd))
 		{
 			write(1, "Command \'", 9);
 			ft_putstr_fd(str, 1);
