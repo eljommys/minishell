@@ -59,7 +59,7 @@ static int		is_coincidence(char *str, char **envp, DIR **dir, struct dirent **d)
 	return (is);
 }
 
-int		check_bin(char *str, char **envp)
+int		check_bin(char *str, char **envp, int fd)
 {
 	DIR				*dir;
 	struct dirent	*d;
@@ -75,9 +75,12 @@ int		check_bin(char *str, char **envp)
 			set_args(argv, str, status_argc[2]);
 		path = ft_strjoin("/bin/", d->d_name);
 		status_argc[0] = 0;
-		if (!fork() && execve(path, argv, envp))
+		if (!fork())
 		{
-			write(1, "Coudn't execute command\n", 24);
+			if (fd > 1)
+				dup2(fd, 1);
+			if(execve(path, argv, envp))
+				write(1, "Coudn't execute command\n", 24);
 			status_argc[0] = 1;
 		}
 		else

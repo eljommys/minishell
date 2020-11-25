@@ -1,4 +1,3 @@
-
 echo hola
 echo -n hola
 echo "hola"
@@ -21,19 +20,10 @@ ls
 echo " "
 echo " "
 
-env
 export PRUEBA=hola
-echo " "
-echo " "
-env
 export HOLA=prueba
-echo " "
-echo " "
 env
 unset PRUEBA
-echo " "
-echo " "
-env
 unset HOLA
 echo " "
 echo " "

@@ -106,10 +106,7 @@ int			get_next_line(int fd, char **line)
 		if (ft_strchr1(remind[fd], '\n'))
 			break ;
 	}
-	if (buffer)
-		free(buffer);
-	if (line && *line)
-		free(*line);
+	free(buffer);
 	if (nbytes < 0)
 		return (-1);
 	else if (nbytes > 0 || (nbytes == 0 && remind[fd]))
