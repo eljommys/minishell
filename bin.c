@@ -21,11 +21,8 @@ int		count_args(char *str)
 		*str != ';')
 	{
 		skip_spaces(&str);
-		if (*str != ' ' && *str != '\t')
-		{
-			i++;
-			str += ft_strlen_spa(str);
-		}
+		i++;
+		str += ft_strlen_spa(str);
 	}
 	return (i);
 }
@@ -40,7 +37,8 @@ void		set_args(char **argv, char *str, int argc)
 	{
 		skip_spaces(&str);
 		len = ft_strlen_spa(str);
-		argv[i] = ft_strldup(str, len);
+		if (len)
+			argv[i] = ft_strldup(str, len);
 		str += len;
 		i++;
 	}
@@ -51,8 +49,6 @@ static int		is_coincidence(char *str, char **envp, DIR **dir, struct dirent **d)
 	int	is;
 
 	*dir = opendir("/bin");
-	if(!(*dir))
-		exit_command(str, envp);
 	is = 0;
 	while(*d = readdir(*dir))
 		if (!ft_memcmp(str, (*d)->d_name, ft_strlen((*d)->d_name)))
@@ -60,8 +56,6 @@ static int		is_coincidence(char *str, char **envp, DIR **dir, struct dirent **d)
 			is = 1;
 			break ;
 		}
-		else if (!(*d))
-			break ;
 	return (is);
 }
 
@@ -73,7 +67,6 @@ int		check_bin(char *str, char **envp)
 	int				status_argc[4];
 	char			**argv;
 
-	skip_spaces(&str);
 	if (status_argc[3] = is_coincidence(str, envp, &dir, &d))
 	{
 		status_argc[2] = count_args(str);
