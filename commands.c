@@ -14,16 +14,19 @@
 
 void	cd_command(char **envp, char *str)
 {
-	char	*home;
+	char	*aux;
 
 	str += 3;
-	if (*str == '~')
+	aux = str;
+	if (*aux == '~')
 	{
-		home = get_env(envp, "HOME");
-		str = ft_strjoin(home, str + 1);
+		aux = ft_strjoin(get_env(envp, "HOME"), str + 1);
+		chdir(aux);
 	}
-	chdir(str);
-	free(str);
+	else
+		chdir(str);
+	if (str != aux)
+		free(aux);
 }
 
 void	pwd_command(int fd)
@@ -41,43 +44,4 @@ void	exit_command(char *str, char **envp)
 	free(str);
 	free_env(envp);
 	exit(0);
-}
-
-void	check_bin(char *str, char **argv, char **envp)
-{
-	DIR				*dir;
-	struct dirent	*d;
-	int				is;
-	char			*path;
-	int				status[2];
-
-	skip_spaces(&str);
-	dir = opendir("/bin");
-	if(dir == NULL)
-		exit(1);
-	is = 0;
-	while(d = readdir(dir))
-		if (!ft_memcmp(str, d->d_name, ft_strlen(d->d_name)))
-		{
-			is = 1;
-			break ;
-		}
-		else if (!d)
-			break ;
-	if (is)
-	{
-		path = ft_strjoin("/bin/", d->d_name);
-		status[0] = 0;
-		if (!fork() && execve(path, argv, envp))
-		{
-			write(1, "Coudn't execute command\n", 24);
-			status[0] = 1;
-		}
-		else
-			wait(&status[1]);
-		free(path);
-		if (status[0])
-			exit(0);
-	}
-	closedir(dir);
 }

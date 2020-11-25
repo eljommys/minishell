@@ -37,6 +37,7 @@ SRC =	ft_memset.c \
 		ft_strmapi.c\
 		ft_strtrim.c\
 		ft_substr.c\
+		ft_strldup.c\
 
 SRC2 =	ft_lstnew.c\
 		ft_lstadd_front.c\

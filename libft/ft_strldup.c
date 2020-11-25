@@ -1,32 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strmapi.c                                       :+:      :+:    :+:   */
+/*   ft_strldup.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jserrano <jserrano@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/07/06 08:55:12 by jserrano          #+#    #+#             */
-/*   Updated: 2020/07/08 13:30:25 by jserrano         ###   ########.fr       */
+/*   Created: 2020/11/23 21:56:24 by marvin            #+#    #+#             */
+/*   Updated: 2020/11/23 21:56:24 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include "libft.h"
 
-char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
+char	*ft_strldup(const char *s, int len)
 {
-	char	*res;
-	int		len;
+	char	*ptr;
+	int		size;
 	int		i;
 
-	if (!s || !f)
+	size = 0;
+	while (s[size])
+		size++;
+	size = (len < size) ? len : size;
+	if (!(ptr = (char *)malloc(sizeof(char) * (size + 1))))
 		return (NULL);
-	len = ft_strlen(s);
-	if (!(res = (char *)malloc(sizeof(char) * len + 1)))
-		return (NULL);
-	i = -1;
-	while (s[++i])
-		res[i] = f(i, s[i]);
-	res[i] = 0;
-	return (res);
+	i = 0;
+	while (i < size)
+	{
+		ptr[i] = s[i];
+		i++;
+	}
+	ptr[i] = '\0';
+	return (ptr);
 }

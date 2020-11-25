@@ -12,12 +12,43 @@
 
 #include "minishell.h"
 
+static void write_env(char **envp, char *str, int fd, int len)
+{
+	char	*env;
+
+	env = ft_strdup(str + 1);
+	env[len - 1] = 0;
+	ft_putstr_fd(get_env(envp, env), fd);
+	free(env);
+}
+
+static char	*check_quotes(char **envp, char *str, int fd, int len)
+{
+	char	str_char;
+	char	*aux;
+
+	str_char = *str;
+	str++;
+	if (str_char == '"' && *str == '$')
+	{
+		aux = ft_strldup(str, len - 2);
+		write_env(envp, aux, fd, len);
+		free(aux);
+		str += len - 1;
+	}
+	else
+	{
+		while (*str != str_char)
+			write(fd, str++, 1);
+		str++;
+	}
+	return (str);
+}
+
 static void	write_words(char **envp, char *str, int fd)
 {
 	int		len;
 	char	*start;
-	char	str_char;
-	char	*env;
 
 	skip_spaces(&str);
 	start = str;
@@ -27,23 +58,11 @@ static void	write_words(char **envp, char *str, int fd)
 			write(fd, " ", 1);
 		len = ft_strlen_spa(str);
 		if (*str == '"' || *str == '\'')
-		{
-			str_char = *str;
-			str++;
-			while (*str != str_char)
-				write(fd, str++, 1);
-			str++;
-		}
+			str = check_quotes(envp, str, fd, len);
 		else
 		{
 			if (*str == '$')
-				{
-					env = ft_strdup(str + 1);
-					env[len - 1] = 0;
-					env = get_env(envp, env);
-					ft_putstr_fd(env, fd);
-					free
-				}
+				write_env(envp, str, fd, len);
 			else
 				write(fd, str, len);
 			str += len;
