@@ -42,6 +42,7 @@ static void	write_words(char **envp, char *str, int fd)
 					env[len - 1] = 0;
 					env = get_env(envp, env);
 					ft_putstr_fd(env, fd);
+					free
 				}
 			else
 				write(fd, str, len);
