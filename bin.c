@@ -69,7 +69,6 @@ int		check_bin(char *str, char **envp, int fd)
 	int				status_argc[4];
 	char			**argv;
 
-	skip_spaces(&str);
 	if (status_argc[3] = is_coincidence(str, envp, &dir, &d))
 	{
 		status_argc[2] = count_args(str);

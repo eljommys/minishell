@@ -91,7 +91,6 @@ void		bash_command(char *str, char **argv, char **envp)
 	char	*start;
 	int		status[2];
 
-	skip_spaces(&str);
 	start = str;
 	if (ft_memcmp(str, "/", 1))
 		str += (!ft_memcmp(str, "./", 2)) ? 2 : 0;

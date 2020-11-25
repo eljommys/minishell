@@ -12,9 +12,9 @@
 
 #include "minishell.h"
 
-void    skip_spaces(char **str)
+void	skip_spaces(char **str)
 {
-	while (**str == ' ')
+	while (**str == ' ' || (10 <= **str && **str <= 13))
 		(*str)++;
 }
 
