@@ -71,7 +71,7 @@ static int	copy_line(char **remind, char **line, int fd)
 	i = 0;
 	while (remind[fd][i] != '\n' && remind[fd][i] != '\0')
 		i++;
-	if (!(*line = (char *)malloc(i + 1)))
+	if (i > 0 && !(*line = (char *)malloc(i + 1)))
 		return (-1);
 	ft_strncpy1(*line, remind[fd], i + 1);
 	ptr = ft_strchr1(remind[fd], '\n');

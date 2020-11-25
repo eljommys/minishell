@@ -14,14 +14,14 @@ LIBFT	= libft/libft.a
 L_PATH	= ./libft/
 
 CC		= gcc
-CFLAGS	= -Wall -Werror -Wextra
+CFLAGS	= -Wall -Werror -Wextra -g -fsanitize=address
 
 all: $(NAME)
 
 $(NAME):
 	make -C $(L_PATH)
 	$(CC) -c $(SRCS)
-	$(CC) $(OBJS) $(LIBFT) -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -o $(NAME)
 
 clean:
 	rm -rf $(OBJS)

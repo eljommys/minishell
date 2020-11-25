@@ -56,22 +56,11 @@ static void	set_path(char *str, char **path)
 static void	check_file_type(char *path, char **envp, char *str)
 {
 	DIR				*dir;
-	struct dirent	*d;
-	char			*filename;
-	int				len;
 	char			*line;
 	int				fd;
 	char			**argv;
 	int				argc;
-	int				i;
 
-	len = ft_strlen_spa(path);
-	if (len > 1)
-	{
-		while (path[len - 1] != '/')
-			len--;
-	}
-	filename = ft_strdup(path + len);
 	if (!(dir = opendir(path)))
 	{
 		fd = open(path, O_RDONLY, 0666);
@@ -101,7 +90,6 @@ void		bash_command(char *str, char **argv, char **envp)
 	char	*path;
 	char	*start;
 	int		status[2];
-	int		type;
 
 	skip_spaces(&str);
 	start = str;
