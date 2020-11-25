@@ -70,7 +70,7 @@ static void	check_file_type(char *path, char **envp, char *str)
 			argv = (char **)ft_calloc(sizeof(char *), argc + 1);
 			if (argc)
 				set_args(argv, line, argc);
-			check_command(line, argv, envp);
+			envp = check_command(line, argv, envp);
 			free_env(argv);
 		}
 		close(fd);
@@ -98,9 +98,10 @@ void		bash_command(char *str, char **argv, char **envp)
 	path = getcwd(buff, 4096);
 	set_path(str, &path);
 	status[0] = 0;
-	if (!fork() && execve(path, argv, envp) == -1)
+	if (!fork())
 	{
-		check_file_type(path, envp, start);
+		if (execve(path, argv, envp) == -1)
+			check_file_type(path, envp, start);
 		status[0] = 1;
 	}
 	else

@@ -1,4 +1,3 @@
-#!/bin/bash
 
 echo hola
 echo -n hola

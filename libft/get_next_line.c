@@ -71,7 +71,7 @@ static int	copy_line(char **remind, char **line, int fd)
 	i = 0;
 	while (remind[fd][i] != '\n' && remind[fd][i] != '\0')
 		i++;
-	if (i > 0 && !(*line = (char *)malloc(i + 1)))
+	if (!(*line = (char *)malloc(i + 1)))
 		return (-1);
 	ft_strncpy1(*line, remind[fd], i + 1);
 	ptr = ft_strchr1(remind[fd], '\n');
@@ -106,7 +106,10 @@ int			get_next_line(int fd, char **line)
 		if (ft_strchr1(remind[fd], '\n'))
 			break ;
 	}
-	free(buffer);
+	if (buffer)
+		free(buffer);
+	if (line && *line)
+		free(*line);
 	if (nbytes < 0)
 		return (-1);
 	else if (nbytes > 0 || (nbytes == 0 && remind[fd]))

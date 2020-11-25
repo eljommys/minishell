@@ -122,7 +122,7 @@ char		**check_command(char *str, char **argv, char **envp)
 			envp = unset_command(str, envp);
 		else if (!ft_memcmp(str, "quit", 4) || !ft_memcmp(str, "exit", 4) ||
 				!ft_memcmp(str, "close", 5) || !ft_memcmp(str, "q", 1))
-			exit_command(str, envp);
+			exit_command(start, envp);
 		else if (!check_bin(str, envp))
 		{
 			write(1, "Command \'", 9);
@@ -133,7 +133,8 @@ char		**check_command(char *str, char **argv, char **envp)
 			close(fd);
 		move_next(&str);
 	}
-	free(start);
+	if (start && *start)
+		free(start);
 	return (envp);
 }
 
