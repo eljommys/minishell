@@ -133,7 +133,7 @@ char		**check_command(char *str, char **argv, char **envp)
 			close(fd);
 		move_next(&str);
 	}
-	if (start && *start)
+	if (start)
 		free(start);
 	return (envp);
 }
