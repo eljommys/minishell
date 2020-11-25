@@ -53,12 +53,11 @@ char	**copy_env(char **envp, int add)
 	len = 0;
 	while (envp[len])
 		len++;
-	if (!(cpy = (char **)malloc(sizeof(char *) * (len + add + 1))))
+	if (!(cpy = (char **)ft_calloc(sizeof(char *), (len + add + 1))))
 		return (0);
 	i = -1;
 	while (++i < len)
 		cpy[i] = ft_strdup(envp[i]);
-	cpy[i] = 0;
 	return (cpy);
 }
 

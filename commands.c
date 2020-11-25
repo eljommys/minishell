@@ -18,10 +18,10 @@ void	cd_command(char **envp, char *str)
 
 	str += 3;
 	aux = str;
-	if (*aux == '~')
+	if (*str == '~')
 		aux = ft_strjoin(get_env(envp, "HOME"), str + 1);
-	chdir(str);
-	if (str != aux)
+	chdir(aux);
+	if (aux != str)
 		free(aux);
 }
 

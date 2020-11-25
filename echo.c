@@ -34,7 +34,7 @@ static char	*check_quotes(char **envp, char *str, int fd, int len)
 		aux = ft_strldup(str, len - 2);
 		write_env(envp, aux, fd, len);
 		free(aux);
-		str += len - 1; 
+		str += len - 1;
 	}
 	else
 	{
