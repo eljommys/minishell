@@ -66,7 +66,8 @@ int		ft_strlen_spa(char *str)
 	int		len;
 
 	len = 0;
-	while (*str && *str != ' ' && *str != '>' && *str != ';')
+	while (*str && *str != ' ' && *str != '>' && *str != ';' && *str != '<' &&
+			*str != '|')
 	{
 		len++;
 		str++;
