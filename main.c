@@ -138,6 +138,16 @@ char		**check_command(char *str, char **argv, char **envp)
 	return (envp);
 }
 
+int			ft_strlen_pipe(char *str)
+{
+	int i;
+
+	i = 0;
+	while (str[i] && str[i] != '|')
+		i++;
+	return (i);
+}
+
 static int	add_char(char **str, char c)
 {
 	char	*new;

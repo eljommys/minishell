@@ -12,9 +12,9 @@
 
 #include "minishell.h"
 
-void    skip_spaces(char **str)
+void	skip_spaces(char **str)
 {
-	while (**str == ' ')
+	while (**str == ' ' || (10 <= **str && **str <= 13))
 		(*str)++;
 }
 
@@ -66,7 +66,8 @@ int		ft_strlen_spa(char *str)
 	int		len;
 
 	len = 0;
-	while (*str && *str != ' ' && *str != '>' && *str != ';')
+	while (*str && *str != ' ' && *str != '>' && *str != ';' && *str != '<' &&
+			*str != '|')
 	{
 		len++;
 		str++;
