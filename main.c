@@ -148,43 +148,36 @@ int			ft_strlen_pipe(char *str)
 	return (i);
 }
 
+/*
+**	probar si funciona hacer al menos un pipe
+*/
+
 char		**check_pipe(char *str, char **argv, char **envp)
 {
 	int		std_fds[2];
-	int		last;
-	int		fds[2];
+	int		fd1[2];
+	int		fd2[2];
 	char	*start;
 	char	*command;
-	int		status;
 
 	std_fds[0] = dup(0);
 	std_fds[1] = dup(1);
-	last = 0;
 	start = str;
-	while (!last)
+	if (!pipe(fd1) && !fork())
 	{
-		last = (!str[ft_strlen_pipe(str)]) ? 1 : last;
-		if (!last && !pipe(fds) && !fork())
-		{
-			dup2(fds[1], 1);
-			dup2(fds[0], 0);
-			close(fds[1]);
-			close(fds[0]);
-			command = ft_strldup(str, ft_strlen_pipe(str));
-			envp = check_command(command, argv, envp);
-			//exit_command(start, envp);
-			exit(0);
-		}
-		else
-		{
-			close(fds[1]);
-			close(fds[0]);
-			wait(&status);
-		}
-		str += ft_strlen_pipe(str) + 1;
+		close(fd1[0]);
+		dup2(fd1[1], 1);
+		close(fd1[1]);
+		command = ft_strldup(str, ft_strlen_pipe(str));
+		envp = check_command(command, argv, envp);
 	}
-	dup2(0, std_fds[0]);
-	dup2(1, std_fds[1]);
+	else
+	{
+		close(fd1[1]);
+		str += ft_strlen_pipe(str) + 1;
+		command = ft_strldup(str, ft_strlen_pipe(str));
+		envp = check_command(command, argv, envp);
+	}
 	return (envp);
 }
 
