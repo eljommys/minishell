@@ -1,4 +1,3 @@
-
 echo hola
 echo -n hola
 echo "hola"
@@ -13,13 +12,15 @@ ls
 pwd
 cd ../..
 pwd
+
+ls
+
+echo " "
+echo " "
+
 export PRUEBA=hola
 export HOLA=prueba
-echo " "
-echo " "
 env
-echo " "
-echo " "
 unset PRUEBA
 unset HOLA
 echo " "
