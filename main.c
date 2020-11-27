@@ -147,7 +147,7 @@ int			ft_strlen_pipe(char *str)
 		i++;
 	return (i);
 }
-
+/*
 int	parse_pipe(char *str)
 {
 	int i;
@@ -205,6 +205,63 @@ char		**check_pipe(char *str, char **argv, char **envp)
 		}
 		wait(&status);
 		wait(&status);
+	}
+	return (envp);
+}*/
+
+static void		switch_pipes(int *fds_bef, int *fds_aft)
+{
+	int		fds_aux[2];
+
+	fds_aux[0] = fds_bef[0];
+	fds_aux[1] = fds_bef[1];
+	fds_bef[0] = fds_aft[0];
+	fds_bef[1] = fds_aft[1];
+	fds_aft[0] = fds_aux[0];
+	fds_aft[1] = fds_aux[1];
+}
+
+char		**check_pipe(char *str, char **argv, char **envp)
+{
+	int		final;
+	int		first;
+	int		fds_aft[2];
+	int		fds_bef[2];
+	int		n_forks;
+	int		status;
+	char	*command;
+
+	if (!str[ft_strlen_pipe(str)])
+		envp = check_command(str, argv, envp);
+	else
+	{
+		final = 0;
+		first = 1;
+		pipe(fds_bef);
+		pipe(fds_aft);
+		n_forks = 0;
+		while (!final)
+		{
+			final = (!str[ft_strlen_pipe(str)]) ? 1 : final;
+			if (!fork())
+			{
+				if (!first);
+					dup2(fds_bef[0], 0);
+				close(fds_bef[0]);
+				if (!final)
+					dup2(fds_aft[1], 1);
+				close(fds_aft[1]);
+				command = ft_strldup(str, ft_strlen_pipe(str));
+				envp = check_command(command, argv, envp); //probablemente haya que hacer algo con envp del hijo
+				exit(0);
+			}
+			n_forks++;
+			str += ft_strlen_pipe(str) + 1;
+			first = 0;
+			switch_pipes(fds_bef, fds_aft); // probablemente haya que borrar el contenido de los ficheros
+		}
+		while (n_forks-- > 0)
+			wait(&status);
 	}
 	return (envp);
 }
