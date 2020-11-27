@@ -20,8 +20,6 @@ static void	set_path(char *str, char **path)
 	char	*new;
 	char	*aux;
 
-	skip_spaces(&str);
-	skip_spaces(path);
 	new = ft_strdup(*path);
 	len = ft_strlen(*path);
 	if (!ft_memcmp(str, "/", 1))
@@ -91,7 +89,6 @@ void		bash_command(char *str, char **argv, char **envp)
 	char	*start;
 	int		status[2];
 
-	skip_spaces(&str);
 	start = str;
 	if (ft_memcmp(str, "/", 1))
 		str += (!ft_memcmp(str, "./", 2)) ? 2 : 0;
@@ -100,7 +97,7 @@ void		bash_command(char *str, char **argv, char **envp)
 	status[0] = 0;
 	if (!fork())
 	{
-		if (execve(path, argv, envp) == -1)
+		if (execve(path, argv, envp))
 			check_file_type(path, envp, start);
 		status[0] = 1;
 	}
