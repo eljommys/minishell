@@ -148,43 +148,64 @@ int			ft_strlen_pipe(char *str)
 	return (i);
 }
 
+int	parse_pipe(char *str)
+{
+	int i;
+	int	pipe;
+
+	i = 0;
+	pipe = 0;
+	while (str[i])
+	{
+		if (str[i] == '|')
+			pipe = 1;
+		i++;
+	}
+	return (pipe);
+}
+
 char		**check_pipe(char *str, char **argv, char **envp)
 {
-	int		std_fds[2];
 	int		last;
 	int		fds[2];
-	char	*start;
 	char	*command;
 	int		status;
+	int		pid;
 
-	std_fds[0] = dup(0);
-	std_fds[1] = dup(1);
-	last = 0;
-	start = str;
-	while (!last)
+	if (!parse_pipe(str))
+		envp = check_command(str, argv, envp);
+	else
 	{
-		last = (!str[ft_strlen_pipe(str)]) ? 1 : last;
-		if (!last && !pipe(fds) && !fork())
+		pipe(fds);
+		pid = fork();
+		if (pid == 0)
 		{
-			dup2(fds[1], 1);
-			dup2(fds[0], 0);
-			close(fds[1]);
 			close(fds[0]);
+			dup2(fds[1], 1);
+			close(fds[1]);
 			command = ft_strldup(str, ft_strlen_pipe(str));
 			envp = check_command(command, argv, envp);
-			//exit_command(start, envp);
 			exit(0);
 		}
 		else
 		{
+			str += ft_strlen_pipe(str) + 1;
 			close(fds[1]);
-			close(fds[0]);
-			wait(&status);
+			if (!fork())
+			{
+
+				dup2(fds[0], 0);
+				close(fds[0]);
+				command = ft_strldup(str, ft_strlen_pipe(str));
+				envp = check_command(command, argv, envp);
+				exit(0);
+			}
+			else
+				close(fds[0]);
 		}
-		str += ft_strlen_pipe(str) + 1;
+		wait(&status);
+		wait(&status);
 	}
-	dup2(0, std_fds[0]);
-	dup2(1, std_fds[1]);
 	return (envp);
 }
 
