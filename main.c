@@ -148,6 +148,46 @@ int			ft_strlen_pipe(char *str)
 	return (i);
 }
 
+char		**check_pipe(char *str, char **argv, char **envp)
+{
+	int		std_fds[2];
+	int		last;
+	int		fds[2];
+	char	*start;
+	char	*command;
+	int		status;
+
+	std_fds[0] = dup(0);
+	std_fds[1] = dup(1);
+	last = 0;
+	start = str;
+	while (!last)
+	{
+		last = (!str[ft_strlen_pipe(str)]) ? 1 : last;
+		if (!last && !pipe(fds) && !fork())
+		{
+			dup2(fds[1], 1);
+			dup2(fds[0], 0);
+			close(fds[1]);
+			close(fds[0]);
+			command = ft_strldup(str, ft_strlen_pipe(str));
+			envp = check_command(command, argv, envp);
+			//exit_command(start, envp);
+			exit(0);
+		}
+		else
+		{
+			close(fds[1]);
+			close(fds[0]);
+			wait(&status);
+		}
+		str += ft_strlen_pipe(str) + 1;
+	}
+	dup2(0, std_fds[0]);
+	dup2(1, std_fds[1]);
+	return (envp);
+}
+
 static int	add_char(char **str, char c)
 {
 	char	*new;
@@ -212,6 +252,6 @@ int			main(int argc, char **argv, char **envp)
 			if (add_char(&str, c))
 				return (-1);
 		}
-		envp = check_command(str, argv, envp);
+		envp = check_pipe(str, argv, envp);
 	}
 }

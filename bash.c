@@ -70,7 +70,7 @@ static void	check_file_type(char *path, char **envp, char *str)
 			argv = (char **)ft_calloc(sizeof(char *), argc + 1);
 			if (argc)
 				set_args(argv, line, argc);
-			envp = check_command(line, argv, envp);
+			envp = check_pipe(line, argv, envp);
 			free_env(argv);
 		}
 		close(fd);
