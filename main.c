@@ -148,20 +148,23 @@ int			ft_strlen_pipe(char *str)
 	return (i);
 }
 
-/*char		**check_pipe(char *str, char **argv, char **envp)
+char		**check_pipe(char *str, char **argv, char **envp)
 {
 	int		fds[2];
 	char	*command;
 	int		status;
+	int		pid;
 
 	if (str && !str[ft_strlen_pipe(str)])
 		envp = check_command(str, argv, envp);
 	else
 	{
-		if (!pipe(fds) && !fork())
+		pipe(fds);
+		pid = fork();
+		if (pid == 0)
 		{
-			dup2(fds[1], 1);
 			close(fds[0]);
+			dup2(fds[1], 1);
 			close(fds[1]);
 			command = ft_strldup(str, ft_strlen_pipe(str));
 			envp = check_command(command, argv, envp);
@@ -169,7 +172,6 @@ int			ft_strlen_pipe(char *str)
 		}
 		else
 		{
-			wait(&status);
 			str += ft_strlen_pipe(str) + 1;
 			close(fds[1]);
 			if (!fork())
@@ -182,16 +184,15 @@ int			ft_strlen_pipe(char *str)
 				exit(0);
 			}
 			else
-			{
-				wait(&status);
 				close(fds[0]);
-			}
 		}
+		wait(&status);
+		wait(&status);
 	}
 	return (envp);
-}*/
+}
 
-static void		switch_pipes(int *fds_bef, int *fds_aft)
+/*static void		switch_pipes(int *fds_bef, int *fds_aft)
 {
 	close(fds_bef[0]);
 	close(fds_bef[1]);
@@ -247,7 +248,7 @@ char		**check_pipe(char *str, char **argv, char **envp)
 		close(fds_aft[1]);
 	}
 	return (envp);
-}
+}*/
 
 static int	add_char(char **str, char c)
 {
