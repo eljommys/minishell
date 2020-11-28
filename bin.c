@@ -44,19 +44,37 @@ void		set_args(char **argv, char *str, int argc)
 	}
 }
 
-static int		is_coincidence(char *str, DIR **dir, struct dirent **d)
+static char		*is_coincidence(char *str, DIR **dir, struct dirent **d, char **envp)
 {
-	int	is;
+	char	*path_str;
+	char	**paths;
+	char	*path;
+	char	*name;
+	int		i;
 
-	*dir = opendir("/bin");
-	is = 0;
-	while(*d = readdir(*dir))
-		if (!ft_memcmp(str, (*d)->d_name, ft_strlen((*d)->d_name)))
+	path_str = get_env(envp, "PATH");
+	paths = ft_split(path_str, ':');
+	name = ft_strldup(str, ft_strlen_spa(str));
+	i = 0;
+	while (paths[i])
+	{
+		*dir = opendir(paths[i]);
+		while(*d = readdir(*dir))
 		{
-			is = 1;
-			break ;
+			if (!ft_memcmp(name, (*d)->d_name, ft_strlen(name) + 1))
+			{
+				path = ft_strjoin(paths[i], "/");
+				free(name);
+				free_env(paths);
+				return (path);
+			}
 		}
-	return (is);
+		closedir(*dir);
+		i++;
+	}
+	free_env(paths);
+	free(name);
+	return (0);
 }
 
 int		check_bin(char *str, char **envp, int fd)
@@ -64,32 +82,34 @@ int		check_bin(char *str, char **envp, int fd)
 	DIR				*dir;
 	struct dirent	*d;
 	char			*path;
-	int				status_argc[4];
+	char			*pre_path;
+	int				status_argc[3];
 	char			**argv;
 
-	if (status_argc[3] = is_coincidence(str, &dir, &d))
+	pre_path = is_coincidence(str, &dir, &d, envp);
+	status_argc[2] = 0;
+	if (*pre_path)
 	{
-		status_argc[2] = count_args(str);
-		argv = (char **)ft_calloc(sizeof(char *), (status_argc[2] + 1));
-		if (status_argc[2])
-			set_args(argv, str, status_argc[2]);
-		path = ft_strjoin("/bin/", d->d_name);
-		status_argc[0] = 0;
+		status_argc[2] = 1;
+		status_argc[1] = count_args(str);
+		argv = (char **)ft_calloc(sizeof(char *), (status_argc[1] + 1));
+		if (status_argc[1])
+			set_args(argv, str, status_argc[1]);
+		path = ft_strjoin(pre_path, d->d_name);
 		if (!fork())
 		{
 			if (fd > 1)
 				dup2(fd, 1);
-			if(execve(path, argv, envp))
+			if (execve(path, argv, envp))
 				write(1, "Coudn't execute command\n", 24);
-			status_argc[0] = 1;
+			exit(0);
 		}
 		else
-			wait(&status_argc[1]);
+			wait(&status_argc[0]);
 		free(path);
-		if (status_argc[0])
-			exit(0);
 		free_env(argv);
 	}
 	closedir(dir);
-	return (status_argc[3]);
+	free(pre_path);
+	return (status_argc[2]);
 }

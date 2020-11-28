@@ -138,6 +138,118 @@ char		**check_command(char *str, char **argv, char **envp)
 	return (envp);
 }
 
+int			ft_strlen_pipe(char *str)
+{
+	int i;
+
+	i = 0;
+	while (str[i] && str[i] != '|')
+		i++;
+	return (i);
+}
+
+/*char		**check_pipe(char *str, char **argv, char **envp)
+{
+	int		fds[2];
+	char	*command;
+	int		status;
+	int		pid;
+
+	if (str && !str[ft_strlen_pipe(str)])
+		envp = check_command(str, argv, envp);
+	else
+	{
+		pipe(fds);
+		pid = fork();
+		if (pid == 0)
+		{
+			close(fds[0]);
+			dup2(fds[1], 1);
+			close(fds[1]);
+			command = ft_strldup(str, ft_strlen_pipe(str));
+			envp = check_command(command, argv, envp);
+			exit(0);
+		}
+		else
+		{
+			str += ft_strlen_pipe(str) + 1;
+			close(fds[1]);
+			if (!fork())
+			{
+
+				dup2(fds[0], 0);
+				close(fds[0]);
+				command = ft_strldup(str, ft_strlen_pipe(str));
+				envp = check_command(command, argv, envp);
+				exit(0);
+			}
+			else
+				close(fds[0]);
+		}
+		wait(&status);
+		wait(&status);
+	}
+	return (envp);
+}*/
+
+static void		switch_pipes(int *fds_bef, int *fds_aft)
+{
+	close(fds_bef[0]);
+	close(fds_bef[1]);
+	fds_bef[0] = fds_aft[0];
+	fds_bef[1] = fds_aft[1];
+	pipe(fds_aft);
+}
+
+char		**check_pipe(char *str, char **argv, char **envp)
+{
+	int		final;
+	int		first;
+	int		fds_aft[2];
+	int		fds_bef[2];
+	int		status;
+	char	*command;
+	char	*start;
+
+	start = str;
+	if (str && !str[ft_strlen_pipe(str)])
+		envp = check_command(str, argv, envp);
+	else if (str)
+	{
+		final = 0;
+		first = 1;
+		pipe(fds_bef);
+		pipe(fds_aft);
+		while (!final)
+		{
+			final = (!str[ft_strlen_pipe(str)]) ? 1 : final;
+			if (!fork())
+			{
+				if (!first)
+					dup2(fds_bef[0], 0);
+				close(fds_bef[0]);
+				close(fds_bef[1]);
+				if (!final)
+					dup2(fds_aft[1], 1);
+				close(fds_aft[0]);
+				close(fds_aft[1]);
+				command = ft_strldup(str, ft_strlen_pipe(str));
+				envp = check_command(command, argv, envp); //probablemente haya que hacer algo con envp del hijo
+				exit(0);
+			}
+			wait(&status);
+			str += ft_strlen_pipe(str) + 1;
+			first = 0;
+			switch_pipes(fds_bef, fds_aft);
+		}
+		if (start)
+			free(start);
+		close(fds_aft[0]);
+		close(fds_aft[1]);
+	}
+	return (envp);
+}
+
 static int	add_char(char **str, char c)
 {
 	char	*new;
@@ -202,6 +314,6 @@ int			main(int argc, char **argv, char **envp)
 			if (add_char(&str, c))
 				return (-1);
 		}
-		envp = check_command(str, argv, envp);
+		envp = check_pipe(str, argv, envp);
 	}
 }
