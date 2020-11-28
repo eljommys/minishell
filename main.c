@@ -148,7 +148,7 @@ int			ft_strlen_pipe(char *str)
 	return (i);
 }
 
-/*char		**check_pipe(char *str, char **argv, char **envp)
+char		**check_pipe(char *str, char **argv, char **envp)
 {
 	int		fds[2];
 	char	*command;
@@ -190,8 +190,8 @@ int			ft_strlen_pipe(char *str)
 		wait(&status);
 	}
 	return (envp);
-}*/
-
+}
+/*
 static void		switch_pipes(int *fds_bef, int *fds_aft)
 {
 	close(fds_bef[0]);
@@ -249,7 +249,7 @@ char		**check_pipe(char *str, char **argv, char **envp)
 	}
 	return (envp);
 }
-
+*/
 static int	add_char(char **str, char c)
 {
 	char	*new;
@@ -258,20 +258,18 @@ static int	add_char(char **str, char c)
 
 	if (!(*str))
 	{
-		if (!(*str = (char *)malloc(sizeof(char) * 2)))
+		if (!(*str = ft_calloc(sizeof(char), 2)))
 			return (-1);
 		(*str)[0] = c;
-		(*str)[1] = 0;
 		return (0);
 	}
 	len = ft_strlen(*str);
-	if (!(new = (char *)malloc(sizeof(char) * (len + 2))))
+	if (!(new = ft_calloc(sizeof(char), (len + 2))))
 		return (-1);
 	i = -1;
 	while (++i < len)
 		new[i] = (*str)[i];
 	new[i] = c;
-	new[i + 1] = 0;
 	if (len)
 		free(*str);
 	*str = new;
