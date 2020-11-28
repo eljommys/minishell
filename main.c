@@ -213,12 +213,11 @@ static void		switch_pipes(int *fds_bef, int *fds_aft)
 {
 	int		fds_aux[2];
 
-	fds_aux[0] = fds_bef[0];
-	fds_aux[1] = fds_bef[1];
+	close(fds_bef[0]);
+	close(fds_bef[1]);
 	fds_bef[0] = fds_aft[0];
 	fds_bef[1] = fds_aft[1];
-	fds_aft[0] = fds_aux[0];
-	fds_aft[1] = fds_aux[1];
+	pipe(fds_aft);
 }
 
 char		**check_pipe(char *str, char **argv, char **envp)
@@ -227,19 +226,19 @@ char		**check_pipe(char *str, char **argv, char **envp)
 	int		first;
 	int		fds_aft[2];
 	int		fds_bef[2];
-	int		n_forks;
 	int		status;
 	char	*command;
+	char	*start;
 
-	if (!str[ft_strlen_pipe(str)])
+	start = str;
+	if (str && !str[ft_strlen_pipe(str)])
 		envp = check_command(str, argv, envp);
-	else
+	else if (str)
 	{
 		final = 0;
 		first = 1;
 		pipe(fds_bef);
 		pipe(fds_aft);
-		n_forks = 0;
 		while (!final)
 		{
 			final = (!str[ft_strlen_pipe(str)]) ? 1 : final;
@@ -253,15 +252,18 @@ char		**check_pipe(char *str, char **argv, char **envp)
 				close(fds_aft[1]);
 				command = ft_strldup(str, ft_strlen_pipe(str));
 				envp = check_command(command, argv, envp); //probablemente haya que hacer algo con envp del hijo
+				printf("antes\n");
 				exit(0);
+				printf("despues\n");
 			}
-			n_forks++;
+			wait(&status);
 			str += ft_strlen_pipe(str) + 1;
 			first = 0;
-			switch_pipes(fds_bef, fds_aft); // probablemente haya que borrar el contenido de los ficheros
+			switch_pipes(fds_bef, fds_aft);
 		}
-		while (n_forks-- > 0)
-			wait(&status);
+		free(start);
+		close(fds_aft[0]);
+		close(fds_aft[1]);
 	}
 	return (envp);
 }
