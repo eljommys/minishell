@@ -136,11 +136,9 @@ int		check_bin(char *str, char **envp, int fd)
 	char			*pre_path;
 	int				status_argc[3];
 	char			**argv;
-	int				hola;
 
 	pre_path = is_coincidence(str, &dir, &d, envp);
 	status_argc[2] = 0;
-	hola = 0;
 	if (*pre_path)
 	{
 		status_argc[2] = 1;
@@ -153,7 +151,6 @@ int		check_bin(char *str, char **envp, int fd)
 		{
 			if (fd > 1)
 				dup2(fd, 1);
-			hola = 1;
 			if (execve(path, argv, envp))
 				write(1, "Coudn't execute command\n", 24);
 			exit(0);
@@ -163,8 +160,6 @@ int		check_bin(char *str, char **envp, int fd)
 		free(path);
 		free_env(argv);
 	}
-	if (hola)
-		exit(0);
 	closedir(dir);
 	free(pre_path);
 	return (status_argc[2]);
