@@ -147,41 +147,21 @@ int			ft_strlen_pipe(char *str)
 		i++;
 	return (i);
 }
-/*
-int	parse_pipe(char *str)
-{
-	int i;
-	int	pipe;
 
-	i = 0;
-	pipe = 0;
-	while (str[i])
-	{
-		if (str[i] == '|')
-			pipe = 1;
-		i++;
-	}
-	return (pipe);
-}
-
-char		**check_pipe(char *str, char **argv, char **envp)
+/*char		**check_pipe(char *str, char **argv, char **envp)
 {
-	int		last;
 	int		fds[2];
 	char	*command;
 	int		status;
-	int		pid;
 
-	if (!parse_pipe(str))
+	if (str && !str[ft_strlen_pipe(str)])
 		envp = check_command(str, argv, envp);
 	else
 	{
-		pipe(fds);
-		pid = fork();
-		if (pid == 0)
+		if (!pipe(fds) && !fork())
 		{
-			close(fds[0]);
 			dup2(fds[1], 1);
+			close(fds[0]);
 			close(fds[1]);
 			command = ft_strldup(str, ft_strlen_pipe(str));
 			envp = check_command(command, argv, envp);
@@ -189,6 +169,7 @@ char		**check_pipe(char *str, char **argv, char **envp)
 		}
 		else
 		{
+			wait(&status);
 			str += ft_strlen_pipe(str) + 1;
 			close(fds[1]);
 			if (!fork())
@@ -201,18 +182,17 @@ char		**check_pipe(char *str, char **argv, char **envp)
 				exit(0);
 			}
 			else
+			{
+				wait(&status);
 				close(fds[0]);
+			}
 		}
-		wait(&status);
-		wait(&status);
 	}
 	return (envp);
 }*/
 
 static void		switch_pipes(int *fds_bef, int *fds_aft)
 {
-	int		fds_aux[2];
-
 	close(fds_bef[0]);
 	close(fds_bef[1]);
 	fds_bef[0] = fds_aft[0];
@@ -244,24 +224,25 @@ char		**check_pipe(char *str, char **argv, char **envp)
 			final = (!str[ft_strlen_pipe(str)]) ? 1 : final;
 			if (!fork())
 			{
-				if (!first);
+				if (!first)
 					dup2(fds_bef[0], 0);
 				close(fds_bef[0]);
+				close(fds_bef[1]);
 				if (!final)
 					dup2(fds_aft[1], 1);
+				close(fds_aft[0]);
 				close(fds_aft[1]);
 				command = ft_strldup(str, ft_strlen_pipe(str));
 				envp = check_command(command, argv, envp); //probablemente haya que hacer algo con envp del hijo
-				printf("antes\n");
 				exit(0);
-				printf("despues\n");
 			}
 			wait(&status);
 			str += ft_strlen_pipe(str) + 1;
 			first = 0;
 			switch_pipes(fds_bef, fds_aft);
 		}
-		free(start);
+		if (start)
+			free(start);
 		close(fds_aft[0]);
 		close(fds_aft[1]);
 	}
