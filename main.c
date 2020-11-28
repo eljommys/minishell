@@ -148,7 +148,7 @@ int			ft_strlen_pipe(char *str)
 	return (i);
 }
 
-char		**check_pipe(char *str, char **argv, char **envp)
+/*char		**check_pipe(char *str, char **argv, char **envp)
 {
 	int		fds[2];
 	char	*command;
@@ -190,9 +190,9 @@ char		**check_pipe(char *str, char **argv, char **envp)
 		wait(&status);
 	}
 	return (envp);
-}
+}*/
 
-/*static void		switch_pipes(int *fds_bef, int *fds_aft)
+static void		switch_pipes(int *fds_bef, int *fds_aft)
 {
 	close(fds_bef[0]);
 	close(fds_bef[1]);
@@ -248,7 +248,7 @@ char		**check_pipe(char *str, char **argv, char **envp)
 		close(fds_aft[1]);
 	}
 	return (envp);
-}*/
+}
 
 static int	add_char(char **str, char c)
 {
