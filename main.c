@@ -148,17 +148,19 @@ int			ft_strlen_pipe(char *str)
 	return (i);
 }
 
-/*char		**check_pipe(char *str, char **argv, char **envp)
+char		**check_pipe(char *str, char **argv, char **envp)
 {
 	int		fds[2];
 	char	*command;
 	int		status;
 	int		pid;
+	char	*start;
 
 	if (str && !str[ft_strlen_pipe(str)])
 		envp = check_command(str, argv, envp);
 	else
 	{
+		start = str;
 		pipe(fds);
 		pid = fork();
 		if (pid == 0)
@@ -176,7 +178,6 @@ int			ft_strlen_pipe(char *str)
 			close(fds[1]);
 			if (!fork())
 			{
-
 				dup2(fds[0], 0);
 				close(fds[0]);
 				command = ft_strldup(str, ft_strlen_pipe(str));
@@ -188,11 +189,12 @@ int			ft_strlen_pipe(char *str)
 		}
 		wait(&status);
 		wait(&status);
+		free(start);
 	}
 	return (envp);
-}*/
+}
 
-static void		switch_pipes(int *fds_bef, int *fds_aft)
+/*static void		switch_pipes(int *fds_bef, int *fds_aft)
 {
 	close(fds_bef[0]);
 	close(fds_bef[1]);
@@ -248,7 +250,7 @@ char		**check_pipe(char *str, char **argv, char **envp)
 		close(fds_aft[1]);
 	}
 	return (envp);
-}
+}*/
 
 static int	add_char(char **str, char c)
 {
@@ -258,20 +260,18 @@ static int	add_char(char **str, char c)
 
 	if (!(*str))
 	{
-		if (!(*str = (char *)malloc(sizeof(char) * 2)))
+		if (!(*str = (char *)ft_calloc(sizeof(char), 2)))
 			return (-1);
 		(*str)[0] = c;
-		(*str)[1] = 0;
 		return (0);
 	}
 	len = ft_strlen(*str);
-	if (!(new = (char *)malloc(sizeof(char) * (len + 2))))
+	if (!(new = (char *)ft_calloc(sizeof(char), len + 2)))
 		return (-1);
 	i = -1;
 	while (++i < len)
 		new[i] = (*str)[i];
 	new[i] = c;
-	new[i + 1] = 0;
 	if (len)
 		free(*str);
 	*str = new;
