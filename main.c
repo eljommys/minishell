@@ -166,7 +166,6 @@ int	parse_pipe(char *str)
 
 char		**check_pipe(char *str, char **argv, char **envp)
 {
-	int		last;
 	int		fds[2];
 	char	*command;
 	int		status;

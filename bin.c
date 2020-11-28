@@ -93,3 +93,69 @@ int		check_bin(char *str, char **envp, int fd)
 	closedir(dir);
 	return (status_argc[3]);
 }
+/*
+static char        *is_coincidence(char *str, DIR **dir, struct dirent **d, char **envp)
+{
+    char    *path_str;
+    char    **paths;
+    int        i;
+    char    *path;
+
+    path_str = get_env(envp, "PATH");
+    paths = ft_split(path_str, ':');
+    i = 0;
+    while (paths[i])
+    {
+        *dir = opendir(paths[i]);
+        while(*d = readdir(*dir))
+        {
+            if (!ft_memcmp(str, (*d)->d_name, ft_strlen_spa(str) + 1))
+            {
+                path = ft_strjoin(paths[i], "/");
+                free_env(paths);
+                return (path);
+            }
+        }
+        closedir(*dir);
+        i++;
+    }
+    free_env(paths);
+    return (0);
+}
+
+int        check_bin(char *str, char **envp, int fd)
+{
+    DIR                *dir;
+    struct dirent    *d;
+    char            *path;
+    char            *pre_path;
+    int                status_argc[3];
+    char            **argv;
+
+    if (pre_path = is_coincidence(str, &dir, &d, envp))
+    {
+        status_argc[1] = count_args(str);
+        argv = (char **)ft_calloc(sizeof(char *), (status_argc[1] + 1));
+        if (status_argc[1])
+            set_args(argv, str, status_argc[1]);
+        printf("d->name = %s\n", d->d_name);
+        printf("pre_path = %s\n", pre_path);
+        path = ft_strjoin(pre_path, d->d_name);
+        if (!fork())
+        {
+            if (fd > 1)
+                dup2(fd, 1);
+            if (execve(path, argv, envp))
+                write(1, "Coudn't execute command\n", 24);
+            exit(0);
+        }
+        else
+            wait(&status_argc[0]);
+        free(path);
+        free_env(argv);
+    }
+    closedir(dir);
+    free(pre_path);
+    return (status_argc[2]);
+}
+*/
