@@ -27,6 +27,19 @@ int		count_args(char *str)
 	return (i);
 }
 
+static int		ft_strlen_quote(char *str)
+{
+	int		i;
+	char	quote;
+
+	quote = *str;
+	str++;
+	i = 0;
+	while (str[i] && str[i] != quote)
+		i++;
+	return (i);
+}
+
 void		set_args(char **argv, char *str, int argc)
 {
 	int i;
@@ -38,7 +51,15 @@ void		set_args(char **argv, char *str, int argc)
 		skip_spaces(&str);
 		len = ft_strlen_spa(str);
 		if (len)
+		{
+			if (*str == '"' || *str == '\'')
+			{
+				len = ft_strlen_quote(str);
+				str++;
+			}
 			argv[i] = ft_strldup(str, len);
+			str++;
+		}
 		str += len;
 		i++;
 	}
@@ -77,6 +98,29 @@ static char		*is_coincidence(char *str, DIR **dir, struct dirent **d, char **env
 	return (NULL);
 }
 
+void	set_in(char *str)
+{
+	char	*file;
+	int		fd;
+
+	while (*str && *str != '<')
+		str++;
+	if (*str)
+	{
+		str++;
+		skip_spaces(&str);
+		file = ft_strldup(str, ft_strlen_spa(str));
+		fd = open(file, O_RDONLY, 0666);
+		if (fd < 0)
+		{
+			ft_putstr_fd("Couldn't read from file.\n", 1);
+			return ;
+		}
+		dup2(fd, 0);
+		free(file);
+	}
+}
+
 int		check_bin(char *str, char **envp, int fd)
 {
 	DIR				*dir;
@@ -98,6 +142,7 @@ int		check_bin(char *str, char **envp, int fd)
 		path = ft_strjoin(pre_path, d->d_name);
 		if (!fork())
 		{
+			set_in(str);
 			if (fd > 1)
 				dup2(fd, 1);
 			if (execve(path, argv, envp))
