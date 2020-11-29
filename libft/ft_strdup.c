@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: paris <paris@student.42.fr>                +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/01 09:01:23 by jserrano          #+#    #+#             */
-/*   Updated: 2020/11/25 10:23:09 by paris            ###   ########.fr       */
+/*   Updated: 2020/11/29 22:11:46 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ char	*ft_strdup(char *s)
 	int		size;
 	int		i;
 
+	if (!s || !(*s))
+		return (NULL);
 	size = 0;
 	while (s[size])
 		size++;

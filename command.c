@@ -61,59 +61,49 @@ static int		move_next(char **str)
 
 static void		check_env(char **str, char **envp)
 {
-	int		i;
-	int		len;
 	char	*cpy;
-	char	*start;
-	char	*var;
+	int		len;
+	char	*env;
 
-	if (*str && **str)
+	cpy = *str;
+	if (cpy && *cpy)
 	{
-		cpy = ft_strdup(*str);
-		start = cpy;
 		skip_spaces(&cpy);
 		if (*cpy == '$')
 		{
 			cpy++;
-			len = ft_strlen_spa(cpy);
-			var = ft_strldup(cpy, len);
-			free(start);
-			cpy = ft_strjoin(var, "=");
-			start = cpy;
-			free(var);
-			i = 0;
-			while (envp[i] && ft_memcmp(cpy, envp[i], len + 1))
-				i++;
-			if (envp[i])
+			cpy = ft_strldup(cpy, ft_strlen_spa(cpy));
+			env = ft_strdup(get_env(envp, cpy));
+			free(cpy);
+			if (env)
 			{
 				free(*str);
-				*str = ft_strdup(envp[i] + len + 1);
+				*str = env;
 			}
 		}
-		free(start);
 	}
 }
 
-static int		builtins(int fd, char *start, char *str, char **argv, char **envp)
+static int		builtins(int fd, char *start, char *str, char **argv, char ***envp)
 {
 	if (!ft_memcmp(str, "echo ", 5))
-		echo_command(envp, str, fd);
+		echo_command(*envp, str, fd);
 	else if (!ft_memcmp(str, "pwd", 4) || !ft_memcmp(str, "pwd ", 4))
 		pwd_command(fd);
 	else if (!ft_memcmp(str, "cd ", 3))
-		cd_command(envp, str);
+		cd_command(*envp, str);
 	else if (!ft_memcmp(str, "env", 4) || !ft_memcmp(str, "env ", 4))
-		env_command(envp, fd);
+		env_command(*envp, fd);
 	else if (!ft_memcmp(str, "./", 2) || !ft_memcmp(str, "../", 3) ||
 			!ft_memcmp(str, "/", 1))
-		bash_command(str, argv, envp);
+		bash_command(str, argv, *envp);
 	else if (!ft_memcmp(str, "export ", 7))
-		envp = export_command(str, envp);
+		*envp = export_command(str, *envp);
 	else if (!ft_memcmp(str, "unset ", 6))
-		envp = unset_command(str, envp);
+		*envp = unset_command(str, *envp);
 	else if (!ft_memcmp(str, "quit", 4) || !ft_memcmp(str, "exit", 4) ||
 			!ft_memcmp(str, "close", 5) || !ft_memcmp(str, "q", 1))
-		exit_command(start, envp);
+		exit_command(start, *envp);
 	else
 		return (0);
 	return (1);
@@ -130,7 +120,7 @@ char		**check_command(char *str, char **argv, char **envp)
 	{
 		fd = set_fd(str);
 		skip_spaces(&str);
-		if (!builtins(fd, start, str, argv, envp) && !check_bin(str, envp, fd))
+		if (!builtins(fd, start, str, argv, &envp) && !check_bin(str, envp, fd))
 		{
 			write(1, "Command \'", 9);
 			ft_putstr_fd(str, 1);
