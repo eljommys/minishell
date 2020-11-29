@@ -148,12 +148,13 @@ int			ft_strlen_pipe(char *str)
 	return (i);
 }
 
+/*
+
 char		**check_pipe(char *str, char **argv, char **envp)
 {
 	int		fds[2];
 	char	*command;
 	int		status;
-	int		pid;
 	char	*start;
 
 	if (str && !str[ft_strlen_pipe(str)])
@@ -162,39 +163,37 @@ char		**check_pipe(char *str, char **argv, char **envp)
 	{
 		start = str;
 		pipe(fds);
-		pid = fork();
-		if (pid == 0)
+		if (!fork())
 		{
-			close(fds[0]);
 			dup2(fds[1], 1);
+			close(fds[0]);
 			close(fds[1]);
 			command = ft_strldup(str, ft_strlen_pipe(str));
 			envp = check_command(command, argv, envp);
 			exit(0);
 		}
-		else
-		{
-			str += ft_strlen_pipe(str) + 1;
-			close(fds[1]);
-			if (!fork())
-			{
-				dup2(fds[0], 0);
-				close(fds[0]);
-				command = ft_strldup(str, ft_strlen_pipe(str));
-				envp = check_command(command, argv, envp);
-				exit(0);
-			}
-			else
-				close(fds[0]);
-		}
 		wait(&status);
+		str += ft_strlen_pipe(str) + 1;
+		if (!fork())
+		{
+			dup2(fds[0], 0);
+			close(fds[0]);
+			close(fds[1]);
+			command = ft_strldup(str, ft_strlen_pipe(str));
+			envp = check_command(command, argv, envp);
+			exit(0);
+		}
+		close(fds[0]);
+		close(fds[1]);
 		wait(&status);
 		free(start);
 	}
 	return (envp);
 }
 
-/*static void		switch_pipes(int *fds_bef, int *fds_aft)
+*/
+
+static void		switch_pipes(int *fds_bef, int *fds_aft)
 {
 	close(fds_bef[0]);
 	close(fds_bef[1]);
@@ -213,11 +212,11 @@ char		**check_pipe(char *str, char **argv, char **envp)
 	char	*command;
 	char	*start;
 
-	start = str;
 	if (str && !str[ft_strlen_pipe(str)])
 		envp = check_command(str, argv, envp);
 	else if (str)
 	{
+		start = str;
 		final = 0;
 		first = 1;
 		pipe(fds_bef);
@@ -244,13 +243,16 @@ char		**check_pipe(char *str, char **argv, char **envp)
 			first = 0;
 			switch_pipes(fds_bef, fds_aft);
 		}
-		if (start)
-			free(start);
+		free(start);
+		close(fds_bef[0]);
+		close(fds_bef[1]);
 		close(fds_aft[0]);
 		close(fds_aft[1]);
 	}
 	return (envp);
-}*/
+}
+
+
 
 static int	add_char(char **str, char c)
 {
