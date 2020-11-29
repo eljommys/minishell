@@ -107,14 +107,11 @@ static char		*is_coincidence(char *str, DIR **dir, struct dirent **d, char **env
 	paths = ft_split(path_str, ':');
 	name = ft_strldup(str, ft_strlen_spa(str));
 	i = 0;
-	while (paths[i])
+	while (i < 8 && paths[i])
 	{
 		*dir = opendir(paths[i]);
-		printf("paths[%d] = %s\n", i, paths[i]);
 		while(*d = readdir(*dir))
 		{
-			if (i == 22)
-				printf("name = %s\n", (*d)->d_name);
 			if (!ft_memcmp(name, (*d)->d_name, ft_strlen(name) + 1))
 			{
 				path = ft_strjoin(paths[i], "/");
