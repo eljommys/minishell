@@ -13,15 +13,14 @@
     - env
     - exit
 - ; tendrá que separar los comandos en la línea de comandos
-- Las redirecciones > y “>>”
+- Las redirecciones >, “>>” y <
 - Las variables de entorno ($ seguido de caracteres)
+- Las tuberías (también llamadas pipes) |
 ```
 
 ## In progress commands
 
 ```bash
-- La redireccion <
-- Las tuberías (también llamadas pipes) |
 - ctrl-C, ctrl-D y ctrl-\
 ```
 
