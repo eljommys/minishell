@@ -110,8 +110,11 @@ static char		*is_coincidence(char *str, DIR **dir, struct dirent **d, char **env
 	while (paths[i])
 	{
 		*dir = opendir(paths[i]);
+		printf("paths[%d] = %s\n", i, paths[i]);
 		while(*d = readdir(*dir))
 		{
+			if (i == 22)
+				printf("name = %s\n", (*d)->d_name);
 			if (!ft_memcmp(name, (*d)->d_name, ft_strlen(name) + 1))
 			{
 				path = ft_strjoin(paths[i], "/");
@@ -125,7 +128,7 @@ static char		*is_coincidence(char *str, DIR **dir, struct dirent **d, char **env
 	}
 	free_env(paths);
 	free(name);
-	return (0);
+	return (NULL);
 }
 
 int		check_bin(char *str, char **envp, int fd)
@@ -139,7 +142,7 @@ int		check_bin(char *str, char **envp, int fd)
 
 	pre_path = is_coincidence(str, &dir, &d, envp);
 	status_argc[2] = 0;
-	if (*pre_path)
+	if (pre_path && *pre_path)
 	{
 		status_argc[2] = 1;
 		status_argc[1] = count_args(str);
@@ -153,14 +156,13 @@ int		check_bin(char *str, char **envp, int fd)
 				dup2(fd, 1);
 			if (execve(path, argv, envp))
 				write(1, "Coudn't execute command\n", 24);
-			exit(0);
 		}
 		else
 			wait(&status_argc[0]);
 		free(path);
 		free_env(argv);
+		closedir(dir);
 	}
-	closedir(dir);
 	free(pre_path);
 	return (status_argc[2]);
 }

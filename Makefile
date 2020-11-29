@@ -7,6 +7,7 @@ SRCS	=	main.c\
 			env.c\
 			bin.c\
 			utils.c\
+			pipe.c\
 
 OBJS	=	$(SRCS:.c=.o)
 
@@ -14,7 +15,7 @@ LIBFT	= libft/libft.a
 L_PATH	= ./libft/
 
 CC		= gcc
-CFLAGS	= -Wall -Werror -Wextra -g
+CFLAGS	= -Wall -Werror -Wextra -g -fsanitize=address
 
 all: $(NAME)
 
