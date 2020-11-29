@@ -7,6 +7,7 @@ SRCS	=	main.c\
 			env.c\
 			bin.c\
 			utils.c\
+			pipe.c\
 
 OBJS	=	$(SRCS:.c=.o)
 
