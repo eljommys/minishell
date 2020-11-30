@@ -59,6 +59,7 @@ int			main(int argc, char **argv, char **envp)
 	char	buff[4097];
 
 	envp = copy_env(envp, 0);
+	dup2(0, 1);
 	while (1)
 	{
 		str = 0;
