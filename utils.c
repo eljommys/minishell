@@ -39,7 +39,10 @@ char	*get_env(char **envp, char *env)
 	i = 0;
 	while (envp[i] && ft_memcmp(env, envp[i], len))
 		i++;
-	tmp = envp[i] + len;
+	if (envp[i])
+		tmp = envp[i] + len;
+	else
+		tmp = 0;
 	free(env);
 	return (tmp);
 }
