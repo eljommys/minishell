@@ -111,8 +111,10 @@ static int		builtins(int fd, char *start, char *str, char **argv, char ***envp)
 
 char		**check_command(char *str, char **argv, char **envp)
 {
-	int	fd;
-	char *start;
+	int		fd;
+	int		built;
+	char	*start;
+	char	*path;
 
 	check_env(&str, envp);
 	start = str;
@@ -120,7 +122,8 @@ char		**check_command(char *str, char **argv, char **envp)
 	{
 		fd = set_fd(str);
 		skip_spaces(&str);
-		if (!builtins(fd, start, str, argv, &envp) && !check_bin(str, envp, fd))
+		built = builtins(fd, start, str, argv, &envp);
+		if (!built && !check_bin(fd, str, path, argv, envp))
 		{
 			write(1, "Command \'", 9);
 			ft_putstr_fd(str, 1);

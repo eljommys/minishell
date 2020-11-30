@@ -70,31 +70,26 @@ static char		*is_coincidence(char *str, DIR **dir, struct dirent **d, char **env
 	char	*path_str;
 	char	**paths;
 	char	*path;
-	char	*name;
 	int		i;
 
 	path_str = get_env(envp, "PATH");
 	paths = ft_split(path_str, ':');
-	name = ft_strldup(str, ft_strlen_spa(str));
-	i = 0;
-	while (i < 8 && paths[i])
+	i = -1;
+	while (++i < 8 && paths[i])
 	{
 		*dir = opendir(paths[i]);
 		while(*d = readdir(*dir))
 		{
-			if (!ft_memcmp(name, (*d)->d_name, ft_strlen(name) + 1))
+			if (!ft_memcmp(str, (*d)->d_name, ft_strlen(str) + 1))
 			{
 				path = ft_strjoin(paths[i], "/");
-				free(name);
 				free_env(paths);
 				return (path);
 			}
 		}
 		closedir(*dir);
-		i++;
 	}
 	free_env(paths);
-	free(name);
 	return (NULL);
 }
 
@@ -121,39 +116,47 @@ void	set_in(char *str)
 	}
 }
 
-int		check_bin(char *str, char **envp, int fd)
+static void	exec_bin(int fd, char *str, char *path, char **envp, char **argv)
+{
+	int flag;
+
+	if (!fork())
+	{
+		set_in(str);
+		if (fd > 1)
+			dup2(fd, 1);
+		if (execve(path, argv, envp))
+			write(1, "Coudn't execute command\n", 24);
+	}
+	else
+		wait(&flag);
+	free(path);
+	free_env(argv);
+}
+
+int		check_bin( int fd, char *str, char *path, char **argv, char **envp)
 {
 	DIR				*dir;
 	struct dirent	*d;
-	char			*path;
 	char			*pre_path;
-	int				status_argc[3];
-	char			**argv;
+	int				flag_argc[2];
+	char			*name;
 
-	pre_path = is_coincidence(str, &dir, &d, envp);
-	status_argc[2] = 0;
+	name = ft_strldup(str, ft_strlen_spa(str));
+	pre_path = is_coincidence(name, &dir, &d, envp);
+	free(name);
+	flag_argc[0] = 0;
 	if (pre_path && *pre_path)
 	{
-		status_argc[2] = 1;
-		status_argc[1] = count_args(str);
-		argv = (char **)ft_calloc(sizeof(char *), (status_argc[1] + 1));
-		if (status_argc[1])
-			set_args(argv, str, status_argc[1]);
+		flag_argc[0] = 1;
+		flag_argc[1] = count_args(str);
+		argv = (char **)ft_calloc(sizeof(char *), (flag_argc[1] + 1));
+		if (flag_argc[1])
+			set_args(argv, str, flag_argc[1]);
 		path = ft_strjoin(pre_path, d->d_name);
-		if (!fork())
-		{
-			set_in(str);
-			if (fd > 1)
-				dup2(fd, 1);
-			if (execve(path, argv, envp))
-				write(1, "Coudn't execute command\n", 24);
-		}
-		else
-			wait(&status_argc[0]);
-		free(path);
-		free_env(argv);
+		exec_bin(fd, str, path, envp, argv);
 		closedir(dir);
 	}
 	free(pre_path);
-	return (status_argc[2]);
+	return (flag_argc[0]);
 }

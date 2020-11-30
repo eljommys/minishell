@@ -22,15 +22,6 @@ static int		ft_strlen_pipe(char *str)
 	return (i);
 }
 
-static void		switch_pipes(int *fds_bef, int *fds_aft)
-{
-	close(fds_bef[0]);
-	close(fds_bef[1]);
-	fds_bef[0] = fds_aft[0];
-	fds_bef[1] = fds_aft[1];
-	pipe(fds_aft);
-}
-
 static void	pipe_son(int *flag, int *fds, char *str, char **argv, char **envp)
 {
 	char *	command;
@@ -67,7 +58,11 @@ static int	pipes(int *fds, char *str, char **argv, char **envp)
 		i++;
 		str += ft_strlen_pipe(str) + 1;
 		flag[0] = 0;
-		switch_pipes(fds, fds + 2);
+		close(fds[0]);
+		close(fds[1]);
+		fds[0] = fds[2];
+		fds[1] = fds[3];
+		pipe(fds + 2);
 	}
 	free(flag);
 	return (i);

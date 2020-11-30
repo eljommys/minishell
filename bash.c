@@ -12,52 +12,11 @@
 
 #include "minishell.h"
 
-static void	set_path(char *str, char **path)
+static void check_type(int argc, char **argv, char **envp, char *s, char *path)
 {
-	int		i;
-	int		len;
-	char	*filename;
-	char	*new;
-	char	*aux;
-
-	new = ft_strdup(*path);
-	len = ft_strlen(*path);
-	if (!ft_memcmp(str, "/", 1))
-		*path = ft_strdup(str);
-	else
-	{
-		i = 0;
-		while (!ft_memcmp(str + i, "../", 3))
-			i += 3;
-		filename = ft_strdup(str + i);
-		i /= 3;
-		while (i-- > 0)
-		{
-			while (new[len] != '/')
-				len--;
-			len--;
-		}
-		new[len + 1] = 0;
-		aux = ft_strjoin(new, "/");
-		free(new);
-		new = ft_strjoin(aux, filename);
-		free(aux);
-		free(filename);
-		*path = new;
-	}
-}
-
-/*
-**	0 = plain text, 1 = binary, 2 = folder
-*/
-
-static void	check_file_type(char *path, char **envp, char *str)
-{
-	DIR				*dir;
-	char			*line;
-	int				fd;
-	char			**argv;
-	int				argc;
+	DIR		*dir;
+	char	*line;
+	int		fd;
 
 	if (!(dir = opendir(path)))
 	{
@@ -76,17 +35,59 @@ static void	check_file_type(char *path, char **envp, char *str)
 	else
 	{
 		write(1, "-bash: ", 7);
-		ft_putstr_fd(str, 1);
+		ft_putstr_fd(s, 1);
 		write(1, ": Is a directory\n", 17);
 		closedir(dir);
 	}
 }
 
-void		bash_command(char *str, char **argv, char **envp)
+static void	set_filename(int len, char **new, char *str)
+{
+	int i;
+	char *filename;
+	char *aux;
+
+	i = 0;
+	while (!ft_memcmp(str + i, "../", 3))
+		i += 3;
+	filename = ft_strdup(str + i);
+	i /= 3;
+	while (i-- > 0)
+	{
+		while ((*new)[len] != '/')
+			len--;
+		len--;
+	}
+	(*new)[len + 1] = 0;
+	aux = ft_strjoin(*new, "/");
+	free(*new);
+	*new = ft_strjoin(aux, filename);
+	free(aux);
+	free(filename);
+}
+
+static void	set_path(char *str, char **path)
+{
+	int len;
+	char *new;
+
+	new = ft_strdup(*path);
+	len = ft_strlen(*path);
+	if (!ft_memcmp(str, "/", 1))
+		*path = ft_strdup(str);
+	else
+	{
+		set_filename(len, &new, str);
+		*path = new;
+	}
+}
+
+void 		bash_command(char *str, char **argv, char **envp)
 {
 	char	buff[4097];
 	char	*path;
 	char	*start;
+	int 	argc;
 	int		status[2];
 
 	start = str;
@@ -98,7 +99,7 @@ void		bash_command(char *str, char **argv, char **envp)
 	if (!fork())
 	{
 		if (execve(path, argv, envp))
-			check_file_type(path, envp, start);
+			check_type(argc, argv, envp, start, path);
 		status[0] = 1;
 	}
 	else
