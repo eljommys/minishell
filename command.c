@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/29 20:43:25 by marvin            #+#    #+#             */
-/*   Updated: 2020/11/30 20:35:11 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/01 00:43:45 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,10 @@ static int move_next(char **str)
 
 static int redirect(char *str)
 {
-	int append;
-	int len;
-	int fd;
-	char c;
+	int		append;
+	int		len;
+	int		fd;
+	char	c;
 
 	fd = 1;
 	str++;
@@ -66,46 +66,20 @@ static int set_fd(char *str)
 	return (fd);
 }
 
-static void check_env(char **str, char **envp)
+char **check_command(char *str, t_data *param)
 {
-	char *cpy;
-	int len;
-	char *env;
+	int		fd;
+	int		built;
+	char	*start;
+	char	*path;
 
-	cpy = *str;
-	if (cpy && *cpy)
-	{
-		skip_spaces(&cpy);
-		if (*cpy == '$')
-		{
-			cpy++;
-			cpy = ft_strldup(cpy, ft_strlen_spa(cpy));
-			env = ft_strdup(get_env(envp, cpy));
-			free(cpy);
-			if (env)
-			{
-				free(*str);
-				*str = env;
-			}
-		}
-	}
-}
-
-char **check_command(char *str, char **argv, char **envp)
-{
-	int fd;
-	int built;
-	char *start;
-	char *path;
-
-	check_env(&str, envp);
 	start = str;
 	while (str && *str)
 	{
 		fd = set_fd(str);
 		skip_spaces(&str);
-		built = check_builtins(fd, start, str, &envp);
-		if (!built && !check_bin(fd, str, path, envp))
+		built = check_builtins(fd, start, str, param);
+		if (!built && !check_bin(fd, str, path, param->envp))
 			ft_putstrs_fd("Command \'", str, "\' not found.\n", 1);
 		if (fd > 1)
 			close(fd);
@@ -113,5 +87,5 @@ char **check_command(char *str, char **argv, char **envp)
 	}
 	if (start)
 		free(start);
-	return (envp);
+	return (param->envp);
 }

@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/17 00:01:09 by marvin            #+#    #+#             */
-/*   Updated: 2020/11/30 21:08:49 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/01 00:38:02 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,27 +44,25 @@ static void	pwd_command(int fd)
 	write(fd, "\n", 1);
 }
 
-int			check_builtins(int fd, char *start, char *str, char ***envp)
+int			check_builtins(int fd, char *start, char *str, t_data *param)
 {
-	char **argv;
-
 	if (!ft_memcmp(str, "echo ", 5))
-		echo_command(*envp, str, fd);
+		echo_command(param->envp, str, fd);
 	else if (!ft_memcmp(str, "pwd", 4) || !ft_memcmp(str, "pwd ", 4))
 		pwd_command(fd);
 	else if (!ft_memcmp(str, "cd ", 3) || !ft_memcmp(str, "cd", 3))
-		cd_command(*envp, str);
+		cd_command(param->envp, str);
 	else if (!ft_memcmp(str, "env", 4) || !ft_memcmp(str, "env ", 4))
-		env_command(*envp, fd);
+		env_command(param->envp, fd);
 	else if (!ft_memcmp(str, "./", 2) || !ft_memcmp(str, "../", 3) ||
 			 !ft_memcmp(str, "/", 1))
-		bash_command(str, argv, *envp);
+		bash_command(str, param);
 	else if (!ft_memcmp(str, "export ", 7))
-		*envp = export_command(str, *envp);
+		param->envp = export_command(str, param->envp);
 	else if (!ft_memcmp(str, "unset ", 6))
-		*envp = unset_command(str, *envp);
+		param->envp = unset_command(str, param->envp);
 	else if (!ft_memcmp(str, "exit", 4) || !ft_memcmp(str, "q", 1))
-		exit_command(start, *envp);
+		exit_command(start, param->envp);
 	else
 		return (0);
 	return (1);

@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/16 15:16:03 by marvin            #+#    #+#             */
-/*   Updated: 2020/11/30 20:55:52 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/01 00:30:07 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,13 +57,15 @@ int			main(int argc, char **argv, char **envp)
 	char	*str;
 	char	*cwd;
 	char	buff[4097];
+	t_data	*param;
 
-	envp = copy_env(envp, 0);
-	dup2(0, 1);
+	param = (t_data *)malloc(sizeof(t_data));
+	param->envp = copy_env(envp, 0);
+	param->argv = argv;
 	while (1)
 	{
 		str = 0;
-		cwd = relative_path(getcwd(buff, 4096), envp);
+		cwd = relative_path(getcwd(buff, 4096), param->envp);
 		write(1, "\033[1;32mminishell@PARMART-JSERRAN\033[0;0m", 38);
 		ft_putstrs_fd(":\033[1;34m", cwd, "\033[0;0m$ ", 1);
 		free(cwd);
@@ -74,6 +76,6 @@ int			main(int argc, char **argv, char **envp)
 			if (add_char(&str, c))
 				return (-1);
 		}
-		envp = parser(str, argv, envp);
+		envp = parser(str, param);
 	}
 }

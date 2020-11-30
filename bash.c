@@ -6,13 +6,13 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/17 19:50:12 by marvin            #+#    #+#             */
-/*   Updated: 2020/11/30 20:37:54 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/01 00:41:23 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	check_type(char **argv, char **envp, char *str, char *path)
+static void	check_type(t_data *param, char *str, char *path)
 {
 	DIR		*dir;
 	char	*line;
@@ -25,11 +25,11 @@ static void	check_type(char **argv, char **envp, char *str, char *path)
 		while (get_next_line(fd, &line))
 		{
 			argc = count_args(line);
-			argv = (char **)ft_calloc(sizeof(char *), argc + 1);
+			param->argv = (char **)ft_calloc(sizeof(char *), argc + 1);
 			if (argc)
-				set_args(argv, line, argc);
-			envp = parser(line, argv, envp);
-			free_env(argv);
+				set_args(param->argv, line, argc);
+			param->envp = parser(line, param);
+			free_env(param->argv);
 		}
 		close(fd);
 	}
@@ -81,7 +81,7 @@ static void	set_path(char *str, char **path)
 	}
 }
 
-void		bash_command(char *str, char **argv, char **envp)
+void		bash_command(char *str, t_data *param)
 {
 	char	buff[4097];
 	char	*path;
@@ -97,8 +97,8 @@ void		bash_command(char *str, char **argv, char **envp)
 	flag = 0;
 	if (!fork())
 	{
-		if (execve(path, argv, envp))
-			check_type(argv, envp, start, path);
+		if (execve(path, param->argv, param->envp))
+			check_type(param, start, path);
 		flag = 1;
 	}
 	else
