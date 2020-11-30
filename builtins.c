@@ -6,16 +6,25 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/17 00:01:09 by marvin            #+#    #+#             */
-/*   Updated: 2020/11/30 18:29:47 by marvin           ###   ########.fr       */
+/*   Updated: 2020/11/30 21:08:49 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+static void	exit_command(char *str, char **envp)
+{
+	free(str);
+	free_env(envp);
+	exit(0);
+}
+
 static void	cd_command(char **envp, char *str)
 {
 	char	*aux;
 
+	if (str[2] == 0)
+		str = "cd ~";
 	str += 3;
 	aux = str;
 	if (*str == '~')
@@ -35,13 +44,6 @@ static void	pwd_command(int fd)
 	write(fd, "\n", 1);
 }
 
-static void	exit_command(char *str, char **envp)
-{
-	free(str);
-	free_env(envp);
-	exit(0);
-}
-
 int			check_builtins(int fd, char *start, char *str, char ***envp)
 {
 	char **argv;
@@ -50,7 +52,7 @@ int			check_builtins(int fd, char *start, char *str, char ***envp)
 		echo_command(*envp, str, fd);
 	else if (!ft_memcmp(str, "pwd", 4) || !ft_memcmp(str, "pwd ", 4))
 		pwd_command(fd);
-	else if (!ft_memcmp(str, "cd ", 3))
+	else if (!ft_memcmp(str, "cd ", 3) || !ft_memcmp(str, "cd", 3))
 		cd_command(*envp, str);
 	else if (!ft_memcmp(str, "env", 4) || !ft_memcmp(str, "env ", 4))
 		env_command(*envp, fd);
@@ -61,8 +63,7 @@ int			check_builtins(int fd, char *start, char *str, char ***envp)
 		*envp = export_command(str, *envp);
 	else if (!ft_memcmp(str, "unset ", 6))
 		*envp = unset_command(str, *envp);
-	else if (!ft_memcmp(str, "quit", 4) || !ft_memcmp(str, "exit", 4) ||
-			 !ft_memcmp(str, "close", 5) || !ft_memcmp(str, "q", 1))
+	else if (!ft_memcmp(str, "exit", 4) || !ft_memcmp(str, "q", 1))
 		exit_command(start, *envp);
 	else
 		return (0);

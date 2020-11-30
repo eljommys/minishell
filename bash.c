@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/17 19:50:12 by marvin            #+#    #+#             */
-/*   Updated: 2020/11/30 17:44:14 by marvin           ###   ########.fr       */
+/*   Updated: 2020/11/30 20:37:54 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static void	check_type(char **argv, char **envp, char *str, char *path)
 			argv = (char **)ft_calloc(sizeof(char *), argc + 1);
 			if (argc)
 				set_args(argv, line, argc);
-			envp = check_pipe(line, argv, envp);
+			envp = parser(line, argv, envp);
 			free_env(argv);
 		}
 		close(fd);
@@ -86,23 +86,24 @@ void		bash_command(char *str, char **argv, char **envp)
 	char	buff[4097];
 	char	*path;
 	char	*start;
-	int		status[2];
+	int		status;
+	int		flag;
 
 	start = str;
 	if (ft_memcmp(str, "/", 1))
 		str += (!ft_memcmp(str, "./", 2)) ? 2 : 0;
 	path = getcwd(buff, 4096);
 	set_path(str, &path);
-	status[0] = 0;
+	flag = 0;
 	if (!fork())
 	{
 		if (execve(path, argv, envp))
 			check_type(argv, envp, start, path);
-		status[0] = 1;
+		flag = 1;
 	}
 	else
-		wait(&status[1]);
+		wait(&status);
 	free(path);
-	if (status[0])
+	if (flag)
 		exit(0);
 }

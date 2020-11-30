@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/29 14:12:39 by marvin            #+#    #+#             */
-/*   Updated: 2020/11/30 17:54:36 by marvin           ###   ########.fr       */
+/*   Updated: 2020/11/30 20:00:11 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static void	pipe_son(int *flag, int *fds, char *str, char **envp)
 	}
 }
 
-static int	pipes(int *fds, char *str, char **argv, char **envp)
+static int	check_pipe(int *fds, char *str, char **argv, char **envp)
 {
 	int		i;
 	int		*flag;
@@ -69,7 +69,7 @@ static int	pipes(int *fds, char *str, char **argv, char **envp)
 	return (i);
 }
 
-char		**check_pipe(char *str, char **argv, char **envp)
+char		**parser(char *str, char **argv, char **envp)
 {
 	int		fds[4];
 	int		status;
@@ -81,7 +81,7 @@ char		**check_pipe(char *str, char **argv, char **envp)
 	{
 		pipe(fds);
 		pipe(fds + 2);
-		i = pipes(fds, str, argv, envp);
+		i = check_pipe(fds, str, argv, envp);
 		while (i-- > 0)
 			wait(&status);
 		free(str);

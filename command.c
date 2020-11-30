@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/29 20:43:25 by marvin            #+#    #+#             */
-/*   Updated: 2020/11/30 18:27:36 by marvin           ###   ########.fr       */
+/*   Updated: 2020/11/30 20:35:11 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,11 +106,7 @@ char **check_command(char *str, char **argv, char **envp)
 		skip_spaces(&str);
 		built = check_builtins(fd, start, str, &envp);
 		if (!built && !check_bin(fd, str, path, envp))
-		{
-			write(1, "Command \'", 9);
-			ft_putstr_fd(str, 1);
-			write(1, "\' not found.\n", 13);
-		}
+			ft_putstrs_fd("Command \'", str, "\' not found.\n", 1);
 		if (fd > 1)
 			close(fd);
 		move_next(&str);

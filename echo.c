@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/19 13:09:57 by marvin            #+#    #+#             */
-/*   Updated: 2020/11/30 17:01:47 by parmarti         ###   ########.fr       */
+/*   Updated: 2020/11/30 20:38:24 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,18 +73,18 @@ static void	write_words(char **envp, char *str, int fd)
 
 void		echo_command(char **envp, char *str, int fd)
 {
-	int		is_flag;
+	int	flag;
 
-	is_flag = 0;
+	flag = 0;
 	str += 5;
 	skip_spaces(&str);
 	if (!ft_memcmp(str, "-n ", 3))
 	{
-		is_flag = 1;
+		flag = 1;
 		str += 3;
 	}
 	write_words(envp, str, fd);
-	if (!is_flag)
+	if (!flag)
 		write(fd, "\n", 1);
 	if (fd != 1)
 		close(fd);

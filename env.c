@@ -6,13 +6,13 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/22 15:42:40 by marvin            #+#    #+#             */
-/*   Updated: 2020/11/30 17:15:00 by parmarti         ###   ########.fr       */
+/*   Updated: 2020/11/30 20:44:20 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	**erase_elm(char **envp, int i)
+static char	**erase_env(char **envp, int i)
 {
 	int		j;
 	int		len;
@@ -37,21 +37,21 @@ static char	**erase_elm(char **envp, int i)
 char		**unset_command(char *str, char **envp)
 {
 	int		i;
-	int		var_len;
-	char	*var_search;
+	int		len;
+	char	*env;
 	char	**cpy;
 
 	str += 6;
 	skip_spaces(&str);
-	var_len = strlen(str);
-	var_search = ft_strjoin(str, "=");
+	len = strlen(str);
+	env = ft_strjoin(str, "=");
 	i = 0;
-	while (envp[i] && ft_memcmp(var_search, envp[i], var_len + 1))
+	while (envp[i] && ft_memcmp(env, envp[i], len + 1))
 		i++;
 	cpy = envp;
 	if (envp[i])
-		cpy = erase_elm(envp, i);
-	free(var_search);
+		cpy = erase_env(envp, i);
+	free(env);
 	return (cpy);
 }
 
