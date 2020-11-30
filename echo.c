@@ -6,13 +6,13 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/19 13:09:57 by marvin            #+#    #+#             */
-/*   Updated: 2020/11/19 13:09:57 by marvin           ###   ########.fr       */
+/*   Updated: 2020/11/30 17:01:47 by parmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void write_env(char **envp, char *str, int fd, int len)
+static void	write_env(char **envp, char *str, int fd, int len)
 {
 	char	*env;
 

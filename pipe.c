@@ -6,13 +6,13 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/29 14:12:39 by marvin            #+#    #+#             */
-/*   Updated: 2020/11/29 14:12:39 by marvin           ###   ########.fr       */
+/*   Updated: 2020/11/30 17:54:36 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int		ft_strlen_pipe(char *str)
+static int	ft_strlen_pipe(char *str)
 {
 	int i;
 
@@ -22,10 +22,11 @@ static int		ft_strlen_pipe(char *str)
 	return (i);
 }
 
-static void	pipe_son(int *flag, int *fds, char *str, char **argv, char **envp)
+static void	pipe_son(int *flag, int *fds, char *str, char **envp)
 {
-	char *	command;
 	int		i;
+	char	*command;
+	char	**argv;
 
 	if (!fork())
 	{
@@ -54,7 +55,7 @@ static int	pipes(int *fds, char *str, char **argv, char **envp)
 	while (!flag[1])
 	{
 		flag[1] = (!str[ft_strlen_pipe(str)]) ? 1 : 0;
-		pipe_son(flag, fds, str, argv, envp);
+		pipe_son(flag, fds, str, envp);
 		i++;
 		str += ft_strlen_pipe(str) + 1;
 		flag[0] = 0;

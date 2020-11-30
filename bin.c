@@ -6,66 +6,13 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/23 22:36:37 by marvin            #+#    #+#             */
-/*   Updated: 2020/11/23 22:36:37 by marvin           ###   ########.fr       */
+/*   Updated: 2020/11/30 18:07:56 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int		count_args(char *str)
-{
-	int		i;
-
-	i = 0;
-	while (*str && *str != '|' && *str != '<' && *str != '&' && *str != '>' &&
-		*str != ';')
-	{
-		skip_spaces(&str);
-		i++;
-		str += ft_strlen_spa(str);
-	}
-	return (i);
-}
-
-static int		ft_strlen_quote(char *str)
-{
-	int		i;
-	char	quote;
-
-	quote = *str;
-	str++;
-	i = 0;
-	while (str[i] && str[i] != quote)
-		i++;
-	return (i);
-}
-
-void		set_args(char **argv, char *str, int argc)
-{
-	int i;
-	int len;
-
-	i = 0;
-	while (i < argc)
-	{
-		skip_spaces(&str);
-		len = ft_strlen_spa(str);
-		if (len)
-		{
-			if (*str == '"' || *str == '\'')
-			{
-				len = ft_strlen_quote(str);
-				str++;
-			}
-			argv[i] = ft_strldup(str, len);
-			str++;
-		}
-		str += len;
-		i++;
-	}
-}
-
-static char		*is_coincidence(char *str, DIR **dir, struct dirent **d, char **envp)
+static char	*is_coincidence(char *s, DIR **dir, struct dirent **d, char **envp)
 {
 	char	*path_str;
 	char	**paths;
@@ -78,9 +25,9 @@ static char		*is_coincidence(char *str, DIR **dir, struct dirent **d, char **env
 	while (++i < 8 && paths[i])
 	{
 		*dir = opendir(paths[i]);
-		while(*d = readdir(*dir))
+		while (*d = readdir(*dir))
 		{
-			if (!ft_memcmp(str, (*d)->d_name, ft_strlen(str) + 1))
+			if (!ft_memcmp(s, (*d)->d_name, ft_strlen(s) + 1))
 			{
 				path = ft_strjoin(paths[i], "/");
 				free_env(paths);
@@ -93,7 +40,7 @@ static char		*is_coincidence(char *str, DIR **dir, struct dirent **d, char **env
 	return (NULL);
 }
 
-void	set_in(char *str)
+void		set_in(char *str)
 {
 	char	*file;
 	int		fd;
@@ -116,10 +63,16 @@ void	set_in(char *str)
 	}
 }
 
-static void	exec_bin(int fd, char *str, char *path, char **envp, char **argv)
+static void	exec_bin(int fd, char *str, char *path, char **envp)
 {
-	int flag;
+	int 	flag;
+	int		argc;
+	char	**argv;
 
+	argc = count_args(str);
+	argv = (char **)ft_calloc(sizeof(char *), (argc + 1));
+	if (argc)
+		set_args(argv, str, argc);
 	if (!fork())
 	{
 		set_in(str);
@@ -134,29 +87,25 @@ static void	exec_bin(int fd, char *str, char *path, char **envp, char **argv)
 	free_env(argv);
 }
 
-int		check_bin( int fd, char *str, char *path, char **argv, char **envp)
+int			check_bin(int fd, char *str, char *path, char **envp)
 {
 	DIR				*dir;
 	struct dirent	*d;
 	char			*pre_path;
-	int				flag_argc[2];
+	int				flag;
 	char			*name;
 
 	name = ft_strldup(str, ft_strlen_spa(str));
 	pre_path = is_coincidence(name, &dir, &d, envp);
 	free(name);
-	flag_argc[0] = 0;
+	flag = 0;
 	if (pre_path && *pre_path)
 	{
-		flag_argc[0] = 1;
-		flag_argc[1] = count_args(str);
-		argv = (char **)ft_calloc(sizeof(char *), (flag_argc[1] + 1));
-		if (flag_argc[1])
-			set_args(argv, str, flag_argc[1]);
+		flag = 1;
 		path = ft_strjoin(pre_path, d->d_name);
-		exec_bin(fd, str, path, envp, argv);
+		exec_bin(fd, str, path, envp);
 		closedir(dir);
 	}
 	free(pre_path);
-	return (flag_argc[0]);
+	return (flag);
 }

@@ -6,17 +6,18 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/17 19:50:12 by marvin            #+#    #+#             */
-/*   Updated: 2020/11/17 19:50:12 by marvin           ###   ########.fr       */
+/*   Updated: 2020/11/30 17:44:14 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void check_type(int argc, char **argv, char **envp, char *s, char *path)
+static void	check_type(char **argv, char **envp, char *str, char *path)
 {
 	DIR		*dir;
 	char	*line;
 	int		fd;
+	int		argc;
 
 	if (!(dir = opendir(path)))
 	{
@@ -34,18 +35,16 @@ static void check_type(int argc, char **argv, char **envp, char *s, char *path)
 	}
 	else
 	{
-		write(1, "-bash: ", 7);
-		ft_putstr_fd(s, 1);
-		write(1, ": Is a directory\n", 17);
+		ft_putstrs_fd("-bash: ", str, ": Is a directory\n", 1);
 		closedir(dir);
 	}
 }
 
 static void	set_filename(int len, char **new, char *str)
 {
-	int i;
-	char *filename;
-	char *aux;
+	int		i;
+	char	*filename;
+	char	*aux;
 
 	i = 0;
 	while (!ft_memcmp(str + i, "../", 3))
@@ -68,8 +67,8 @@ static void	set_filename(int len, char **new, char *str)
 
 static void	set_path(char *str, char **path)
 {
-	int len;
-	char *new;
+	int		len;
+	char	*new;
 
 	new = ft_strdup(*path);
 	len = ft_strlen(*path);
@@ -82,12 +81,11 @@ static void	set_path(char *str, char **path)
 	}
 }
 
-void 		bash_command(char *str, char **argv, char **envp)
+void		bash_command(char *str, char **argv, char **envp)
 {
 	char	buff[4097];
 	char	*path;
 	char	*start;
-	int 	argc;
 	int		status[2];
 
 	start = str;
@@ -99,7 +97,7 @@ void 		bash_command(char *str, char **argv, char **envp)
 	if (!fork())
 	{
 		if (execve(path, argv, envp))
-			check_type(argc, argv, envp, start, path);
+			check_type(argv, envp, start, path);
 		status[0] = 1;
 	}
 	else

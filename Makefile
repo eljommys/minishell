@@ -9,6 +9,7 @@ SRCS	=	main.c\
 			utils.c\
 			pipe.c\
 			command.c\
+			args.c\
 
 OBJS	=	$(SRCS:.c=.o)
 
