@@ -6,13 +6,13 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/22 15:42:40 by marvin            #+#    #+#             */
-/*   Updated: 2020/11/22 17:18:10 by marvin           ###   ########.fr       */
+/*   Updated: 2020/11/30 17:15:00 by parmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char		**erase_elm(char **envp, int i)
+static char	**erase_elm(char **envp, int i)
 {
 	int		j;
 	int		len;
@@ -34,7 +34,7 @@ static char		**erase_elm(char **envp, int i)
 	return (cpy);
 }
 
-char			**unset_command(char *str, char **envp)
+char		**unset_command(char *str, char **envp)
 {
 	int		i;
 	int		var_len;
@@ -55,7 +55,7 @@ char			**unset_command(char *str, char **envp)
 	return (cpy);
 }
 
-char			**export_command(char *str, char **envp)
+char		**export_command(char *str, char **envp)
 {
 	int		i;
 	char	**cpy;
@@ -72,12 +72,12 @@ char			**export_command(char *str, char **envp)
 	return (cpy);
 }
 
-void			env_command(char **envp, int fd)
+void		env_command(char **envp, int fd)
 {
 	int	i;
 
 	i = 0;
-	while(envp[i])
+	while (envp[i])
 	{
 		ft_putstr_fd(envp[i++], fd);
 		write(fd, "\n", 1);

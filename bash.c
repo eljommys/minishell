@@ -6,13 +6,13 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/17 19:50:12 by marvin            #+#    #+#             */
-/*   Updated: 2020/11/17 19:50:12 by marvin           ###   ########.fr       */
+/*   Updated: 2020/11/30 17:11:05 by parmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void check_type(int argc, char **argv, char **envp, char *s, char *path)
+static void	check_type(int argc, char **argv, char **envp, char *s, char *path)
 {
 	DIR		*dir;
 	char	*line;
@@ -43,9 +43,9 @@ static void check_type(int argc, char **argv, char **envp, char *s, char *path)
 
 static void	set_filename(int len, char **new, char *str)
 {
-	int i;
-	char *filename;
-	char *aux;
+	int		i;
+	char	*filename;
+	char	*aux;
 
 	i = 0;
 	while (!ft_memcmp(str + i, "../", 3))
@@ -68,8 +68,8 @@ static void	set_filename(int len, char **new, char *str)
 
 static void	set_path(char *str, char **path)
 {
-	int len;
-	char *new;
+	int		len;
+	char	*new;
 
 	new = ft_strdup(*path);
 	len = ft_strlen(*path);
@@ -82,12 +82,12 @@ static void	set_path(char *str, char **path)
 	}
 }
 
-void 		bash_command(char *str, char **argv, char **envp)
+void		bash_command(char *str, char **argv, char **envp)
 {
 	char	buff[4097];
 	char	*path;
 	char	*start;
-	int 	argc;
+	int		argc;
 	int		status[2];
 
 	start = str;

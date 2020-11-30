@@ -6,21 +6,20 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/16 15:16:49 by marvin            #+#    #+#             */
-/*   Updated: 2020/11/16 15:16:49 by marvin           ###   ########.fr       */
+/*   Updated: 2020/11/30 17:05:08 by parmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
-#endif
 
-#include "libft/libft.h"
-#include <fcntl.h>
-#include <dirent.h>
-#include <signal.h>
-#include <errno.h>
-#include <sys/wait.h>
-#include <sys/stat.h>
+# include "libft/libft.h"
+# include <fcntl.h>
+# include <dirent.h>
+# include <signal.h>
+# include <errno.h>
+# include <sys/wait.h>
+# include <sys/stat.h>
 
 void	skip_spaces(char **str);
 void	free_env(char **envp);
@@ -41,3 +40,5 @@ char	**unset_command(char *str, char **envp);
 int		check_bin(int fd, char *str, char *path, char **argv, char **envp);
 char	**check_command(char *str, char **argv, char **envp);
 char	**check_pipe(char *str, char **argv, char **envp);
+
+#endif

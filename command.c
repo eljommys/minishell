@@ -6,13 +6,13 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/29 20:43:25 by marvin            #+#    #+#             */
-/*   Updated: 2020/11/29 20:43:25 by marvin           ###   ########.fr       */
+/*   Updated: 2020/11/30 17:17:43 by parmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int		set_fd(char *str)
+static int	set_fd(char *str)
 {
 	int		fd;
 	int		append;
@@ -36,7 +36,7 @@ static int		set_fd(char *str)
 				if (len == -1)
 				{
 					write(1, "Couldn't read file\n", 19);
-					break;
+					break ;
 				}
 		}
 		else
@@ -47,7 +47,7 @@ static int		set_fd(char *str)
 	return (fd);
 }
 
-static int		move_next(char **str)
+static int	move_next(char **str)
 {
 	while (**str && **str != ';')
 		(*str)++;
@@ -59,7 +59,7 @@ static int		move_next(char **str)
 	return (0);
 }
 
-static void		check_env(char **str, char **envp)
+static void	check_env(char **str, char **envp)
 {
 	char	*cpy;
 	int		len;
@@ -84,7 +84,7 @@ static void		check_env(char **str, char **envp)
 	}
 }
 
-static int		builtins(int fd, char *start, char *str, char **argv, char ***envp)
+static int	builtins(int fd, char *start, char *str, char **argv, char ***envp)
 {
 	if (!ft_memcmp(str, "echo ", 5))
 		echo_command(*envp, str, fd);

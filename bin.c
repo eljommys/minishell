@@ -6,13 +6,13 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/23 22:36:37 by marvin            #+#    #+#             */
-/*   Updated: 2020/11/23 22:36:37 by marvin           ###   ########.fr       */
+/*   Updated: 2020/11/30 17:22:26 by parmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int		count_args(char *str)
+int			count_args(char *str)
 {
 	int		i;
 
@@ -27,7 +27,7 @@ int		count_args(char *str)
 	return (i);
 }
 
-static int		ft_strlen_quote(char *str)
+static int	ft_strlen_quote(char *str)
 {
 	int		i;
 	char	quote;
@@ -65,7 +65,7 @@ void		set_args(char **argv, char *str, int argc)
 	}
 }
 
-static char		*is_coincidence(char *str, DIR **dir, struct dirent **d, char **envp)
+static char	*is_coincidence(char *s, DIR **dir, struct dirent **d, char **envp)
 {
 	char	*path_str;
 	char	**paths;
@@ -78,9 +78,9 @@ static char		*is_coincidence(char *str, DIR **dir, struct dirent **d, char **env
 	while (++i < 8 && paths[i])
 	{
 		*dir = opendir(paths[i]);
-		while(*d = readdir(*dir))
+		while (*d = readdir(*dir))
 		{
-			if (!ft_memcmp(str, (*d)->d_name, ft_strlen(str) + 1))
+			if (!ft_memcmp(s, (*d)->d_name, ft_strlen(s) + 1))
 			{
 				path = ft_strjoin(paths[i], "/");
 				free_env(paths);
@@ -93,7 +93,7 @@ static char		*is_coincidence(char *str, DIR **dir, struct dirent **d, char **env
 	return (NULL);
 }
 
-void	set_in(char *str)
+void		set_in(char *str)
 {
 	char	*file;
 	int		fd;
@@ -134,7 +134,7 @@ static void	exec_bin(int fd, char *str, char *path, char **envp, char **argv)
 	free_env(argv);
 }
 
-int		check_bin( int fd, char *str, char *path, char **argv, char **envp)
+int			check_bin(int fd, char *str, char *path, char **argv, char **envp)
 {
 	DIR				*dir;
 	struct dirent	*d;
