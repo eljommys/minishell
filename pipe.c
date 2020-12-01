@@ -6,18 +6,18 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/29 14:12:39 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/01 00:57:45 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/01 01:25:37 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	ft_strlen_pipe(char *str)
+static int		ft_strlen_char(char *str, char c)
 {
 	int i;
 
 	i = 0;
-	while (str[i] && str[i] != '|')
+	while (str[i] && str[i] != c)
 		i++;
 	return (i);
 }
@@ -36,7 +36,7 @@ static void	pipe_son(int *flag, int *fds, char *str, t_data *param)
 		i = 0;
 		while (i < 4)
 			close(fds[i++]);
-		command = ft_strldup(str, ft_strlen_pipe(str));
+		command = ft_strldup(str, ft_strlen_char(str, '|'));
 		check_command(command, param);
 		exit(0);
 	}
@@ -53,10 +53,10 @@ static int	check_pipe(int *fds, char *str, t_data *param)
 	flag[1] = 0;
 	while (!flag[1])
 	{
-		flag[1] = (!str[ft_strlen_pipe(str)]) ? 1 : 0;
+		flag[1] = (!str[ft_strlen_char(str, '|')]) ? 1 : 0;
 		pipe_son(flag, fds, str, param);
 		i++;
-		str += ft_strlen_pipe(str) + 1;
+		str += ft_strlen_char(str, '|') + 1;
 		flag[0] = 0;
 		close(fds[0]);
 		close(fds[1]);
@@ -67,6 +67,7 @@ static int	check_pipe(int *fds, char *str, t_data *param)
 	free(flag);
 	return (i);
 }
+
 
 void	check_env(char **str, char **envp)
 {
@@ -81,11 +82,21 @@ void	check_env(char **str, char **envp)
 	i = 0;
 	while (cpy && cpy[i])
 	{
-		while (cpy[i] && cpy[i] != '$')
-			i++;
-		if (cpy[i])
+		if (cpy[i] == '\'')
 		{
-			len = ft_strlen_spa(cpy + i);
+			i++;
+			while (cpy[i] && cpy[i] != '\'')
+				i++;
+			if (!cpy[i])
+			{
+				ft_putstr_fd("Non finished quotes\n", 1);
+				break ;
+			}
+			i++;
+		}
+		if (cpy[i] == '$')
+		{
+			len = ft_strlen_char(cpy + i, cpy[i - 1]);
 			cpy[i] = 0;
 			bef = ft_strdup(cpy);
 			cpy = ft_strldup(cpy + i + 1, len - 1);
@@ -102,6 +113,7 @@ void	check_env(char **str, char **envp)
 			cpy = *str;
 			i += len;
 		}
+		i++;
 	}
 }
 
@@ -115,7 +127,7 @@ char		**parser(char *str, t_data *param)
 	check_env(&str, param->envp);
 	std_out = dup(0);
 	printf("comando = ->%s<-\n", str);
-	if (str && !str[ft_strlen_pipe(str)])
+	if (str && !str[ft_strlen_char(str, '|')])
 		param->envp = check_command(str, param);
 	else if (str)
 	{
