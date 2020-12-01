@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/29 14:12:39 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/01 11:11:51 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/01 16:41:15 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static int		ft_strlen_pipe(char *str)
 	return (i);
 }
 
-static int		ft_strlen_char(char *str, char c)
+int		ft_strlen_char(char *str, char c)
 {
 	int i;
 
@@ -153,7 +153,7 @@ char		**parser(char *str, t_data *param)
 
 	check_env(&str, param->envp);
 	std_out = dup(0);
-	printf("comando = ->%s<-\n", str);
+	//printf("comando = ->%s<-\n", str);
 	if (str && !str[ft_strlen_pipe(str)])
 		param->envp = check_command(str, param);
 	else if (str)

@@ -70,15 +70,22 @@ char **check_command(char *str, t_data *param)
 	int		fd;
 	int		built;
 	char	*start;
-	char	*path;
+	int 	i;
 
 	start = str;
+	param->argc = count_args(str);
+	param->argv = (char **)ft_calloc(sizeof(char *), (param->argc + 1));
+	set_args(param->argv, str, param->argc);
+	//i = -1;
+	//while (param->argv[++i])
+	//	printf("argv[%d] = ->%s<-\n", i, param->argv[i]);
+	//printf("argc = %d\n", param->argc);
 	while (str && *str)
 	{
 		fd = set_fd(str);
 		skip_spaces(&str);
-		built = check_builtins(fd, start, str, param);
-		if (!built && !check_bin(fd, str, path, param->envp))
+		built = check_builtins(fd, start, param);
+		if (!built && !check_bin(fd, param))
 			ft_putstrs_fd("Command \'", str, "\' not found.\n", 1);
 		if (fd > 1)
 			close(fd);
@@ -86,5 +93,7 @@ char **check_command(char *str, t_data *param)
 	}
 	if (start)
 		free(start);
+	free_env(param->argv);
+	param->argc = 0;
 	return (param->envp);
 }

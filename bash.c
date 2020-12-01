@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/17 19:50:12 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/01 00:41:23 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/01 14:51:34 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ static void	check_type(t_data *param, char *str, char *path)
 			if (argc)
 				set_args(param->argv, line, argc);
 			param->envp = parser(line, param);
-			free_env(param->argv);
 		}
 		close(fd);
 	}
@@ -81,29 +80,30 @@ static void	set_path(char *str, char **path)
 	}
 }
 
-void		bash_command(char *str, t_data *param)
+void		bash_command(t_data *param)
 {
 	char	buff[4097];
 	char	*path;
 	char	*start;
 	int		status;
-	int		flag;
+	//int		flag;
 
-	start = str;
-	if (ft_memcmp(str, "/", 1))
-		str += (!ft_memcmp(str, "./", 2)) ? 2 : 0;
+	start = param->argv[0];
+	if (ft_memcmp(param->argv[0], "/", 1))
+		param->argv[0] += (!ft_memcmp(param->argv[0], "./", 2)) ? 2 : 0;
 	path = getcwd(buff, 4096);
-	set_path(str, &path);
-	flag = 0;
+	set_path(param->argv[0], &path);
+	//flag = 0;
 	if (!fork())
 	{
 		if (execve(path, param->argv, param->envp))
 			check_type(param, start, path);
-		flag = 1;
+		exit(0);
 	}
 	else
 		wait(&status);
 	free(path);
-	if (flag)
-		exit(0);
+	/*if (flag)
+		exit(0);*/
+	param->argv[0] = start;
 }

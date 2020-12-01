@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/16 15:16:49 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/01 00:42:09 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/01 15:53:27 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include <sys/stat.h>
 
 typedef struct		s_data{
+	int		argc;
 	char	**argv;
 	char	**envp;
 }					t_data;
@@ -31,16 +32,17 @@ void	free_env(char **envp);
 char	*get_env(char **envp, char *env);
 char	**copy_env(char **envp, int add);
 int		ft_strlen_spa(char *str);
+int		ft_strlen_char(char *str, char c);
 int		count_args(char *str);
 void	set_args(char **argv, char *str, int argc);
 
-void	echo_command(char **envp, char *str, int fd);
-void	bash_command(char *str, t_data *param);
-void	env_command(char **envp, int fd);
-char	**export_command(char *str, char **envp);
-char	**unset_command(char *str, char **envp);
-int		check_builtins(int fd, char *start, char *str, t_data *param);
-int		check_bin(int fd, char *str, char *path, char **envp);
+void	echo_command(t_data *param, int fd);
+void	bash_command(t_data *param);
+void	env_command(t_data *param, int fd);
+char	**export_command(t_data *param);
+char	**unset_command(t_data *param);
+int		check_builtins(int fd, char *start, t_data *param);
+int		check_bin(int fd, t_data *param);
 char	**check_command(char *str, t_data *param);
 char	**parser(char *str, t_data *param);
 

@@ -6,13 +6,13 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/19 13:09:57 by marvin            #+#    #+#             */
-/*   Updated: 2020/11/30 20:38:24 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/01 13:40:21 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	write_env(char **envp, char *str, int fd, int len)
+/*static void	write_env(char **envp, char *str, int fd, int len)
 {
 	char	*env;
 
@@ -69,21 +69,28 @@ static void	write_words(char **envp, char *str, int fd)
 		}
 		skip_spaces(&str);
 	}
+}*/
+
+static void		write_words(char **argv, int fd)
+{
+	int i;
+
+	i = 1;
+	while (argv[i])
+	{
+		ft_putstr_fd(argv[i], fd);
+		i++;
+	}
 }
 
-void		echo_command(char **envp, char *str, int fd)
+void		echo_command(t_data *param, int fd)
 {
 	int	flag;
 
 	flag = 0;
-	str += 5;
-	skip_spaces(&str);
-	if (!ft_memcmp(str, "-n ", 3))
-	{
+	if (!ft_memcmp(param->argv[1], "-n", 3))
 		flag = 1;
-		str += 3;
-	}
-	write_words(envp, str, fd);
+	write_words(param->argv + flag, fd);
 	if (!flag)
 		write(fd, "\n", 1);
 	if (fd != 1)

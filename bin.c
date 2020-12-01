@@ -6,58 +6,48 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/23 22:36:37 by marvin            #+#    #+#             */
-/*   Updated: 2020/11/30 20:36:13 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/01 15:43:56 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 
-static void	set_in(char *str)
+static void	set_in(char **argv)
 {
-	char	*file;
 	int		fd;
+	int		i;
 
-	while (*str && *str != '<')
-		str++;
-	if (*str)
+	i = 0;
+	while (argv[i] && ft_memcmp(argv[i], "<", 2))
+		i++;
+	if (argv[i])
 	{
-		str++;
-		skip_spaces(&str);
-		file = ft_strldup(str, ft_strlen_spa(str));
-		fd = open(file, O_RDONLY, 0666);
+		fd = open(argv[i + 1], O_RDONLY, 0666);
 		if (fd < 0)
 		{
 			ft_putstr_fd("Couldn't read from file.\n", 1);
 			return ;
 		}
 		dup2(fd, 0);
-		free(file);
 	}
 }
 
-static void	exec_bin(int fd, char *str, char *path, char **envp)
+static void	exec_bin(int fd, char *path, t_data *param)
 {
-	int 	flag;
-	int		argc;
-	char	**argv;
+	int 	status;
 
-	argc = count_args(str);
-	argv = (char **)ft_calloc(sizeof(char *), (argc + 1));
-	if (argc)
-		set_args(argv, str, argc);
 	if (!fork())
 	{
-		set_in(str);
+		set_in(param->argv);
 		if (fd > 1)
 			dup2(fd, 1);
-		if (execve(path, argv, envp))
+		if (execve(path, param->argv, param->envp))
 			write(1, "Coudn't execute command\n", 24);
 	}
 	else
-		wait(&flag);
+		wait(&status);
 	free(path);
-	free_env(argv);
 }
 
 static char	*search_bin(char *str, DIR **dir, struct dirent **d, char **envp)
@@ -88,23 +78,21 @@ static char	*search_bin(char *str, DIR **dir, struct dirent **d, char **envp)
 	return (NULL);
 }
 
-int			check_bin(int fd, char *str, char *path, char **envp)
+int			check_bin(int fd, t_data *param)
 {
 	DIR				*dir;
 	struct dirent	*d;
 	char			*pre_path;
-	char			*bin;
+	char			*path;
 	int				flag;
 
-	bin = ft_strldup(str, ft_strlen_spa(str));
-	pre_path = search_bin(bin, &dir, &d, envp);
-	free(bin);
+	pre_path = search_bin(param->argv[0], &dir, &d, param->envp);
 	flag = 0;
 	if (pre_path && *pre_path)
 	{
 		flag = 1;
 		path = ft_strjoin(pre_path, d->d_name);
-		exec_bin(fd, str, path, envp);
+		exec_bin(fd, path, param);
 		closedir(dir);
 	}
 	free(pre_path);
