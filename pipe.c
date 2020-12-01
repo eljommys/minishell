@@ -6,11 +6,37 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/29 14:12:39 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/01 01:25:37 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/01 11:11:51 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static int		ft_strlen_pipe(char *str)
+{
+	int		i;
+	char	c;
+
+	i = 0;
+	while (str[i] && str[i] != '|')
+	{
+		if (str[i] == '"' || str[i] == '\'')
+		{
+			c = str[i];
+			i++;
+			while (str[i] && str[i] != c)
+				i++;
+			if (!str[i])
+			{
+				ft_putstr_fd("Non finished quotes\n", 1);
+				return (0);
+			}
+			i++;
+		}
+		i++;
+	}
+	return (i);
+}
 
 static int		ft_strlen_char(char *str, char c)
 {
@@ -36,7 +62,7 @@ static void	pipe_son(int *flag, int *fds, char *str, t_data *param)
 		i = 0;
 		while (i < 4)
 			close(fds[i++]);
-		command = ft_strldup(str, ft_strlen_char(str, '|'));
+		command = ft_strldup(str, ft_strlen_pipe(str));
 		check_command(command, param);
 		exit(0);
 	}
@@ -53,10 +79,10 @@ static int	check_pipe(int *fds, char *str, t_data *param)
 	flag[1] = 0;
 	while (!flag[1])
 	{
-		flag[1] = (!str[ft_strlen_char(str, '|')]) ? 1 : 0;
+		flag[1] = (!str[ft_strlen_pipe(str)]) ? 1 : 0;
 		pipe_son(flag, fds, str, param);
 		i++;
-		str += ft_strlen_char(str, '|') + 1;
+		str += ft_strlen_pipe(str) + 1;
 		flag[0] = 0;
 		close(fds[0]);
 		close(fds[1]);
@@ -96,7 +122,8 @@ void	check_env(char **str, char **envp)
 		}
 		if (cpy[i] == '$')
 		{
-			len = ft_strlen_char(cpy + i, cpy[i - 1]);
+			len = (ft_strlen_char(cpy + i, '"') < ft_strlen_spa(cpy + i)) ?
+				ft_strlen_char(cpy + i, '"') : ft_strlen_spa(cpy + i);
 			cpy[i] = 0;
 			bef = ft_strdup(cpy);
 			cpy = ft_strldup(cpy + i + 1, len - 1);
@@ -127,7 +154,7 @@ char		**parser(char *str, t_data *param)
 	check_env(&str, param->envp);
 	std_out = dup(0);
 	printf("comando = ->%s<-\n", str);
-	if (str && !str[ft_strlen_char(str, '|')])
+	if (str && !str[ft_strlen_pipe(str)])
 		param->envp = check_command(str, param);
 	else if (str)
 	{
