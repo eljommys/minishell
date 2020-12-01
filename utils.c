@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/22 15:41:14 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/01 16:29:29 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/01 19:12:29 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,18 +62,4 @@ char	**copy_env(char **envp, int add)
 	while (++i < len)
 		cpy[i] = ft_strdup(envp[i]);
 	return (cpy);
-}
-
-int		ft_strlen_spa(char *str)
-{
-	int		len;
-
-	len = 0;
-	while (*str && *str != ' ' && *str != '>' && *str != ';' && *str != '<' &&
-			*str != '|' && *str != '"' && *str != '\'')
-	{
-		len++;
-		str++;
-	}
-	return (len);
 }

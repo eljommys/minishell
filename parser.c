@@ -1,52 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipe.c                                             :+:      :+:    :+:   */
+/*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/29 14:12:39 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/01 16:41:15 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/01 19:10:13 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static int		ft_strlen_pipe(char *str)
-{
-	int		i;
-	char	c;
-
-	i = 0;
-	while (str[i] && str[i] != '|')
-	{
-		if (str[i] == '"' || str[i] == '\'')
-		{
-			c = str[i];
-			i++;
-			while (str[i] && str[i] != c)
-				i++;
-			if (!str[i])
-			{
-				ft_putstr_fd("Non finished quotes\n", 1);
-				return (0);
-			}
-			i++;
-		}
-		i++;
-	}
-	return (i);
-}
-
-int		ft_strlen_char(char *str, char c)
-{
-	int i;
-
-	i = 0;
-	while (str[i] && str[i] != c)
-		i++;
-	return (i);
-}
 
 static void	pipe_son(int *flag, int *fds, char *str, t_data *param)
 {

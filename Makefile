@@ -3,13 +3,13 @@ NAME	=	minishell
 SRCS	=	main.c\
 			builtins.c\
 			bash.c\
-			echo.c\
 			env.c\
 			bin.c\
 			utils.c\
-			pipe.c\
+			parser.c\
 			command.c\
 			args.c\
+			lens.c\
 
 OBJS	=	$(SRCS:.c=.o)
 

@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/16 15:16:49 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/01 15:53:27 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/01 19:24:58 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,11 @@ void	free_env(char **envp);
 char	*get_env(char **envp, char *env);
 char	**copy_env(char **envp, int add);
 int		ft_strlen_spa(char *str);
+int		ft_strlen_pipe(char *str);
 int		ft_strlen_char(char *str, char c);
 int		count_args(char *str);
 void	set_args(char **argv, char *str, int argc);
 
-void	echo_command(t_data *param, int fd);
 void	bash_command(t_data *param);
 void	env_command(t_data *param, int fd);
 char	**export_command(t_data *param);
