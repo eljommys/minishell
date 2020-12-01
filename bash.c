@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/17 19:50:12 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/01 19:11:14 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/01 20:33:40 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,10 @@ static void	check_type(t_data *param, char *str, char *path)
 		fd = open(path, O_RDONLY, 0666);
 		while (get_next_line(fd, &line))
 		{
-			argc = count_args(line);
-			param->argv = (char **)ft_calloc(sizeof(char *), argc + 1);
-			if (argc)
-				set_args(param->argv, line, argc);
+			//argc = count_args(line);
+			//param->argv = (char **)ft_calloc(sizeof(char *), argc + 1);
+			//if (argc)
+			//	set_args(param->argv, line, argc);
 			param->envp = parser(line, param);
 		}
 		close(fd);
