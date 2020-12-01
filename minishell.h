@@ -6,38 +6,44 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/16 15:16:49 by marvin            #+#    #+#             */
-/*   Updated: 2020/11/16 15:16:49 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/01 15:53:27 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
-#endif
 
-#include "libft/libft.h"
-#include <fcntl.h>
-#include <dirent.h>
-#include <signal.h>
-#include <errno.h>
-#include <sys/wait.h>
-#include <sys/stat.h>
+# include "libft/libft.h"
+# include <fcntl.h>
+# include <dirent.h>
+# include <signal.h>
+# include <errno.h>
+# include <sys/wait.h>
+# include <sys/stat.h>
+
+typedef struct		s_data{
+	int		argc;
+	char	**argv;
+	char	**envp;
+}					t_data;
 
 void	skip_spaces(char **str);
 void	free_env(char **envp);
 char	*get_env(char **envp, char *env);
 char	**copy_env(char **envp, int add);
 int		ft_strlen_spa(char *str);
+int		ft_strlen_char(char *str, char c);
 int		count_args(char *str);
 void	set_args(char **argv, char *str, int argc);
 
-void	echo_command(char **envp, char *str, int fd);
-void	pwd_command(int fd);
-void	cd_command(char **envp, char *str);
-void	exit_command(char *str, char **envp);
-void	bash_command(char *str, char **argv, char **envp);
-void	env_command(char **envp, int fd);
-char	**export_command(char *str, char **envp);
-char	**unset_command(char *str, char **envp);
-int		check_bin(char *str, char **envp, int fd);
-char	**check_command(char *str, char **argv, char **envp);
-char	**check_pipe(char *str, char **argv, char **envp);
+void	echo_command(t_data *param, int fd);
+void	bash_command(t_data *param);
+void	env_command(t_data *param, int fd);
+char	**export_command(t_data *param);
+char	**unset_command(t_data *param);
+int		check_builtins(int fd, char *start, t_data *param);
+int		check_bin(int fd, t_data *param);
+char	**check_command(char *str, t_data *param);
+char	**parser(char *str, t_data *param);
+
+#endif

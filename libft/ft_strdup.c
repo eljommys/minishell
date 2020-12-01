@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/01 09:01:23 by jserrano          #+#    #+#             */
-/*   Updated: 2020/11/29 22:11:46 by marvin           ###   ########.fr       */
+/*   Updated: 2020/11/30 23:16:36 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ char	*ft_strdup(char *s)
 	int		size;
 	int		i;
 
-	if (!s || !(*s))
+	if (!s)
 		return (NULL);
 	size = 0;
 	while (s[size])

@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/29 14:12:39 by marvin            #+#    #+#             */
-/*   Updated: 2020/11/29 14:12:39 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/01 16:41:15 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,27 +14,44 @@
 
 static int		ft_strlen_pipe(char *str)
 {
-	int i;
+	int		i;
+	char	c;
 
 	i = 0;
 	while (str[i] && str[i] != '|')
+	{
+		if (str[i] == '"' || str[i] == '\'')
+		{
+			c = str[i];
+			i++;
+			while (str[i] && str[i] != c)
+				i++;
+			if (!str[i])
+			{
+				ft_putstr_fd("Non finished quotes\n", 1);
+				return (0);
+			}
+			i++;
+		}
+		i++;
+	}
+	return (i);
+}
+
+int		ft_strlen_char(char *str, char c)
+{
+	int i;
+
+	i = 0;
+	while (str[i] && str[i] != c)
 		i++;
 	return (i);
 }
 
-static void		switch_pipes(int *fds_bef, int *fds_aft)
+static void	pipe_son(int *flag, int *fds, char *str, t_data *param)
 {
-	close(fds_bef[0]);
-	close(fds_bef[1]);
-	fds_bef[0] = fds_aft[0];
-	fds_bef[1] = fds_aft[1];
-	pipe(fds_aft);
-}
-
-static void	pipe_son(int *flag, int *fds, char *str, char **argv, char **envp)
-{
-	char *	command;
 	int		i;
+	char	*command;
 
 	if (!fork())
 	{
@@ -46,12 +63,12 @@ static void	pipe_son(int *flag, int *fds, char *str, char **argv, char **envp)
 		while (i < 4)
 			close(fds[i++]);
 		command = ft_strldup(str, ft_strlen_pipe(str));
-		check_command(command, argv, envp);
+		check_command(command, param);
 		exit(0);
 	}
 }
 
-static int	pipes(int *fds, char *str, char **argv, char **envp)
+static int	check_pipe(int *fds, char *str, t_data *param)
 {
 	int		i;
 	int		*flag;
@@ -63,34 +80,93 @@ static int	pipes(int *fds, char *str, char **argv, char **envp)
 	while (!flag[1])
 	{
 		flag[1] = (!str[ft_strlen_pipe(str)]) ? 1 : 0;
-		pipe_son(flag, fds, str, argv, envp);
+		pipe_son(flag, fds, str, param);
 		i++;
 		str += ft_strlen_pipe(str) + 1;
 		flag[0] = 0;
-		switch_pipes(fds, fds + 2);
+		close(fds[0]);
+		close(fds[1]);
+		fds[0] = fds[2];
+		fds[1] = fds[3];
+		pipe(fds + 2);
 	}
 	free(flag);
 	return (i);
 }
 
-char		**check_pipe(char *str, char **argv, char **envp)
+
+void	check_env(char **str, char **envp)
+{
+	char	*bef;
+	char	*cpy;
+	char	*aft;
+	char	*env;
+	int		len;
+	int		i;
+
+	cpy = *str;
+	i = 0;
+	while (cpy && cpy[i])
+	{
+		if (cpy[i] == '\'')
+		{
+			i++;
+			while (cpy[i] && cpy[i] != '\'')
+				i++;
+			if (!cpy[i])
+			{
+				ft_putstr_fd("Non finished quotes\n", 1);
+				break ;
+			}
+			i++;
+		}
+		if (cpy[i] == '$')
+		{
+			len = (ft_strlen_char(cpy + i, '"') < ft_strlen_spa(cpy + i)) ?
+				ft_strlen_char(cpy + i, '"') : ft_strlen_spa(cpy + i);
+			cpy[i] = 0;
+			bef = ft_strdup(cpy);
+			cpy = ft_strldup(cpy + i + 1, len - 1);
+			env = ft_strdup(get_env(envp, cpy));
+			free(cpy);
+			aft = ft_strdup(*str + i + len);
+			cpy = ft_strjoin(bef, env);
+			free(*str);
+			*str = ft_strjoin(cpy, aft);
+			free(env);
+			free(aft);
+			free(cpy);
+			free(bef);
+			cpy = *str;
+			i += len;
+		}
+		i++;
+	}
+}
+
+char		**parser(char *str, t_data *param)
 {
 	int		fds[4];
+	int		std_out;
 	int		status;
 	int		i;
 
+	check_env(&str, param->envp);
+	std_out = dup(0);
+	//printf("comando = ->%s<-\n", str);
 	if (str && !str[ft_strlen_pipe(str)])
-		envp = check_command(str, argv, envp);
+		param->envp = check_command(str, param);
 	else if (str)
 	{
 		pipe(fds);
 		pipe(fds + 2);
-		i = pipes(fds, str, argv, envp);
+		i = check_pipe(fds, str, param);
 		while (i-- > 0)
 			wait(&status);
 		free(str);
 		while (i < 4)
 			close(fds[i++]);
 	}
-	return (envp);
+	dup2(std_out, 0);
+	return (param->envp);
 }
