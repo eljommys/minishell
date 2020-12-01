@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/22 15:42:40 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/01 19:11:21 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/01 20:18:45 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,6 @@ static char	**erase_env(char **envp, int i)
 	return (cpy);
 }
 
-//a veces hay que ponerlo dos veces
-
 char		**unset_command(t_data *param)
 {
 	int		i;
@@ -48,7 +46,6 @@ char		**unset_command(t_data *param)
 	i = 0;
 	while (param->envp[i] && ft_memcmp(env, param->envp[i], len + 1))
 		i++;
-	cpy = param->envp;
 	if (param->envp[i])
 		cpy = erase_env(param->envp, i);
 	free(env);
@@ -59,19 +56,33 @@ char		**export_command(t_data *param)
 {
 	int		i;
 	char	**cpy;
+	char	*env;
 
-	cpy = copy_env(param->envp, 1);
-	free_env(param->envp);
-	i = 0;
-	while (cpy[i])
-		i++;
-	if (param->argc == 3)
+	if (!param->argv[1][ft_strlen_char(param->argv[1], '=')])
 	{
-		cpy[i] = ft_strjoin(param->argv[1], param->argv[2]);
-		return (cpy);
+		ft_putstr_fd("Use '=' to assign a value.\n", 1);
+		return (param->envp);
 	}
-	cpy[i] = ft_strdup(param->argv[1]);
-	cpy[i + 1] = 0;
+	env = (param->argc == 3) ?
+		ft_strjoin(param->argv[1], param->argv[2]) : ft_strdup(param->argv[1]);
+	i = 0;
+	while (param->envp[i] &&
+		ft_memcmp(param->envp[i], env, ft_strlen_char(env, '=') + 1))
+		i++;
+	if (!param->envp[i])
+	{
+		cpy = copy_env(param->envp, 1);
+		cpy[i] = env;
+		free_env(param->envp);
+	}
+	else
+	{
+		cpy = param->envp;
+		free(env);
+		env = ft_strldup(param->envp[i], ft_strlen_char(param->envp[i], '='));
+		ft_putstrs_fd("Environment variable: '", env, "' already set.\n", 1);
+		free(env);
+	}
 	return (cpy);
 }
 

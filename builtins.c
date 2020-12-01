@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/17 00:01:09 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/01 19:23:59 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/01 19:45:00 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,30 +50,19 @@ static void	pwd_command(int fd, t_data *param)
 	ft_putstr_fd(cwd, fd);
 	write(fd, "\n", 1);
 }
-static void		write_words(char **argv, int fd)
-{
-	int i;
-
-	i = 1;
-	while (argv[i])
-	{
-		ft_putstr_fd(argv[i], fd);
-		i++;
-	}
-}
 
 void		echo_command(t_data *param, int fd)
 {
-	int	flag;
 	int i;
 
-	flag = 0;
-	if (!ft_memcmp(param->argv[1], "-n", 3))
-		flag = 1;
-	i = 0;
-	while ((param->argv + flag)[++i])
-		ft_putstr_fd((param->argv + flag)[i], fd);
-	if (!flag)
+	i = (!ft_memcmp(param->argv[1], "-n", 3)) ? 1 : 0;
+	while (++i < param->argc)
+	{
+		ft_putstr_fd(param->argv[i], fd);
+		if (i < param->argc - 1)
+			write(1, " ", 1);
+	}
+	if (ft_memcmp(param->argv[1], "-n", 3))
 		write(fd, "\n", 1);
 	if (fd != 1)
 		close(fd);
