@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/29 14:12:39 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/01 20:36:32 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/02 16:46:41 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ static int	change_env(int i, char *cpy, char **str, char **envp)
 	char	*aft;
 	char	*env;
 
-	len = (ft_strlen_char(cpy + i, '"') < ft_strlen_spa(cpy + i)) ? 
+	len = (ft_strlen_char(cpy + i, '"') < ft_strlen_spa(cpy + i)) ?
 			ft_strlen_char(cpy + i, '"') : ft_strlen_spa(cpy + i);
 	cpy[i] = 0;
 	bef = ft_strdup(cpy);
@@ -99,6 +99,8 @@ static void	check_env(char **str, char **envp)
 				i++;
 			if (!cpy[i])
 			{
+				if (!ft_memcmp(cpy + i, "$?", 3) || !ft_memcmp(cpy + i, "$? ", 3))
+					//seguir por aqui
 				ft_putstr_fd("Non finished quotes\n", 1);
 				break;
 			}

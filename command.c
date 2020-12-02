@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/01 18:22:40 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/02 14:42:06 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/02 16:39:51 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,8 @@ static int set_fd(char *str)
 char **check_command(char *str, t_data *param)
 {
 	int		fd;
-	int		built;
 	char	*start;
+	int		status;
 	int 	i;
 
 	start = str;
@@ -81,17 +81,19 @@ char **check_command(char *str, t_data *param)
 	//while (param->argv[++i])
 	//	printf("argv[%d] = ->%s<-\n", i, param->argv[i]);
 	//printf("argc = %d\n", param->argc);
-	while (str && *str)
-	{
-		fd = set_fd(str);
-		skip_spaces(&str);
-		built = check_builtins(fd, start, param);
-		if (!built && !check_bin(fd, param))
-			ft_putstrs_fd("Command \'", str, "\' not found.\n", 1);
-		if (fd > 1)
-			close(fd);
-		move_next(&str);
-	}
+	if (!fork())
+		while (str && *str)
+		{
+			fd = set_fd(str);
+			skip_spaces(&str);
+			param->ret = check_builtins(fd, start, param);
+			if (param->ret && check_bin(fd, param))
+				ft_putstrs_fd("Command \'", str, "\' not found.\n", 1);
+			if (fd > 1)
+				close(fd);
+			move_next(&str);
+		}
+	wait(&status);
 	if (start)
 		free(start);
 	free_env(param->argv);

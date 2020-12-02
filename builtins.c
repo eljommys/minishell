@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/17 00:01:09 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/02 14:46:51 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/02 16:43:16 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void exit_command(char *str, t_data *param)
 	free_env(param->envp);
 	free_env(param->argv);
 	free(param);
-	exit(0);
+	exit(1);
 }
 
 static void change_dir(char *path, t_data *param)
@@ -109,10 +109,15 @@ int check_builtins(int fd, char *start, t_data *param)
 		param->envp = export_command(param);
 	else if (!ft_memcmp(param->argv[0], "unset", 6))
 		param->envp = unset_command(param);
+	else if (!ft_memcmp(param->argv[0], "$?", 3))
+	{
+		ft_putstr_fd("127: command not found\n", 1);
+		param->ret = 127;
+	}
 	else if (!ft_memcmp(param->argv[0], "exit", 5) ||
 			 !ft_memcmp(param->argv[0], "q", 2))
 		exit_command(start, param);
 	else
-		return (0);
-	return (1);
+		return (1);
+	return (0);
 }

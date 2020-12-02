@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/22 15:42:40 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/02 12:40:35 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/02 16:11:27 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@ char		**unset_command(t_data *param)
 		i++;
 	if (param->envp[i])
 		cpy = erase_env(param->envp, i);
+	else
+		cpy = param->envp;
 	free(env);
 	return (cpy);
 }

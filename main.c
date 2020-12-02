@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/16 15:16:03 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/01 18:21:49 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/02 16:37:30 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ int			main(int argc, char **argv, char **envp)
 	param = (t_data *)malloc(sizeof(t_data));
 	param->envp = copy_env(envp, 0);
 	param->argv = argv;
+	param->ret = 0;
 	while (1)
 	{
 		str = 0;

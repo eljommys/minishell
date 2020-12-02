@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/23 22:36:37 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/01 15:43:56 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/02 16:38:47 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,8 @@ int			check_bin(int fd, t_data *param)
 		path = ft_strjoin(pre_path, d->d_name);
 		exec_bin(fd, path, param);
 		closedir(dir);
+		if (errno > 0)
+			param->ret = 1;
 	}
 	free(pre_path);
 	return (flag);
