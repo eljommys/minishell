@@ -40,4 +40,10 @@ re: fclean $(NAME)
 leaks:
 	valgrind --leak-check=full --show-leak-kinds=all ./$(NAME)
 
+git:
+	make ffclean
+	git add .
+	git commit -m "make done"
+	git push
+
 .PHONY: all clean fclean ffclean re

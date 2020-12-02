@@ -6,13 +6,13 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/17 00:01:09 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/02 14:07:29 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/02 14:46:51 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void exit_command(char *str, t_data *param)
+void exit_command(char *str, t_data *param)
 {
 	free(str);
 	free_env(param->envp);
@@ -30,6 +30,7 @@ static void change_dir(char *path, t_data *param)
 	oldpwd = getcwd(buff, 4096);
 	if (chdir(path) == 0)
 	{
+		errno = -1;
 		param->argc = 2;
 		free(param->argv[1]);
 		param->argv[1] = ft_strjoin("OLDPWD=", oldpwd);
@@ -39,34 +40,28 @@ static void change_dir(char *path, t_data *param)
 		param->envp = export_command(param);
 	}
 	else if (ft_putstrs_fd("-bash: cd: ", 0, 0, 1) && lstat(path, &s) != -1)
-	{
-		if (s.st_mode & S_IFDIR)
-			ft_putstrs_fd(0, param->argv[1], ": permission denied\n", 1);
-		else
-			ft_putstrs_fd(0, param->argv[1], ": Not a directory\n", 1);
-	}
-	else
-		ft_putstrs_fd(0, param->argv[1], ": No such file or directory\n", 1);
+		ft_putstrs_fd(0, param->argv[1], ": ", 1);
 }
 
 void cd_command(t_data *param)
 {
 	char *path;
 
-	if (!param->argv[1] || !ft_strncmp(param->argv[1], "--", 3) ||
-		!ft_strncmp(param->argv[1], "~", 2))
-		path = get_env(param->envp, "HOME");
-	else if (!ft_strncmp(param->argv[1], "-", 2))
-		path = get_env(param->envp, "OLDPWD");
-	else if (param->argv[2])
+	if (param->argc <= 2)
 	{
-		path = NULL;
-		if (param->argv[3])
-			ft_putstr_fd("-bash: cd: too many arguments\n", 1);
+		if (!param->argv[1] || !ft_strncmp(param->argv[1], "--", 3) ||
+			!ft_strncmp(param->argv[1], "~", 2))
+			path = get_env(param->envp, "HOME");
+		else if (!ft_strncmp(param->argv[1], "-", 2))
+			path = get_env(param->envp, "OLDPWD");
+		else
+			path = param->argv[1];
+		change_dir(path, param);
+		if (errno > 0)
+			ft_putstrs_fd(strerror(errno), "\n", 0, 1);
 	}
 	else
-		path = param->argv[1];
-	change_dir(path, param);
+		ft_putstr_fd("-bash: cd: too many arguments\n", 1);
 }
 
 static void pwd_command(int fd, t_data *param)

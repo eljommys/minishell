@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/16 15:16:49 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/01 19:24:58 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/02 14:30:54 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <dirent.h>
 # include <signal.h>
 # include <errno.h>
+# include <string.h>
 # include <sys/wait.h>
 # include <sys/stat.h>
 
@@ -41,6 +42,7 @@ void	bash_command(t_data *param);
 void	env_command(t_data *param, int fd);
 char	**export_command(t_data *param);
 char	**unset_command(t_data *param);
+void	exit_command(char *str, t_data *param);
 int		check_builtins(int fd, char *start, t_data *param);
 int		check_bin(int fd, t_data *param);
 char	**check_command(char *str, t_data *param);
