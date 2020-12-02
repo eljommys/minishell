@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/22 15:42:40 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/01 20:18:45 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/02 12:40:35 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,10 +78,9 @@ char		**export_command(t_data *param)
 	else
 	{
 		cpy = param->envp;
-		free(env);
-		env = ft_strldup(param->envp[i], ft_strlen_char(param->envp[i], '='));
-		ft_putstrs_fd("Environment variable: '", env, "' already set.\n", 1);
-		free(env);
+		free(param->envp[i]);
+		param->envp[i] = env;
+		//env = ft_strldup(param->envp[i], ft_strlen_char(param->envp[i], '='));
 	}
 	return (cpy);
 }

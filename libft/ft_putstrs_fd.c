@@ -12,11 +12,13 @@
 
 #include "libft.h"
 
-void	ft_putstrs_fd(char *before, char *str, char *after, int fd)
+int	ft_putstrs_fd(char *before, char *str, char *after, int fd)
 {
-	if (!str)
-		return;
-	write(fd, before, ft_strlen(before));
-	write(fd, str, ft_strlen(str));
-	write(fd, after, ft_strlen(after));
+	if (before)
+		write(fd, before, ft_strlen(before));
+	if (str)
+		write(fd, str, ft_strlen(str));
+	if (after)
+		write(fd, after, ft_strlen(after));
+	return (1);
 }
