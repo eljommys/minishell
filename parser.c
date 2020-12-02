@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/29 14:12:39 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/02 16:46:41 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/02 22:33:47 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,10 @@ static void	pipe_son(int *flag, int *fds, char *str, t_data *param)
 			close(fds[i++]);
 		command = ft_strldup(str, ft_strlen_pipe(str));
 		check_command(command, param);
-		exit(0);
+		exit(param->ret);
 	}
+	wait(&param->ret);
+	param->ret /= 256;
 }
 
 static int	check_pipe(int *fds, char *str, t_data *param)
@@ -58,7 +60,7 @@ static int	check_pipe(int *fds, char *str, t_data *param)
 	return (i);
 }
 
-static int	change_env(int i, char *cpy, char **str, char **envp)
+static int	change_env(int i, char *cpy, char **str, t_data *param)
 {
 	int		len;
 	char	*bef;
@@ -68,9 +70,11 @@ static int	change_env(int i, char *cpy, char **str, char **envp)
 	len = (ft_strlen_char(cpy + i, '"') < ft_strlen_spa(cpy + i)) ?
 			ft_strlen_char(cpy + i, '"') : ft_strlen_spa(cpy + i);
 	cpy[i] = 0;
+	env = (!ft_memcmp(cpy + i + 1, "?", 2) || !ft_memcmp(cpy + i + 1, "? ", 2))
+		? ft_itoa(param->ret) : 0;
 	bef = ft_strdup(cpy);
 	cpy = ft_strldup(cpy + i + 1, len - 1);
-	env = ft_strdup(get_env(envp, cpy));
+	env = (!env) ? ft_strdup(get_env(param->envp, cpy)) : env;
 	free(cpy);
 	aft = ft_strdup(*str + i + len);
 	cpy = ft_strjoin(bef, env);
@@ -81,9 +85,10 @@ static int	change_env(int i, char *cpy, char **str, char **envp)
 	free(cpy);
 	free(bef);
 	cpy = *str;
+	return (len);
 }
 
-static void	check_env(char **str, char **envp)
+static void	check_env(char **str, t_data *param)
 {
 	int i;
 	char *cpy;
@@ -99,15 +104,13 @@ static void	check_env(char **str, char **envp)
 				i++;
 			if (!cpy[i])
 			{
-				if (!ft_memcmp(cpy + i, "$?", 3) || !ft_memcmp(cpy + i, "$? ", 3))
-					//seguir por aqui
 				ft_putstr_fd("Non finished quotes\n", 1);
 				break;
 			}
 			i++;
 		}
 		if (cpy[i] == '$')
-			i += change_env(i, cpy, str, envp);
+			i += change_env(i, cpy, str, param);
 		i++;
 	}
 }
@@ -119,7 +122,7 @@ char		**parser(char *str, t_data *param)
 	int		status;
 	int		i;
 
-	check_env(&str, param->envp);
+	check_env(&str, param);
 	std_out = dup(0);
 	//printf("comando = ->%s<-\n", str);
 	if (str && !str[ft_strlen_pipe(str)])

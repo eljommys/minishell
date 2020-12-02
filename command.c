@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/01 18:22:40 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/02 16:39:51 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/02 22:10:16 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static int redirect(char *str)
 			if (len == -1)
 			{
 				write(1, "Couldn't read file\n", 19);
-				break;
+				break ;
 			}
 	}
 	else
@@ -81,19 +81,20 @@ char **check_command(char *str, t_data *param)
 	//while (param->argv[++i])
 	//	printf("argv[%d] = ->%s<-\n", i, param->argv[i]);
 	//printf("argc = %d\n", param->argc);
-	if (!fork())
-		while (str && *str)
+	while (str && *str)
+	{
+		fd = set_fd(str);
+		skip_spaces(&str);
+		param->ret = check_builtins(fd, start, param);
+		if (param->ret && (param->ret = check_bin(fd, param)))
 		{
-			fd = set_fd(str);
-			skip_spaces(&str);
-			param->ret = check_builtins(fd, start, param);
-			if (param->ret && check_bin(fd, param))
-				ft_putstrs_fd("Command \'", str, "\' not found.\n", 1);
-			if (fd > 1)
-				close(fd);
-			move_next(&str);
+			ft_putstrs_fd("Command \'", str, "\' not found.\n", 1);
+			param->ret = 127;
 		}
-	wait(&status);
+		if (fd > 1)
+			close(fd);
+		move_next(&str);
+	}
 	if (start)
 		free(start);
 	free_env(param->argv);

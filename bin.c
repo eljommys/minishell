@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/23 22:36:37 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/02 16:38:47 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/02 20:42:12 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,6 @@ static void	set_in(char **argv)
 
 static void	exec_bin(int fd, char *path, t_data *param)
 {
-	int 	status;
-
 	if (!fork())
 	{
 		set_in(param->argv);
@@ -45,8 +43,8 @@ static void	exec_bin(int fd, char *path, t_data *param)
 		if (execve(path, param->argv, param->envp))
 			write(1, "Coudn't execute command\n", 24);
 	}
-	else
-		wait(&status);
+	wait(&(param->ret));
+	param->ret /= 256;
 	free(path);
 }
 
@@ -84,19 +82,19 @@ int			check_bin(int fd, t_data *param)
 	struct dirent	*d;
 	char			*pre_path;
 	char			*path;
-	int				flag;
 
 	pre_path = search_bin(param->argv[0], &dir, &d, param->envp);
-	flag = 0;
+	param->ret = 0;
 	if (pre_path && *pre_path)
 	{
-		flag = 1;
 		path = ft_strjoin(pre_path, d->d_name);
 		exec_bin(fd, path, param);
 		closedir(dir);
 		if (errno > 0)
 			param->ret = 1;
 	}
+	else
+		param->ret = 1;
 	free(pre_path);
-	return (flag);
+	return (param->ret);
 }

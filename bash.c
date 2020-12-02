@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/17 19:50:12 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/02 15:50:12 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/02 22:22:58 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,6 @@ void		bash_command(t_data *param)
 	char	buff[4097];
 	char	*path;
 	char	*start;
-	int		status;
 
 	start = param->argv[0];
 	if (ft_memcmp(param->argv[0], "/", 1))
@@ -99,7 +98,8 @@ void		bash_command(t_data *param)
 		exit(0);
 	}
 	else
-		wait(&status);
+		wait(&param->ret);
+	param->ret /= 256;
 	free(path);
 	param->argv[0] = start;
 }
