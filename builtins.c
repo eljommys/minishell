@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/17 00:01:09 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/01 19:45:00 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/02 12:10:13 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,16 @@ static void	cd_command(t_data *param)
 
 	if (param->argc <= 2)
 	{
-		if (!param->argv[1] || !ft_memcmp(param->argv[1], "~", 2))
+		if (!param->argv[1] || !ft_memcmp(param->argv[1], "~", 2) 
+				|| !ft_memcmp(param->argv[1], "--", 3))
 			chdir(get_env(param->envp, "HOME"));
+		else if (!ft_memcmp(param->argv[1], "-", 2))
+			chdir(get_env(param->envp, "OLDPWD"));
 		else
 			chdir(param->argv[1]);
 	}
 	else
-		ft_putstr_fd("Wrong numer of arguments in 'pwd'!\n", 1);
+		ft_putstr_fd("-bash: cd: too many arguments\n", 1);
 }
 
 static void	pwd_command(int fd, t_data *param)
@@ -41,11 +44,6 @@ static void	pwd_command(int fd, t_data *param)
 	char *cwd;
 	char buff[4097];
 
-	if (param->argc != 1)
-	{
-		ft_putstr_fd("Wrong numer of arguments in 'pwd'!\n", 1);
-		return ;
-	}
 	cwd = getcwd(buff, 4096);
 	ft_putstr_fd(cwd, fd);
 	write(fd, "\n", 1);
