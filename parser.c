@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/29 14:12:39 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/03 17:55:35 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/03 19:01:25 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,6 +142,7 @@ char		**parser(char *str, t_data *param)
 	{
 		if (str)
 			ft_putstr_fd("-bash; syntax error near unexpected token `;'\n", 1);
+		free(str);
 		return (param->envp);
 	}
 	param->com = ft_split(str, ';');

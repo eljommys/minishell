@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/17 19:50:12 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/03 18:32:12 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/03 18:54:15 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,8 @@ static void	check_type(t_data *param, char *str, char *path)
 	{
 		ft_putstrs_fd("-bash: ", str, ": ", 1);
 		ft_putstrs_fd(strerror(errno), "\n", 0, 1);
-		return ;
 	}
-	if (!(dir = opendir(path)))
+	else if (!(dir = opendir(path)))
 	{
 		fd = open(path, O_RDONLY, 0666);
 		free(param->str);
