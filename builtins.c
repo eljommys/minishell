@@ -6,17 +6,18 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/17 00:01:09 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/02 22:10:14 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/03 12:14:52 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void exit_command(char *str, t_data *param)
+void exit_command(t_data *param)
 {
-	free(str);
+	free(param->str);
 	free_env(param->envp);
 	free_env(param->argv);
+	free_env(param->com);
 	free(param);
 	exit(0);
 }
@@ -91,7 +92,7 @@ void echo_command(t_data *param, int fd)
 		close(fd);
 }
 
-int check_builtins(int fd, char *start, t_data *param)
+int check_builtins(int fd, t_data *param)
 {
 	if (!ft_memcmp(param->argv[0], "echo", 5))
 		echo_command(param, fd);
@@ -111,7 +112,7 @@ int check_builtins(int fd, char *start, t_data *param)
 		param->envp = unset_command(param);
 	else if (!ft_memcmp(param->argv[0], "exit", 5) ||
 			 !ft_memcmp(param->argv[0], "q", 2))
-		exit_command(start, param);
+		exit_command(param);
 	else
 		return (1);
 	return (0);

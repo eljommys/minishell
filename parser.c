@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/29 14:12:39 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/03 11:49:30 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/03 12:21:12 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,24 +119,33 @@ char		**parser(char *str, t_data *param)
 	int		std_out;
 	int		status;
 	int		i;
+	int		j;
 
-	check_env(&str, param);
-	std_out = dup(0);
-	//printf("comando = ->%s<-\n", str);
-	if (str && !str[ft_strlen_pipe(str)])
-		param->envp = check_command(str, param);
-	else if (str)
+	param->com = ft_split(str, ';');
+	j = 0;
+	while (param->com[j])
 	{
-		pipe(fds);
-		pipe(fds + 2);
-		i = check_pipe(fds, str, param);
-		while (i-- > 0)
-			wait(&param->ret);
-		param->ret /= 256;
-		free(str);
-		while (i < 4)
-			close(fds[i++]);
+		check_env(&(param->com[j]), param);
+		std_out = dup(0);
+		printf("comando = ->%s<-\n", str);
+		if (param->com[j] && !param->com[j][ft_strlen_pipe(param->com[j])])
+			param->envp = check_command(param->com[j], param);
+		else if (param->com[j])
+		{
+			pipe(fds);
+			pipe(fds + 2);
+			i = check_pipe(fds, param->com[j], param);
+			while (i-- > 0)
+				wait(&param->ret);
+			param->ret /= 256;
+			//free(param->com[j]);
+			while (i < 4)
+				close(fds[i++]);
+		}
+		dup2(std_out, 0);
+		j++;
 	}
-	dup2(std_out, 0);
+	free(param->str);
+	free_env(param->com);
 	return (param->envp);
 }

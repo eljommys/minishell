@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/16 15:16:03 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/03 11:57:45 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/03 12:10:15 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ static char	*relative_path(char *cwd, char **envp)
 int			main(int argc, char **argv, char **envp)
 {
 	char	c;
-	char	*str;
 	char	*cwd;
 	char	buff[4097];
 	t_data	*param;
@@ -65,7 +64,7 @@ int			main(int argc, char **argv, char **envp)
 	param->ret = 0;
 	while (1)
 	{
-		str = 0;
+		param->str = 0;
 		cwd = relative_path(getcwd(buff, 4096), param->envp);
 		write(1, "\033[1;31mminishell@PARMART-JSERRAN\033[0;0m", 38);
 		ft_putstrs_fd(":\033[1;34m", cwd, "\033[0;0m$ ", 1);
@@ -74,9 +73,9 @@ int			main(int argc, char **argv, char **envp)
 		{
 			if (read(1, &c, 1) == 1 && c == '\n')
 				break ;
-			if (add_char(&str, c))
+			if (add_char(&(param->str), c))
 				return (-1);
 		}
-		envp = parser(str, param);
+		envp = parser(param->str, param);
 	}
 }

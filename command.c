@@ -6,23 +6,11 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/01 18:22:40 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/03 12:04:24 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/03 12:17:20 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static int move_next(char **str)
-{
-	while (**str && **str != ';')
-		(*str)++;
-	if (**str)
-	{
-		(*str)++;
-		return (1);
-	}
-	return (0);
-}
 
 static int redirect(char *str)
 {
@@ -69,11 +57,11 @@ static int set_fd(char *str)
 char **check_command(char *str, t_data *param)
 {
 	int		fd;
-	char	*start;
+	//char	*start;
 	int		status;
 	int 	i;
 
-	start = str;
+	//start = str;
 	param->argc = count_args(str);
 	param->argv = (char **)ft_calloc(sizeof(char *), (param->argc + 1));
 	set_args(param->argv, str, param->argc);
@@ -81,22 +69,17 @@ char **check_command(char *str, t_data *param)
 	//while (param->argv[++i])
 	//	printf("argv[%d] = ->%s<-\n", i, param->argv[i]);
 	//printf("argc = %d\n", param->argc);
-	while (str && *str)
+	fd = set_fd(str);
+	param->ret = check_builtins(fd, param);
+	if (param->ret && (param->ret = check_bin(fd, param)))
 	{
-		fd = set_fd(str);
-		skip_spaces(&str);
-		param->ret = check_builtins(fd, start, param);
-		if (param->ret && (param->ret = check_bin(fd, param)))
-		{
-			ft_putstrs_fd(0, str, ": command not found.\n", 1);
-			param->ret = 127;
-		}
-		if (fd > 1)
-			close(fd);
-		move_next(&str);
+		ft_putstrs_fd(0, str, ": command not found.\n", 1);
+		param->ret = 127;
 	}
-	if (start)
-		free(start);
+	if (fd > 1)
+		close(fd);
+	//if (start)
+	//	free(start);
 	free_env(param->argv);
 	param->argc = 0;
 	return (param->envp);
