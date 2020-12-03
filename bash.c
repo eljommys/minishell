@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/17 19:50:12 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/02 22:22:58 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/03 18:54:15 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,21 +15,23 @@
 static void	check_type(t_data *param, char *str, char *path)
 {
 	DIR			*dir;
-	char		*line;
 	int			fd;
 	int			argc;
 
-	if (errno == ENOENT)
+	if (errno == ENOENT || errno == EACCES)
 	{
 		ft_putstrs_fd("-bash: ", str, ": ", 1);
 		ft_putstrs_fd(strerror(errno), "\n", 0, 1);
-		return ;
 	}
-	if (!(dir = opendir(path)))
+	else if (!(dir = opendir(path)))
 	{
 		fd = open(path, O_RDONLY, 0666);
-		while (get_next_line(fd, &line))
-			param->envp = parser(line, param);
+		free(param->str);
+		while (get_next_line(fd, &(param->str)))
+		{
+			printf("param->str = %s\n\n", param->str);
+			param->envp = parser(param->str, param);
+		}
 		close(fd);
 	}
 	else
@@ -77,7 +79,9 @@ static void	set_path(char *str, char **path)
 	{
 		set_filename(len, &new, str);
 		*path = new;
+		return ;
 	}
+	free(new);
 }
 
 void		bash_command(t_data *param)

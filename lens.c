@@ -31,7 +31,6 @@ int		ft_strlen_pipe(char *str)
 				ft_putstr_fd("Non finished quotes\n", 1);
 				return (0);
 			}
-			i++;
 		}
 		i++;
 	}

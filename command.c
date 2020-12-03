@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/01 18:22:40 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/03 12:17:20 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/03 17:55:28 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,18 +68,21 @@ char **check_command(char *str, t_data *param)
 	//i = -1;
 	//while (param->argv[++i])
 	//	printf("argv[%d] = ->%s<-\n", i, param->argv[i]);
-	//printf("argc = %d\n", param->argc);
-	fd = set_fd(str);
-	param->ret = check_builtins(fd, param);
-	if (param->ret && (param->ret = check_bin(fd, param)))
+	//printf("argc = %d\n\n", param->argc);
+	if (param->argv[0] && *(param->argv[0]))
 	{
-		ft_putstrs_fd(0, str, ": command not found.\n", 1);
-		param->ret = 127;
+		fd = set_fd(str);
+		param->ret = check_builtins(fd, param);
+		if (param->ret && (param->ret = check_bin(fd, param)))
+		{
+			ft_putstrs_fd(0, str, ": command not found.\n", 1);
+			param->ret = 127;
+		}
+		if (fd > 1)
+			close(fd);
+		//if (start)
+		//	free(start);
 	}
-	if (fd > 1)
-		close(fd);
-	//if (start)
-	//	free(start);
 	free_env(param->argv);
 	param->argc = 0;
 	return (param->envp);

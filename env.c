@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/22 15:42:40 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/02 16:11:27 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/03 17:43:35 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,15 +58,17 @@ char		**export_command(t_data *param)
 {
 	int		i;
 	char	**cpy;
+	char	*aux;
 	char	*env;
 
-	if (!param->argv[1][ft_strlen_char(param->argv[1], '=')])
+	env = ft_strdup(param->argv[1]);
+	i = 1;
+	while (param->argv[++i] && (*(param->argv[i]) == ':' || param->argc == 4))
 	{
-		ft_putstr_fd("Use '=' to assign a value.\n", 1);
-		return (param->envp);
+		aux = ft_strjoin(env, param->argv[i]);
+		free(env);
+		env = aux;
 	}
-	env = (param->argc == 3) ?
-		ft_strjoin(param->argv[1], param->argv[2]) : ft_strdup(param->argv[1]);
 	i = 0;
 	while (param->envp[i] &&
 		ft_memcmp(param->envp[i], env, ft_strlen_char(env, '=') + 1))
