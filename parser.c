@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/29 14:12:39 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/03 12:21:12 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/03 14:27:11 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,10 @@ static int	change_env(int i, char *cpy, char **str, t_data *param)
 	cpy = ft_strldup(cpy + i + 1, len - 1);
 	env = (!env) ? ft_strdup(get_env(param->envp, cpy)) : env;
 	free(cpy);
+	cpy = ft_strjoin("\"", env);
+	free(env);
+	env = ft_strjoin(cpy, "\"");
+	free(cpy);
 	aft = ft_strdup(*str + i + len);
 	cpy = ft_strjoin(bef, env);
 	free(*str);
@@ -121,13 +125,19 @@ char		**parser(char *str, t_data *param)
 	int		i;
 	int		j;
 
+	if (!str || !ft_memcmp(str, ";", 2))
+	{
+		if (str)
+			ft_putstr_fd("-bash; syntax error near unexpected token `;'\n", 1);
+		return (param->envp);
+	}
 	param->com = ft_split(str, ';');
 	j = 0;
 	while (param->com[j])
 	{
 		check_env(&(param->com[j]), param);
 		std_out = dup(0);
-		printf("comando = ->%s<-\n", str);
+		printf("comando = ->%s<-\n", param->com[j]);
 		if (param->com[j] && !param->com[j][ft_strlen_pipe(param->com[j])])
 			param->envp = check_command(param->com[j], param);
 		else if (param->com[j])

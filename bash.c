@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/17 19:50:12 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/02 22:22:58 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/03 14:34:16 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,8 +76,11 @@ static void	set_path(char *str, char **path)
 	else
 	{
 		set_filename(len, &new, str);
+		free(*path);
 		*path = new;
+		return ;
 	}
+	free(new);
 }
 
 void		bash_command(t_data *param)

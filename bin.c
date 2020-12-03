@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/23 22:36:37 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/03 12:01:22 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/03 14:32:51 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,17 +50,19 @@ static void	exec_bin(int fd, char *path, t_data *param)
 
 static char	*search_bin(char *str, DIR **dir, struct dirent **d, char **envp)
 {
-	char	*path_str;
-	char	**paths;
-	char	*path;
-	int		i;
+	char		*path_str;
+	char		**paths;
+	char		*path;
+	int			i;
+	struct stat	s;
 
 	path_str = get_env(envp, "PATH");
 	paths = ft_split(path_str, ':');
 	i = -1;
-	while (++i < 8 && paths[i])
+	while (paths[++i])
 	{
-		*dir = opendir(paths[i]);
+		if (!(*dir = opendir(paths[i])) && errno == EACCES)
+			break ;
 		while (*d = readdir(*dir))
 		{
 			if (!ft_memcmp(str, (*d)->d_name, ft_strlen(str) + 1))
@@ -90,9 +92,9 @@ int			check_bin(int fd, t_data *param)
 		path = ft_strjoin(pre_path, d->d_name);
 		exec_bin(fd, path, param);
 		closedir(dir);
+		free(pre_path);
 	}
 	else
 		param->ret = 1;
-	free(pre_path);
 	return (param->ret);
 }
