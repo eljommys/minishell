@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/17 19:50:12 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/03 14:34:16 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/03 16:45:25 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static void	check_type(t_data *param, char *str, char *path)
 	int			fd;
 	int			argc;
 
-	if (errno == ENOENT)
+	if (errno == ENOENT || errno == EACCES)
 	{
 		ft_putstrs_fd("-bash: ", str, ": ", 1);
 		ft_putstrs_fd(strerror(errno), "\n", 0, 1);
