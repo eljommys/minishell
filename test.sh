@@ -44,6 +44,19 @@ env
 echo
 /usr/bin/env
 echo
+echo "TEST PATH RIGHTS==============================="
+echo
+mkdir /tmp/bin
+export PATH=$PATH:/tmp/bin
+touch /tmp/bin/test_exec_rights
+chmod 644 /tmp/bin/test_exec_rights
+test_exec_rights
+echo
+echo "TEST SEMICOLON==============================="
+echo
+;
+echo TOP;ls;echo MIDDLE;ls;echo BOTTOM
+echo
 echo "TEST PATH==============================="
 echo
 unset PATH
@@ -53,16 +66,4 @@ unset PATH
 ls
 /bin/ls
 echo
-echo "TEST PATH RIGHTS==============================="
-echo
-mkdir /tmp/bin
-export PATH=$PATH:/tmp/bin
-touch /tmp/bin/test_exec_rights
-chmod 644 test_exec_rights
-test_exec_rights
-echo
-echo "TEST SEMICOLON==============================="
-echo
-;
-echo TOP;echo MIDDLE;ls;echo BOTTOM
 exit

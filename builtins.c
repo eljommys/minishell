@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/17 00:01:09 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/03 12:14:52 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/03 17:53:49 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,13 +31,18 @@ static void change_dir(char *path, t_data *param)
 	oldpwd = getcwd(buff, 4096);
 	if (chdir(path) == 0)
 	{
-		errno = -1;
-		param->argc = 2;
-		free(param->argv[1]);
-		param->argv[1] = ft_strjoin("OLDPWD=", oldpwd);
+		param->argc = 4;
+		free_env(param->argv);
+		param->argv = (char **)ft_calloc(sizeof(char *), 4);
+		param->argv[0] = ft_strdup("export");
+		param->argv[1] = ft_strdup("OLDPWD=");
+		param->argv[2] = ft_strdup(oldpwd);
 		param->envp = export_command(param);
-		free(param->argv[1]);
-		param->argv[1] = ft_strjoin("PWD=", getcwd(buff, 4096));
+		free_env(param->argv);
+		param->argv = (char **)ft_calloc(sizeof(char *), 4);
+		param->argv[0] = ft_strdup("export");
+		param->argv[1] = ft_strdup("PWD=");
+		param->argv[2] = ft_strdup(getcwd(buff, 4096));
 		param->envp = export_command(param);
 	}
 	else if (ft_putstrs_fd("-bash: cd: ", 0, 0, 1) && lstat(path, &s) != -1)
@@ -79,14 +84,15 @@ void echo_command(t_data *param, int fd)
 {
 	int i;
 
-	i = (!ft_memcmp(param->argv[1], "-n", 3)) ? 1 : 0;
+	i = (param->argc > 1 && !ft_memcmp(param->argv[1], "-n", 3))
+	? 1 : 0;
 	while (++i < param->argc)
 	{
 		ft_putstr_fd(param->argv[i], fd);
 		if (i < param->argc - 1)
 			write(1, " ", 1);
 	}
-	if (ft_memcmp(param->argv[1], "-n", 3))
+	if (param->argc > 1 && ft_memcmp(param->argv[1], "-n", 3))
 		write(fd, "\n", 1);
 	if (fd != 1)
 		close(fd);

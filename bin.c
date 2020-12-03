@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/23 22:36:37 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/03 16:59:06 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/03 18:29:50 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static void	exec_bin(int fd, char *path, t_data *param)
 	free(path);
 }
 
-static char	*search_bin(char *str, DIR **dir, struct dirent **d, char **envp)
+static char	*search_bin(char *str, DIR **dir, struct dirent **d, t_data *param)
 {
 	char		*path_str;
 	char		**paths;
@@ -60,12 +60,19 @@ static char	*search_bin(char *str, DIR **dir, struct dirent **d, char **envp)
 	int			i;
 	struct stat	s;
 
-	path_str = get_env(envp, "PATH");
-	paths = ft_split(path_str, ':');
+	path_str = get_env(param->envp, "PATH");
+	if (path_str)
+		paths = ft_split(path_str, ':');
+	else
+	{
+		ft_putstrs_fd("-bash: ", str, ": No such file or directory\n", 1);
+		param->ret = 0;
+		return (NULL);
+	}
 	i = -1;
 	while (paths[++i])
 	{
-		//printf("path[%d] = %s\n", i, paths[i]);
+		//printf("path[%d] = %s && str = %s\n", i, paths[i], str);
 		*dir = opendir(paths[i]);
 		while ((*dir) && errno != EACCES && (*d = readdir(*dir)))
 		{
@@ -89,8 +96,8 @@ int			check_bin(int fd, t_data *param)
 	char			*pre_path;
 	char			*path;
 
-	pre_path = search_bin(param->argv[0], &dir, &d, param->envp);
-	param->ret = 0;
+	param->ret = 1;
+	pre_path = search_bin(param->argv[0], &dir, &d, param);
 	if (pre_path && *pre_path)
 	{
 		path = ft_strjoin(pre_path, d->d_name);
@@ -98,7 +105,5 @@ int			check_bin(int fd, t_data *param)
 		closedir(dir);
 		free(pre_path);
 	}
-	else
-		param->ret = 1;
 	return (param->ret);
 }

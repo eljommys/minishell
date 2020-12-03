@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/17 19:50:12 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/03 16:45:25 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/03 18:32:12 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 static void	check_type(t_data *param, char *str, char *path)
 {
 	DIR			*dir;
-	char		*line;
 	int			fd;
 	int			argc;
 
@@ -28,8 +27,12 @@ static void	check_type(t_data *param, char *str, char *path)
 	if (!(dir = opendir(path)))
 	{
 		fd = open(path, O_RDONLY, 0666);
-		while (get_next_line(fd, &line))
-			param->envp = parser(line, param);
+		free(param->str);
+		while (get_next_line(fd, &(param->str)))
+		{
+			printf("param->str = %s\n\n", param->str);
+			param->envp = parser(param->str, param);
+		}
 		close(fd);
 	}
 	else
@@ -76,7 +79,6 @@ static void	set_path(char *str, char **path)
 	else
 	{
 		set_filename(len, &new, str);
-		free(*path);
 		*path = new;
 		return ;
 	}
