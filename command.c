@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/01 18:22:40 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/03 01:34:30 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/03 12:04:24 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ char **check_command(char *str, t_data *param)
 		param->ret = check_builtins(fd, start, param);
 		if (param->ret && (param->ret = check_bin(fd, param)))
 		{
-			ft_putstrs_fd(0, str, ": command not found\n", 1);
+			ft_putstrs_fd(0, str, ": command not found.\n", 1);
 			param->ret = 127;
 		}
 		if (fd > 1)

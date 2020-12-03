@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/16 15:16:03 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/02 21:56:08 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/03 11:57:45 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ int			main(int argc, char **argv, char **envp)
 	{
 		str = 0;
 		cwd = relative_path(getcwd(buff, 4096), param->envp);
-		write(1, "\033[1;32mminishell@PARMART-JSERRAN\033[0;0m", 38);
+		write(1, "\033[1;31mminishell@PARMART-JSERRAN\033[0;0m", 38);
 		ft_putstrs_fd(":\033[1;34m", cwd, "\033[0;0m$ ", 1);
 		free(cwd);
 		while (1)
