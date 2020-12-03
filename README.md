@@ -16,6 +16,7 @@
 - Las redirecciones >, “>>” y <
 - Las variables de entorno ($ seguido de caracteres)
 - Las tuberías (también llamadas pipes) |
+- $? debe funcionar como en el bash
 ```
 
 ## In progress commands
@@ -27,6 +28,7 @@
 ## References
 - [Variables de entorno](https://www.youtube.com/watch?v=ZX58AHhXpyA)
 - [Sintaxis del shell](https://pubs.opengroup.org/onlinepubs/009695399/utilities/xcu_chap02.html)
+- [Evaluation](https://github.com/Binary-Hackers/42_Corrections/blob/master/00_Projects/01_Unix/minishell/00.pdf)
 ### Functions
 - [fork: parte 1](https://www.youtube.com/watch?v=VwjP-KFuZCM)
 - [fork: parte 2](https://www.youtube.com/watch?v=Dt9z_ohQWHI)

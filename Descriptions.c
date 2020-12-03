@@ -14,7 +14,7 @@
 	<unistd.h>: write(), read(), close(), fork(), getcwd(), chdir(), execve(), dup(), dup2(), pipe()
 	<dirent.h>: opendir(), readdir(), closedir()
 	<signal.h>: signal(), kill()
-	<errno.h>: errno()
+	<errno.h>: errno()					https://www.youtube.com/watch?v=IZiUT-ipnj0&ab_channel=JacobSorber
 	<string.h>: strerror()
 	<fcntl.h>: open()
 	<sys/wait.h>: wait(), waitpid(), wait3(), wait4()
