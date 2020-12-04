@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/29 14:12:39 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/04 14:51:07 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/04 16:10:02 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,40 +66,22 @@ static int	change_env(int i, char **str, t_data *param)
 	char	*env;
 	char	*aux;
 
-	//printf("str_inicio = ->%s<-\n", *str);
-		//len[1] = 0;
-		/*if ((*str)[i] == '"')
-		{
-			len[0] = ft_strlen_char(*str + i + 1, '"');
-			len[1] = 2;
-		}
-		else
-			len[0] = (ft_strlen_char(*str + i + 1, ':') < ft_strlen_spa(*str + i + 1)) ?
-			ft_strlen_char(*str + i + 1, ':') + 1 : ft_strlen_spa(*str + i + 1) + 1;*/
-	len = ft_strlen_spa(*str + i + 1) + 1;
+	len = (ft_strlen_char(*str + i + 1, ':') < ft_strlen_spa(*str + i + 1)) ?
+	ft_strlen_char(*str + i + 1, ':') + 1 : ft_strlen_spa(*str + i + 1) + 1;
 	bef = ft_strldup(*str, i);
-	//printf("len = %d\n", len);
 	aux = ft_strldup(*str + i + 1, len - 1);
 	env = (!ft_memcmp(aux, "?", 2)) ? ft_itoa(param->ret) : 0;
 	aft = ft_strdup(*str + i + len);
-	//printf("aux = %s\n", aux);
 	env = (!env) ? ft_strdup(get_env(param->envp, aux)) : env;
-	//printf("env = %s\n", env);
 	free(aux);
-		//aux = ft_strjoin("\"", env);
-		//free(env);
-		//env = ft_strjoin(aux, "\"");
-		//free(aux);
 	len = ft_strlen(env);
 	aux = ft_strjoin(bef, env);
 	free(bef);
 	free(env);
 	free(*str);
 	*str = ft_strjoin(aux, aft);
-	//printf("str_final = ->%s<-\n", *str);
 	free(aux);
 	free(aft);
-	//printf("len_final = %d\n", len);
 	return (len);
 }
 
@@ -130,7 +112,7 @@ static void	check_env(char **str, t_data *param)
 	}
 }
 
-char		**parser(char *str, t_data *param)
+/* char		**parser(char *str, t_data *param)
 {
 	int		fds[4];
 	int		std_out;
@@ -162,12 +144,58 @@ char		**parser(char *str, t_data *param)
 			while (i-- > 0)
 				wait(&param->ret);
 			param->ret /= 256;
-			//free(param->com[j]);
 			while (i < 4)
 				close(fds[i++]);
 		}
 		dup2(std_out, 0);
 		j++;
+	}
+	free(param->str);
+	free_env(param->com);
+	return (param->envp);
+} */
+
+static void command_or_pipe(t_data *param, int j)
+{
+	int fds[4];
+	int std_out;
+	int i;
+
+	std_out = dup(0);
+	if (param->com[j] && !param->com[j][ft_strlen_pipe(param->com[j])])
+		param->envp = check_command(param->com[j], param);
+	else if (param->com[j])
+	{
+		pipe(fds);
+		pipe(fds + 2);
+		i = check_pipe(fds, param->com[j], param);
+		while (i-- > 0)
+			wait(&param->ret);
+		param->ret /= 256;
+		while (i < 4)
+			close(fds[i++]);
+	}
+	dup2(std_out, 0);
+}
+
+char		**parser(char *str, t_data *param)
+{
+	int i;
+
+	if (!str || !ft_memcmp(str, ";", 2))
+	{
+		if (str)
+			ft_putstr_fd("-bash; syntax error near unexpected token `;'\n", 1);
+		free(str);
+		return (param->envp);
+	}
+	param->com = ft_split(str, ';');
+	i = 0;
+	while (param->com[i])
+	{
+		check_env(&(param->com[i]), param);
+		command_or_pipe(param, i);
+		i++;
 	}
 	free(param->str);
 	free_env(param->com);

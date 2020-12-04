@@ -21,6 +21,8 @@ static int	ft_strlen_arg(char *str)
 	quote = 0;
 	if (str[i] == '"' || str[i] == '\'')
 		i = ft_strlen_char(str + i + 1, str[i]) + 2;
+	else if (ft_strlen_char(str, ':')  < ft_strlen_spa(str))
+		i = ft_strlen(str);
 	else
 		i = ft_strlen_spa(str);
 	return (i);
@@ -37,8 +39,6 @@ int			count_args(char *str)
 	{
 		skip_spaces(&str);
 		c = (*str == '"' || *str == '\'') ? 2 : 0;
-		if (i > 10)
-			exit (0);
 		str += ft_strlen_arg(str);
 		i++;
 		skip_spaces(&str);
