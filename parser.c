@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/29 14:12:39 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/04 12:36:27 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/04 13:37:07 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,7 +150,7 @@ char		**parser(char *str, t_data *param)
 	{
 		check_env(&(param->com[j]), param);
 		std_out = dup(0);
-		printf("comando = ->%s<-\n", param->com[j]);
+		//printf("comando = ->%s<-\n", param->com[j]);
 		if (param->com[j] && !param->com[j][ft_strlen_pipe(param->com[j])])
 			param->envp = check_command(param->com[j], param);
 		else if (param->com[j])
@@ -161,7 +161,6 @@ char		**parser(char *str, t_data *param)
 			while (i-- > 0)
 				wait(&param->ret);
 			param->ret /= 256;
-			//free(param->com[j]);
 			while (i < 4)
 				close(fds[i++]);
 		}
