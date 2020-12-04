@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/16 15:16:03 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/04 20:04:24 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/04 20:55:18 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,8 @@ int			main(int argc, char **argv, char **envp)
 	char	buff[4097];
 	t_data	*param;
 	int		sample;
+	int		fds[2];
+	int		std[2];
 
 	param = (t_data *)malloc(sizeof(t_data));
 	param->envp = copy_env(envp, 0);
@@ -74,7 +76,7 @@ int			main(int argc, char **argv, char **envp)
 				ft_putstr_fd("\nlogout\n", 1);
 				exit(0);
 		}
-		if (sample)
+		else if (sample)
 			envp = parser(param->str, param);
 	}
 }
