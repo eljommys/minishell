@@ -20,16 +20,9 @@ static int	ft_strlen_arg(char *str)
 	i = 0;
 	quote = 0;
 	if (str[i] == '"' || str[i] == '\'')
-	{
-		quote = str[i];
-		i++;
-		while (str[i] != quote)
-			i++;
-		i++;
-	}
+		i = ft_strlen_char(str + i + 1, str[i]) + 2;
 	else
 		i = ft_strlen_spa(str);
-	i = (quote) ? i - 2 : i;
 	return (i);
 }
 
@@ -37,15 +30,16 @@ int			count_args(char *str)
 {
 	int		i;
 	char	c;
-	int		j;
 
 	i = 0;
 	while (*str && *str != '|' && *str != '&' && *str != '>' &&
 		*str != ';')
 	{
 		skip_spaces(&str);
-		j = (*str == '"' || *str == '\'') ? 2 : 0;
-		str += ft_strlen_arg(str) + j;
+		c = (*str == '"' || *str == '\'') ? 2 : 0;
+		if (i > 10)
+			exit (0);
+		str += ft_strlen_arg(str);
 		i++;
 		skip_spaces(&str);
 	}
@@ -64,8 +58,8 @@ void		set_args(char **argv, char *str, int argc)
 		skip_spaces(&str);
 		len = ft_strlen_arg(str);
 		quotes = (*str == '"' || *str == '\'') ? 1 : 0;
-		argv[i] = ft_strldup(str + quotes, len);
-		str += len + quotes * 2;
+		argv[i] = ft_strldup(str + quotes , len - quotes * 2);
+		str += len;
 		i++;
 	}
 }

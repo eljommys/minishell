@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/22 15:42:40 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/04 12:41:30 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/04 15:43:49 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ char		**unset_command(t_data *param)
 	char	*env;
 	char	**cpy;
 
+	if (param->argc < 2)
+		return (param->envp);
 	len = strlen(param->argv[1]);
 	env = ft_strjoin(param->argv[1], "=");
 	i = 0;
@@ -58,33 +60,22 @@ char		**export_command(t_data *param)
 {
 	int		i;
 	char	**cpy;
-	char	*aux;
-	char	*env;
 
-	env = ft_strdup(param->argv[1]);
-	i = 1;
-	while (param->argv[++i] && (*(param->argv[i]) == ':' || param->argc <= 4))
-	{
-		aux = ft_strjoin(env, param->argv[i]);
-		free(env);
-		env = aux;
-	}
 	i = 0;
 	while (param->envp[i] &&
-		ft_memcmp(param->envp[i], env, ft_strlen_char(env, '=') + 1))
+		ft_memcmp(param->envp[i], param->argv[1], ft_strlen(param->argv[1])))
 		i++;
 	if (!param->envp[i])
 	{
 		cpy = copy_env(param->envp, 1);
-		cpy[i] = env;
+		cpy[i] = ft_strjoin(param->argv[1], param->argv[2]);
 		free_env(param->envp);
 	}
 	else
 	{
 		cpy = param->envp;
 		free(param->envp[i]);
-		param->envp[i] = env;
-		//env = ft_strldup(param->envp[i], ft_strlen_char(param->envp[i], '='));
+		param->envp[i] = ft_strjoin(param->argv[1], param->argv[2]);
 	}
 	return (cpy);
 }

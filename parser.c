@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/29 14:12:39 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/04 12:36:27 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/04 14:51:07 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,36 +60,37 @@ static int	check_pipe(int *fds, char *str, t_data *param)
 
 static int	change_env(int i, char **str, t_data *param)
 {
-	int		len[2];
+	int		len;
 	char	*bef;
 	char	*aft;
 	char	*env;
 	char	*aux;
 
 	//printf("str_inicio = ->%s<-\n", *str);
-	len[1] = 0;
-	if ((*str)[i] == '"')
-	{
-		len[0] = ft_strlen_char(*str + i + 1, '"');
-		len[1] = 2;
-	}
-	else
-		len[0] = (ft_strlen_char(*str + i + 1, ':') < ft_strlen_spa(*str + i + 1)) ?
-		ft_strlen_char(*str + i + 1, ':') + 1 : ft_strlen_spa(*str + i + 1) + 1;
+		//len[1] = 0;
+		/*if ((*str)[i] == '"')
+		{
+			len[0] = ft_strlen_char(*str + i + 1, '"');
+			len[1] = 2;
+		}
+		else
+			len[0] = (ft_strlen_char(*str + i + 1, ':') < ft_strlen_spa(*str + i + 1)) ?
+			ft_strlen_char(*str + i + 1, ':') + 1 : ft_strlen_spa(*str + i + 1) + 1;*/
+	len = ft_strlen_spa(*str + i + 1) + 1;
 	bef = ft_strldup(*str, i);
-	//printf("len = %d\n", len[0]);
-	aux = ft_strldup(*str + i + 1 + len[1] / 2, len[0] - 1);
+	//printf("len = %d\n", len);
+	aux = ft_strldup(*str + i + 1, len - 1);
 	env = (!ft_memcmp(aux, "?", 2)) ? ft_itoa(param->ret) : 0;
-	aft = ft_strdup(*str + i + len[0] + len[1]);
+	aft = ft_strdup(*str + i + len);
 	//printf("aux = %s\n", aux);
 	env = (!env) ? ft_strdup(get_env(param->envp, aux)) : env;
 	//printf("env = %s\n", env);
 	free(aux);
-	aux = ft_strjoin("\"", env);
-	free(env);
-	env = ft_strjoin(aux, "\"");
-	free(aux);
-	len[0] = ft_strlen(env);
+		//aux = ft_strjoin("\"", env);
+		//free(env);
+		//env = ft_strjoin(aux, "\"");
+		//free(aux);
+	len = ft_strlen(env);
 	aux = ft_strjoin(bef, env);
 	free(bef);
 	free(env);
@@ -98,8 +99,8 @@ static int	change_env(int i, char **str, t_data *param)
 	//printf("str_final = ->%s<-\n", *str);
 	free(aux);
 	free(aft);
-	//printf("len_final = %d\n", len[0]);
-	return (len[0]);
+	//printf("len_final = %d\n", len);
+	return (len);
 }
 
 static void	check_env(char **str, t_data *param)
@@ -123,7 +124,7 @@ static void	check_env(char **str, t_data *param)
 			}
 			i++;
 		}
-		if ((*str)[i] == '$' || ((*str)[i] == '"' && (*str)[i + 1] == '$'))
+		if ((*str)[i] == '$')
 			i += change_env(i, str, param) - 1;
 		i++;
 	}
