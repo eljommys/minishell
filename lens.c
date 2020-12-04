@@ -53,10 +53,13 @@ int		ft_strlen_spa(char *str)
 
 	len = 0;
 	while (*str && *str != ' ' && *str != '>' && *str != ';' && *str != '<' &&
-			*str != '|' && *str != '"' && *str != '\'' && *str != '$')
+			*str != '|' && *str != '"' && *str != '\'' && *str != '$' &&
+			*str != '=')
 	{
 		len++;
 		str++;
 	}
+	if (*str == '=')
+		len++;
 	return (len);
 }

@@ -1,5 +1,10 @@
 # minishell
 
+## Scheme
+
+![Scheme](minishell.png)
+
+
 ## Developed commands
 
 ```bash
