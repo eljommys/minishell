@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/16 15:16:03 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/03 12:10:15 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/04 17:44:31 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ int			main(int argc, char **argv, char **envp)
 	param->envp = copy_env(envp, 0);
 	param->argv = argv;
 	param->ret = 0;
+	param->child = 0;
 	while (1)
 	{
 		param->str = 0;

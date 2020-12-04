@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/16 15:16:49 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/04 16:40:22 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/04 17:44:42 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ typedef struct		s_data{
 	int		ret;
 	char	*str;
 	char	**com;
+	int		child;
 }					t_data;
 
 void	skip_spaces(char **str);
