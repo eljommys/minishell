@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/01 18:22:40 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/04 18:07:03 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/04 20:35:08 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ static int set_fd(char *str)
 char **check_command(char *str, t_data *param)
 {
 	int		fd;
+	int		i;
 
 	param->argc = count_args(str);
 	param->argv = (char **)ft_calloc(sizeof(char *), (param->argc + 1));

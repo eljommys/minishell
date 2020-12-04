@@ -55,6 +55,7 @@ void cd_command(t_data *param)
 		change_dir(path, param);
 		if (errno > 0)
 			ft_putstrs_fd(strerror(errno), "\n", 0, 1);
+		errno = 0;
 	}
 	else
 		ft_putstr_fd("-bash: cd: too many arguments\n", 1);

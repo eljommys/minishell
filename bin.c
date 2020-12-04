@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/23 22:36:37 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/04 18:19:57 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/04 20:40:35 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ static void	set_in(char **argv)
 
 static void	exec_bin(int fd, char *path, t_data *param)
 {
+	int	status;
+
 	if (!fork())
 	{
 		signal(SIGINT, child_sig_handler);
@@ -48,8 +50,7 @@ static void	exec_bin(int fd, char *path, t_data *param)
 		}
 		exit(0);
 	}
-	wait(&(param->ret));
-	param->ret /= 256;
+	wait(&status);
 	free(path);
 }
 
@@ -109,6 +110,7 @@ int			check_bin(int fd, t_data *param)
 	pre_path = search_bin(param->argv[0], &dir, &d, param);
 	if (pre_path && *pre_path)
 	{
+		param->ret = 0;
 		path = ft_strjoin(pre_path, d->d_name);
 		exec_bin(fd, path, param);
 		closedir(dir);
