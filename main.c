@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/16 15:16:03 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/04 17:44:31 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/04 19:06:52 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,29 @@ static char	*relative_path(char *cwd, char **envp)
 	return (path);
 }
 
-int			main(int argc, char **argv, char **envp)
+void		sig_handler(int sig)
+{
+	char *cwd;
+	char buff[4097];
+
+	if (sig == SIGINT)
+	{
+	cwd = getcwd(buff, 4096);
+	write(1, "\n", 1);
+	write(1, "\033[1;31mminishell@PARMART-JSERRAN\033[0;0m", 38);
+	ft_putstrs_fd(":\033[1;34m", cwd, "\033[0;0m$ ", 1);
+	}
+	else if (sig == SIGQUIT)
+		exit(0);
+}
+
+void		child_sig_handler(int sig)
+{
+	if (sig == SIGINT)
+		exit(0);
+}
+
+/* int			main(int argc, char **argv, char **envp)
 {
 	char	c;
 	char	*cwd;
@@ -63,20 +85,57 @@ int			main(int argc, char **argv, char **envp)
 	param->argv = argv;
 	param->ret = 0;
 	param->child = 0;
+	signal(SIGINT, sig_handler);
+	signal(SIGQUIT, sig_handler);
 	while (1)
 	{
 		param->str = 0;
 		cwd = relative_path(getcwd(buff, 4096), param->envp);
-		write(1, "\033[1;31mminishell@PARMART-JSERRAN\033[0;0m", 38);
+		write(1, "\r\033[1;31mminishell@PARMART-JSERRAN\033[0;0m", 39);
 		ft_putstrs_fd(":\033[1;34m", cwd, "\033[0;0m$ ", 1);
 		free(cwd);
 		while (1)
 		{
-			if (read(1, &c, 1) == 1 && c == '\n')
+			if ((read(1, &c, 1) == 1 && c == '\n'))
 				break ;
 			if (add_char(&(param->str), c))
 				return (-1);
 		}
 		envp = parser(param->str, param);
+	}
+} */
+
+int			main(int argc, char **argv, char **envp)
+{
+	char	c;
+	char	*cwd;
+	char	buff[4097];
+	t_data	*param;
+	int		out;
+	int		in;
+
+	param = (t_data *)malloc(sizeof(t_data));
+	param->envp = copy_env(envp, 0);
+	param->argv = argv;
+	param->ret = 0;
+	param->child = 0;
+	signal(SIGINT, sig_handler);
+	signal(SIGQUIT, sig_handler);
+	while (1)
+	{
+		param->str = 0;
+		cwd = relative_path(getcwd(buff, 4096), param->envp);
+		write(1, "\r\033[1;31mminishell@PARMART-JSERRAN\033[0;0m", 39);
+		ft_putstrs_fd(":\033[1;34m", cwd, "\033[0;0m$ ", 1);
+		free(cwd);
+		if (!(out = get_next_line(1, &(param->str))) && !ft_strlen(param->str))
+		{
+				free(param->str);
+				ft_putstr_fd("logout\n", 1);
+				exit(0);
+		}
+		else if (out)
+			envp = parser(param->str, param);
+		ft_putstrs_fd("\r", param->str, 0, 1);
 	}
 }

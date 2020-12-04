@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/17 19:50:12 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/04 17:42:28 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/04 18:11:33 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,7 @@ void		bash_command(t_data *param)
 	set_path(param->argv[0], &path);
 	if (!fork())
 	{
+		signal(SIGINT, child_sig_handler);
 		if (execve(path, param->argv, param->envp))
 			check_type(param, start, path);
 		exit(0);

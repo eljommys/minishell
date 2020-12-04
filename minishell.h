@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/16 15:16:49 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/04 17:44:42 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/04 18:21:42 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,5 +53,7 @@ int		check_bin(int fd, t_data *param);
 int		check_pipe(int *fds, char *str, t_data *param);
 char	**check_command(char *str, t_data *param);
 char	**parser(char *str, t_data *param);
+void	sig_handler(int sig);
+void	child_sig_handler(int sig);
 
 #endif

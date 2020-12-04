@@ -19,6 +19,7 @@ static void	pipe_son(int *flag, int *fds, char *str, t_data *param)
 
 	if (!fork())
 	{
+		signal(SIGINT, child_sig_handler);
 		if (!flag[0])
 			dup2(fds[0], 0);
 		if (!flag[1])
