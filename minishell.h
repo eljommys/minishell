@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/16 15:16:49 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/03 12:14:58 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/04 16:40:22 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,12 +42,14 @@ int		count_args(char *str);
 void	set_args(char **argv, char *str, int argc);
 
 void	bash_command(t_data *param);
+void	cd_command(t_data *param);
 void	env_command(t_data *param, int fd);
 char	**export_command(t_data *param);
 char	**unset_command(t_data *param);
 void	exit_command(t_data *param);
 int		check_builtins(int fd, t_data *param);
 int		check_bin(int fd, t_data *param);
+int		check_pipe(int *fds, char *str, t_data *param);
 char	**check_command(char *str, t_data *param);
 char	**parser(char *str, t_data *param);
 

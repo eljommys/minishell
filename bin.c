@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/23 22:36:37 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/03 18:44:37 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/04 16:35:17 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,13 +52,10 @@ static void	exec_bin(int fd, char *path, t_data *param)
 	free(path);
 }
 
-static char	*search_bin(char *str, DIR **dir, struct dirent **d, t_data *param)
+static char	**split_path(t_data *param, char *str)
 {
-	char		*path_str;
-	char		**paths;
-	char		*path;
-	int			i;
-	struct stat	s;
+	char *path_str;
+	char **paths;
 
 	path_str = get_env(param->envp, "PATH");
 	if (path_str)
@@ -69,10 +66,21 @@ static char	*search_bin(char *str, DIR **dir, struct dirent **d, t_data *param)
 		param->ret = 0;
 		return (NULL);
 	}
+	return (paths);
+}
+
+static char	*search_bin(char *str, DIR **dir, struct dirent **d, t_data *param)
+{
+	char		**paths;
+	char		*path;
+	int			i;
+	struct stat	s;
+
+	if (!(paths = split_path(param, str)))
+		return (NULL);
 	i = -1;
 	while (paths[++i])
 	{
-		//printf("path[%d] = %s && str = %s\n", i, paths[i], str);
 		*dir = opendir(paths[i]);
 		while ((*dir) && errno != EACCES && (*d = readdir(*dir)))
 		{
