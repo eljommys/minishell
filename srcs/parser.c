@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/29 14:12:39 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/04 20:35:11 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/04 21:13:53 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,7 @@ static int	change_env(int i, char **str, t_data *param)
 static void	check_env(char **str, t_data *param)
 {
 	int i;
-	char *cpy;
 
-	cpy = *str;
 	i = 0;
 	while ((*str) && (*str)[i])
 	{

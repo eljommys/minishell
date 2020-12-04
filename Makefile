@@ -1,51 +1,55 @@
-NAME	=	minishell
+NAME =	minishell
 
-SRCS	=	main.c\
-			builtins.c\
-			bash.c\
-			env.c\
-			bin.c\
-			utils.c\
-			parser.c\
-			command.c\
-			args.c\
-			lens.c\
-			pipe.c\
-			cd.c\
+SRCS =	srcs/main.c\
+		srcs/builtins.c\
+		srcs/bash.c\
+		srcs/env.c\
+		srcs/bin.c\
+		srcs/utils.c\
+		srcs/parser.c\
+		srcs/command.c\
+		srcs/args.c\
+		srcs/lens.c\
+		srcs/pipe.c\
+		srcs/cd.c\
 
-OBJS	=	$(SRCS:.c=.o)
+OBJS = $(SRCS:.c=.o)
 
-LIBFT	= libft/libft.a
-L_PATH	= ./libft/
+CC = gcc
 
-CC		= gcc
-CFLAGS	= -Wall -Werror -Wextra -g3 #-fsanitize=address
+RM = rm -rf
 
-all: $(NAME)
+CFLAGS = -Wall -Werror -Wextra -g3
 
-$(NAME):
-	make -C $(L_PATH)
-	$(CC) -c $(SRCS)
-	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -o $(NAME)
+all:		$(NAME)
+
+%.o: %.c
+	$(CC) $(CFLAGS) -c -I./libft/ $< -o $(<:.c=.o)
+
+$(NAME):	$(OBJS)
+		cd ./libft/ && make
+		$(CC) $(CFLAGS) -o $(NAME) $(OBJS) ./libft/libft.a
 
 clean:
-	rm -rf $(OBJS)
+		$(RM) $(OBJS)
+		@make clean -C libft
 
-fclean: clean
-	rm -rf $(NAME)
+fclean:		clean
+		$(RM) $(NAME)
+		@make fclean -C libft
 
-ffclean: fclean
-	make -C $(L_PATH) fclean
-
-re: fclean $(NAME)
+re:		fclean all
 
 leaks:
 	valgrind --leak-check=full --show-leak-kinds=all ./$(NAME)
 
 git:
-	make ffclean
+	make fclean
 	git add .
 	git commit -m "make done"
 	git push
 
-.PHONY: all clean fclean ffclean re
+norme:
+	norminette ./src/* ./libft/*
+
+.PHONY:		all clean fclean re leaks git norme

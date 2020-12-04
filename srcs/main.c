@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/16 15:16:03 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/04 20:55:18 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/04 21:11:51 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,22 +47,27 @@ void		child_sig_handler(int sig)
 		exit(0);
 }
 
+static void	init_param(t_data **param, char **argv, char **envp)
+{
+	(*param) = (t_data *)malloc(sizeof(t_data));
+	(*param)->envp = copy_env(envp, 0);
+	(*param)->argv = argv;
+	(*param)->ret = 0;
+	(*param)->child = 0;
+	signal(SIGINT, sig_handler);
+	signal(SIGQUIT, sig_handler);
+}
+
 int			main(int argc, char **argv, char **envp)
 {
 	char	*cwd;
 	char	buff[4097];
 	t_data	*param;
 	int		sample;
-	int		fds[2];
-	int		std[2];
 
-	param = (t_data *)malloc(sizeof(t_data));
-	param->envp = copy_env(envp, 0);
-	param->argv = argv;
-	param->ret = 0;
-	param->child = 0;
-	signal(SIGINT, sig_handler);
-	signal(SIGQUIT, sig_handler);
+	if (argc != 1)
+		return (1);
+	init_param(&param, argv, envp);
 	while (1)
 	{
 		param->str = 0;
@@ -79,4 +84,5 @@ int			main(int argc, char **argv, char **envp)
 		else if (sample)
 			envp = parser(param->str, param);
 	}
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/17 19:50:12 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/04 18:11:33 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/04 21:13:06 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ static void	check_type(t_data *param, char *str, char *path)
 {
 	DIR			*dir;
 	int			fd;
-	int			argc;
 
 	if (errno == ENOENT || errno == EACCES)
 	{

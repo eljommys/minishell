@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/01 18:22:40 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/04 20:35:08 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/04 21:14:44 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static int redirect(char *str)
 		str++;
 		skip_spaces(&str);
 		fd = open(str, O_RDWR | O_CREAT | O_APPEND, 0666);
-		while (len = read(fd, &c, 1))
+		while ((len = read(fd, &c, 1)))
 			if (len == -1)
 			{
 				write(1, "Couldn't read file\n", 19);
@@ -57,7 +57,6 @@ static int set_fd(char *str)
 char **check_command(char *str, t_data *param)
 {
 	int		fd;
-	int		i;
 
 	param->argc = count_args(str);
 	param->argv = (char **)ft_calloc(sizeof(char *), (param->argc + 1));

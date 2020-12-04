@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/17 00:01:09 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/04 16:39:14 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/04 21:12:47 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void exit_command(t_data *param)
 	exit(0);
 }
 
-static void pwd_command(int fd, t_data *param)
+static void pwd_command(int fd)
 {
 	char *cwd;
 	char buff[4097];
@@ -55,7 +55,7 @@ int check_builtins(int fd, t_data *param)
 	if (!ft_memcmp(param->argv[0], "echo", 5))
 		echo_command(param, fd);
 	else if (!ft_memcmp(param->argv[0], "pwd", 4))
-		pwd_command(fd, param);
+		pwd_command(fd);
 	else if (!ft_memcmp(param->argv[0], "cd", 3))
 		cd_command(param);
 	else if (!ft_memcmp(param->argv[0], "env", 4))

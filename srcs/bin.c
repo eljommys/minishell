@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/23 22:36:37 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/04 20:40:35 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/04 21:13:20 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,6 @@ static char	*search_bin(char *str, DIR **dir, struct dirent **d, t_data *param)
 	char		**paths;
 	char		*path;
 	int			i;
-	struct stat	s;
 
 	if (!(paths = split_path(param, str)))
 		return (NULL);
