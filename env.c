@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/22 15:42:40 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/03 17:43:35 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/04 12:41:30 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ char		**export_command(t_data *param)
 
 	env = ft_strdup(param->argv[1]);
 	i = 1;
-	while (param->argv[++i] && (*(param->argv[i]) == ':' || param->argc == 4))
+	while (param->argv[++i] && (*(param->argv[i]) == ':' || param->argc <= 4))
 	{
 		aux = ft_strjoin(env, param->argv[i]);
 		free(env);
