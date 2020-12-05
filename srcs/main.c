@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/16 15:16:03 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/05 09:33:30 by parmarti         ###   ########.fr       */
+/*   Updated: 2020/12/05 11:44:40 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static void	put_prompt(char **envp)
 		path = ft_strdup(cwd);
 	else
 		path = ft_strjoin("~", cwd + ft_strlen(home));
-	write(1, "\r\033[1;31mminishell@PARMART-JSERRAN\033[0;0m", 39);
+	write(1, "\033[1;31mminishell@PARMART-JSERRAN\033[0;0m", 38);
 	ft_putstrs_fd(":\033[1;34m", path, "\033[0;0m$ ", 1);
 	free(path);
 }
@@ -39,7 +39,7 @@ static void	sig_handler(int sig)
 	{
 		cwd = getcwd(buff, 4096);
 		write(1, "\n", 1);
-		write(1, "\033[1;31mminishell@PARMART-JSERRAN\033[0;0m", 38);
+		write(1, "\r\033[1;31mminishell@PARMART-JSERRAN\033[0;0m", 39);
 		ft_putstrs_fd(":\033[1;34m", cwd, "\033[0;0m$ ", 1);
 	}
 	else if (sig == SIGQUIT)
