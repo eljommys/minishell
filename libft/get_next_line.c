@@ -6,13 +6,13 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/24 21:04:43 by marvin            #+#    #+#             */
-/*   Updated: 2020/11/24 21:04:43 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/05 09:50:52 by parmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_strncpy1(char *dst, const char *src, size_t size)
+void		ft_strncpy1(char *dst, const char *src, size_t size)
 {
 	size_t	i;
 

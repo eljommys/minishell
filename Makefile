@@ -50,6 +50,6 @@ git:
 	git push
 
 norme:
-	norminette ./srcs/*
+	norminette ./srcs/* ./libft/*
 
 .PHONY:		all clean fclean re leaks git norme
