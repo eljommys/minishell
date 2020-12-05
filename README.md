@@ -89,8 +89,7 @@ bash or zsh. You are going to learn a lot about processes and file descriptors.
 > Deployment
 ```shell
 git clone https://github.com/j53rran0/minishell.git
-make
-./minishell
+make && ./minishell
 ```
 
 ## References
@@ -138,6 +137,6 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 - 42 Madrid - [parmarti](https://profile.intra.42.fr/users/parmarti)
 
 ### Jaime
-- 42 Madrid - [parmarti](https://profile.intra.42.fr/users/jserrano)
+- 42 Madrid - [Jserrano](https://profile.intra.42.fr/users/jserrano)
 
 [Back To The Top](#minishell)
