@@ -1,22 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cd .c                                              :+:      :+:    :+:   */
+/*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 16:39:19 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/04 16:39:19 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/05 09:38:52 by parmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void change_dir(char *path, t_data *param)
+static void	change_dir(char *path, t_data *param)
 {
-	char 		buff[4097];
+	char		buff[4097];
 	char		*oldpwd;
-	struct stat s;
+	struct stat	s;
 
 	oldpwd = getcwd(buff, 4096);
 	if (chdir(path) == 0)
@@ -39,7 +39,7 @@ static void change_dir(char *path, t_data *param)
 		ft_putstrs_fd(0, param->argv[1], ": ", 1);
 }
 
-void cd_command(t_data *param)
+void		cd_command(t_data *param)
 {
 	char *path;
 

@@ -6,13 +6,13 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/01 18:22:40 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/04 21:14:44 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/05 09:31:19 by parmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int redirect(char *str)
+static int	redirect(char *str)
 {
 	int		append;
 	int		len;
@@ -40,7 +40,7 @@ static int redirect(char *str)
 	return (fd);
 }
 
-static int set_fd(char *str)
+static int	set_fd(char *str)
 {
 	int fd;
 
@@ -54,7 +54,7 @@ static int set_fd(char *str)
 	return (fd);
 }
 
-char **check_command(char *str, t_data *param)
+char		**check_command(char *str, t_data *param)
 {
 	int		fd;
 

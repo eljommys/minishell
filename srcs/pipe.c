@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 16:11:27 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/04 16:11:27 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/05 09:35:47 by parmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static void	pipe_son(int *flag, int *fds, char *str, t_data *param)
 	}
 }
 
-int	check_pipe(int *fds, char *str, t_data *param)
+int			check_pipe(int *fds, char *str, t_data *param)
 {
 	int		i;
 	int		*flag;

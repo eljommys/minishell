@@ -6,13 +6,13 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/17 00:01:09 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/04 21:12:47 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/05 09:27:54 by parmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void exit_command(t_data *param)
+void		exit_command(t_data *param)
 {
 	free(param->str);
 	free_env(param->envp);
@@ -22,7 +22,7 @@ void exit_command(t_data *param)
 	exit(0);
 }
 
-static void pwd_command(int fd)
+static void	pwd_command(int fd)
 {
 	char *cwd;
 	char buff[4097];
@@ -32,7 +32,7 @@ static void pwd_command(int fd)
 	write(fd, "\n", 1);
 }
 
-void echo_command(t_data *param, int fd)
+static void	echo_command(t_data *param, int fd)
 {
 	int i;
 
@@ -50,7 +50,7 @@ void echo_command(t_data *param, int fd)
 		close(fd);
 }
 
-int check_builtins(int fd, t_data *param)
+int			check_builtins(int fd, t_data *param)
 {
 	if (!ft_memcmp(param->argv[0], "echo", 5))
 		echo_command(param, fd);
@@ -61,15 +61,15 @@ int check_builtins(int fd, t_data *param)
 	else if (!ft_memcmp(param->argv[0], "env", 4))
 		env_command(param, fd);
 	else if (!ft_memcmp(param->argv[0], "./", 2) ||
-			 !ft_memcmp(param->argv[0], "../", 3) ||
-			 !ft_memcmp(param->argv[0], "/", 1))
+			!ft_memcmp(param->argv[0], "../", 3) ||
+			!ft_memcmp(param->argv[0], "/", 1))
 		bash_command(param);
 	else if (!ft_memcmp(param->argv[0], "export", 7))
 		param->envp = export_command(param);
 	else if (!ft_memcmp(param->argv[0], "unset", 6))
 		param->envp = unset_command(param);
 	else if (!ft_memcmp(param->argv[0], "exit", 5) ||
-			 !ft_memcmp(param->argv[0], "q", 2))
+			!ft_memcmp(param->argv[0], "q", 2))
 		exit_command(param);
 	else
 		return (1);

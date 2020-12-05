@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/16 15:16:03 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/05 08:54:54 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/05 09:33:30 by parmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,10 @@ static void	sig_handler(int sig)
 
 	if (sig == SIGINT)
 	{
-	cwd = getcwd(buff, 4096);
-	write(1, "\n", 1);
-	write(1, "\033[1;31mminishell@PARMART-JSERRAN\033[0;0m", 38);
-	ft_putstrs_fd(":\033[1;34m", cwd, "\033[0;0m$ ", 1);
+		cwd = getcwd(buff, 4096);
+		write(1, "\n", 1);
+		write(1, "\033[1;31mminishell@PARMART-JSERRAN\033[0;0m", 38);
+		ft_putstrs_fd(":\033[1;34m", cwd, "\033[0;0m$ ", 1);
 	}
 	else if (sig == SIGQUIT)
 		exit(0);
@@ -69,11 +69,12 @@ int			main(int argc, char **argv, char **envp)
 	{
 		put_prompt(param->envp);
 		param->str = 0;
-		if (!(input = get_next_line(1, &(param->str))) && !ft_strlen(param->str))
+		if (!(input = get_next_line(1, &(param->str)))
+				&& !ft_strlen(param->str))
 		{
-				free(param->str);
-				ft_putstr_fd("\nlogout\n", 1);
-				exit(0);
+			free(param->str);
+			ft_putstr_fd("\nlogout\n", 1);
+			exit(0);
 		}
 		else if (input)
 			envp = parser(param->str, param);
