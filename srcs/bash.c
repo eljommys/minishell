@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/17 19:50:12 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/05 08:42:54 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/05 12:14:50 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,9 +91,9 @@ void		bash_command(t_data *param)
 		param->argv[0] += (!ft_memcmp(param->argv[0], "./", 2)) ? 2 : 0;
 	path = getcwd(buff, 4096);
 	set_path(param->argv[0], &path);
+	signal(SIGINT, child_sig_handler);
 	if (!fork())
 	{
-		signal(SIGINT, child_sig_handler);
 		if (execve(path, param->argv, param->envp))
 			check_type(param, start, path);
 		exit(0);

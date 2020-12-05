@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/16 15:16:03 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/05 09:33:30 by parmarti         ###   ########.fr       */
+/*   Updated: 2020/12/05 12:17:41 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static void	put_prompt(char **envp)
 		path = ft_strdup(cwd);
 	else
 		path = ft_strjoin("~", cwd + ft_strlen(home));
-	write(1, "\r\033[1;31mminishell@PARMART-JSERRAN\033[0;0m", 39);
+	write(1, "\033[1;31mminishell@PARMART-JSERRAN\033[0;0m", 38);
 	ft_putstrs_fd(":\033[1;34m", path, "\033[0;0m$ ", 1);
 	free(path);
 }
@@ -41,6 +41,7 @@ static void	sig_handler(int sig)
 		write(1, "\n", 1);
 		write(1, "\033[1;31mminishell@PARMART-JSERRAN\033[0;0m", 38);
 		ft_putstrs_fd(":\033[1;34m", cwd, "\033[0;0m$ ", 1);
+		signal(SIGINT, sig_handler);
 	}
 	else if (sig == SIGQUIT)
 		exit(0);
@@ -63,11 +64,11 @@ int			main(int argc, char **argv, char **envp)
 	if (argc != 1)
 		return (1);
 	init_param(&param, argv, envp);
-	signal(SIGINT, sig_handler);
 	signal(SIGQUIT, sig_handler);
 	while (1)
 	{
 		put_prompt(param->envp);
+		signal(SIGINT, sig_handler);
 		param->str = 0;
 		if (!(input = get_next_line(1, &(param->str)))
 				&& !ft_strlen(param->str))

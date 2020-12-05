@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/23 22:36:37 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/05 09:14:29 by parmarti         ###   ########.fr       */
+/*   Updated: 2020/12/05 12:08:48 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,9 @@ static void	exec_bin(int fd, char *path, t_data *param)
 {
 	int	status;
 
+	signal(SIGINT, child_sig_handler);
 	if (!fork())
 	{
-		signal(SIGINT, child_sig_handler);
 		set_in(param->argv);
 		if (fd > 1)
 			dup2(fd, 1);
