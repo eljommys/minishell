@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strlcat.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: paris <paris@student.42.fr>                +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/01 09:02:17 by jserrano          #+#    #+#             */
-/*   Updated: 2020/11/25 10:22:26 by paris            ###   ########.fr       */
+/*   Updated: 2020/07/10 10:10:40 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,4 +35,3 @@ size_t	ft_strlcat(char *dst, const char *src, size_t size)
 	dst[len1] = 0;
 	return (len);
 }
-

@@ -6,13 +6,13 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/01 18:22:40 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/04 13:36:11 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/05 10:19:42 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int redirect(char *str)
+static int	redirect(char *str)
 {
 	int		append;
 	int		len;
@@ -28,7 +28,7 @@ static int redirect(char *str)
 		str++;
 		skip_spaces(&str);
 		fd = open(str, O_RDWR | O_CREAT | O_APPEND, 0666);
-		while (len = read(fd, &c, 1))
+		while ((len = read(fd, &c, 1)))
 			if (len == -1)
 			{
 				write(1, "Couldn't read file\n", 19);
@@ -40,7 +40,7 @@ static int redirect(char *str)
 	return (fd);
 }
 
-static int set_fd(char *str)
+static int	set_fd(char *str)
 {
 	int fd;
 
@@ -54,19 +54,13 @@ static int set_fd(char *str)
 	return (fd);
 }
 
-char **check_command(char *str, t_data *param)
+char		**check_command(char *str, t_data *param)
 {
 	int		fd;
-	int		status;
-	//int 	i;
 
 	param->argc = count_args(str);
 	param->argv = (char **)ft_calloc(sizeof(char *), (param->argc + 1));
 	set_args(param->argv, str, param->argc);
-/* 	i = -1;
-	while (param->argv[++i])
-		printf("argv[%d] = ->%s<-\n", i, param->argv[i]);
-	printf("argc = %d\n\n", param->argc); */
 	if (param->argv[0] && *(param->argv[0]))
 	{
 		fd = set_fd(str);

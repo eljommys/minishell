@@ -36,7 +36,7 @@ char			*ft_itoa(long long int n)
 	while (tmpn /= 10)
 		len++;
 	len += negative;
-	if (!(str = (char*)malloc(sizeof(char) * len)))
+	if ((str = (char*)malloc(sizeof(char) * len)) == NULL)
 		return (NULL);
 	str[--len] = '\0';
 	while (len--)

@@ -6,13 +6,13 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/17 00:01:09 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/03 17:53:49 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/05 09:27:54 by parmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void exit_command(t_data *param)
+void		exit_command(t_data *param)
 {
 	free(param->str);
 	free_env(param->envp);
@@ -22,55 +22,7 @@ void exit_command(t_data *param)
 	exit(0);
 }
 
-static void change_dir(char *path, t_data *param)
-{
-	char 		buff[4097];
-	char		*oldpwd;
-	struct stat s;
-
-	oldpwd = getcwd(buff, 4096);
-	if (chdir(path) == 0)
-	{
-		param->argc = 4;
-		free_env(param->argv);
-		param->argv = (char **)ft_calloc(sizeof(char *), 4);
-		param->argv[0] = ft_strdup("export");
-		param->argv[1] = ft_strdup("OLDPWD=");
-		param->argv[2] = ft_strdup(oldpwd);
-		param->envp = export_command(param);
-		free_env(param->argv);
-		param->argv = (char **)ft_calloc(sizeof(char *), 4);
-		param->argv[0] = ft_strdup("export");
-		param->argv[1] = ft_strdup("PWD=");
-		param->argv[2] = ft_strdup(getcwd(buff, 4096));
-		param->envp = export_command(param);
-	}
-	else if (ft_putstrs_fd("-bash: cd: ", 0, 0, 1) && lstat(path, &s) != -1)
-		ft_putstrs_fd(0, param->argv[1], ": ", 1);
-}
-
-void cd_command(t_data *param)
-{
-	char *path;
-
-	if (param->argc <= 2)
-	{
-		if (!param->argv[1] || !ft_strncmp(param->argv[1], "--", 3) ||
-			!ft_strncmp(param->argv[1], "~", 2))
-			path = get_env(param->envp, "HOME");
-		else if (!ft_strncmp(param->argv[1], "-", 2))
-			path = get_env(param->envp, "OLDPWD");
-		else
-			path = param->argv[1];
-		change_dir(path, param);
-		if (errno > 0)
-			ft_putstrs_fd(strerror(errno), "\n", 0, 1);
-	}
-	else
-		ft_putstr_fd("-bash: cd: too many arguments\n", 1);
-}
-
-static void pwd_command(int fd, t_data *param)
+static void	pwd_command(int fd)
 {
 	char *cwd;
 	char buff[4097];
@@ -80,7 +32,7 @@ static void pwd_command(int fd, t_data *param)
 	write(fd, "\n", 1);
 }
 
-void echo_command(t_data *param, int fd)
+static void	echo_command(t_data *param, int fd)
 {
 	int i;
 
@@ -98,26 +50,26 @@ void echo_command(t_data *param, int fd)
 		close(fd);
 }
 
-int check_builtins(int fd, t_data *param)
+int			check_builtins(int fd, t_data *param)
 {
 	if (!ft_memcmp(param->argv[0], "echo", 5))
 		echo_command(param, fd);
 	else if (!ft_memcmp(param->argv[0], "pwd", 4))
-		pwd_command(fd, param);
+		pwd_command(fd);
 	else if (!ft_memcmp(param->argv[0], "cd", 3))
 		cd_command(param);
 	else if (!ft_memcmp(param->argv[0], "env", 4))
 		env_command(param, fd);
 	else if (!ft_memcmp(param->argv[0], "./", 2) ||
-			 !ft_memcmp(param->argv[0], "../", 3) ||
-			 !ft_memcmp(param->argv[0], "/", 1))
+			!ft_memcmp(param->argv[0], "../", 3) ||
+			!ft_memcmp(param->argv[0], "/", 1))
 		bash_command(param);
 	else if (!ft_memcmp(param->argv[0], "export", 7))
 		param->envp = export_command(param);
 	else if (!ft_memcmp(param->argv[0], "unset", 6))
 		param->envp = unset_command(param);
 	else if (!ft_memcmp(param->argv[0], "exit", 5) ||
-			 !ft_memcmp(param->argv[0], "q", 2))
+			!ft_memcmp(param->argv[0], "q", 2))
 		exit_command(param);
 	else
 		return (1);
