@@ -6,7 +6,11 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/16 15:16:03 by marvin            #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2020/12/05 12:17:41 by marvin           ###   ########.fr       */
+=======
+/*   Updated: 2020/12/05 11:44:40 by marvin           ###   ########.fr       */
+>>>>>>> 6e5e19bd7d02450ffb60b6bcc072a98a9cd476bc
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +43,7 @@ static void	sig_handler(int sig)
 	{
 		cwd = getcwd(buff, 4096);
 		write(1, "\n", 1);
-		write(1, "\033[1;31mminishell@PARMART-JSERRAN\033[0;0m", 38);
+		write(1, "\r\033[1;31mminishell@PARMART-JSERRAN\033[0;0m", 39);
 		ft_putstrs_fd(":\033[1;34m", cwd, "\033[0;0m$ ", 1);
 		signal(SIGINT, sig_handler);
 	}
