@@ -1,5 +1,7 @@
 # minishell
 
+![logo](https://i.ibb.co/N6kGJWg/minishell-logo.png)
+
 ### Index 📋
 You're sections headers will be used to reference location of destination.
 
@@ -23,7 +25,7 @@ bash or zsh. You are going to learn a lot about processes and file descriptors.
 ### Scheme
 ![Scheme](minishell.png)
 
-[Back To The Top](#minishel)
+[Back To The Top](#minishell)
 
 ---
 
@@ -39,14 +41,14 @@ bash or zsh. You are going to learn a lot about processes and file descriptors.
     - env
     - exit
 - ; will have to separate the commands on the command line.
-- Redirects >, “>>” y <
-- Environment variables ($ followed by characters).
-- Pipes |
+- Redirects >, “>>” y < should work as in bash, except in fd aggregations.
+- Environment variables ($ followed by characters) should work like in bash.
+- Pipes | should work like in bash.
 - $? it should work like in bash.
-- ctrl-C, ctrl-D y ctrl-\
+- ctrl-C, ctrl-D y ctrl-\ should show the same result as in the bash.
 ```
 
-[Back To The Top](#minishel)
+[Back To The Top](#minishell)
 
 ---
 
@@ -79,7 +81,7 @@ bash or zsh. You are going to learn a lot about processes and file descriptors.
 - **strerror** = [Returns an error message.](https://www.tutorialspoint.com/c_standard_library/c_function_strerror.htm)
 - **errno** = [Number of last error, its a variable.](https://www.youtube.com/watch?v=IZiUT-ipnj0&ab_channel=JacobSorber)
 
-[Back To The Top](#minishel)
+[Back To The Top](#minishell)
 
 ---
 
@@ -109,7 +111,7 @@ make
 - [wait](https://www.geeksforgeeks.org/wait-system-call-c/)
 - [dup & dup2](https://www.geeksforgeeks.org/dup-dup2-linux-system-call/)
 
-[Back To The Top](#minishel)
+[Back To The Top](#minishell)
 
 ---
 
@@ -124,7 +126,7 @@ The above copyright notice and this permission notice shall be included in all c
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-[Back To The Top](#minishel)
+[Back To The Top](#minishell)
 
 ---
 
