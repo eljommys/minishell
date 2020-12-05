@@ -6,9 +6,9 @@
 You're sections headers will be used to reference location of destination.
 
 - [Description](#description)
-    - [Scheme](#scheme)
+    - [Scheme 🎨](#scheme)
 	- [Developed commands](#developed-commands)
-	- [Allowed Functions](#allowed-functions)
+	- [Allowed Functions :white_check_mark:](#allowed-functions)
 - [How To Use 📦](#how-to-use)
 - [References 📌](#references)
 - [License 📄](#license)
