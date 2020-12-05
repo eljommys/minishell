@@ -6,26 +6,31 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/16 15:16:03 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/04 21:11:51 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/05 08:54:54 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	*relative_path(char *cwd, char **envp)
+static void	put_prompt(char **envp)
 {
 	char	*home;
 	char	*path;
+	char	*cwd;
+	char	buff[4097];
 
 	home = get_env(envp, "HOME");
+	cwd = getcwd(buff, 4096);
 	if (ft_memcmp(cwd, home, ft_strlen(home)))
 		path = ft_strdup(cwd);
 	else
 		path = ft_strjoin("~", cwd + ft_strlen(home));
-	return (path);
+	write(1, "\r\033[1;31mminishell@PARMART-JSERRAN\033[0;0m", 39);
+	ft_putstrs_fd(":\033[1;34m", path, "\033[0;0m$ ", 1);
+	free(path);
 }
 
-void		sig_handler(int sig)
+static void	sig_handler(int sig)
 {
 	char *cwd;
 	char buff[4097];
@@ -41,12 +46,6 @@ void		sig_handler(int sig)
 		exit(0);
 }
 
-void		child_sig_handler(int sig)
-{
-	if (sig == SIGINT)
-		exit(0);
-}
-
 static void	init_param(t_data **param, char **argv, char **envp)
 {
 	(*param) = (t_data *)malloc(sizeof(t_data));
@@ -54,34 +53,29 @@ static void	init_param(t_data **param, char **argv, char **envp)
 	(*param)->argv = argv;
 	(*param)->ret = 0;
 	(*param)->child = 0;
-	signal(SIGINT, sig_handler);
-	signal(SIGQUIT, sig_handler);
 }
 
 int			main(int argc, char **argv, char **envp)
 {
-	char	*cwd;
-	char	buff[4097];
 	t_data	*param;
-	int		sample;
+	int		input;
 
 	if (argc != 1)
 		return (1);
 	init_param(&param, argv, envp);
+	signal(SIGINT, sig_handler);
+	signal(SIGQUIT, sig_handler);
 	while (1)
 	{
+		put_prompt(param->envp);
 		param->str = 0;
-		cwd = relative_path(getcwd(buff, 4096), param->envp);
-		write(1, "\r\033[1;31mminishell@PARMART-JSERRAN\033[0;0m", 39);
-		ft_putstrs_fd(":\033[1;34m", cwd, "\033[0;0m$ ", 1);
-		free(cwd);
-		if (!(sample = get_next_line(1, &(param->str))) && !ft_strlen(param->str))
+		if (!(input = get_next_line(1, &(param->str))) && !ft_strlen(param->str))
 		{
 				free(param->str);
 				ft_putstr_fd("\nlogout\n", 1);
 				exit(0);
 		}
-		else if (sample)
+		else if (input)
 			envp = parser(param->str, param);
 	}
 	return (0);

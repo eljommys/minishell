@@ -6,11 +6,17 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/22 15:41:14 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/03 18:34:44 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/05 08:55:22 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void		child_sig_handler(int sig)
+{
+	if (sig == SIGINT)
+		exit(0);
+}
 
 void	skip_spaces(char **str)
 {
