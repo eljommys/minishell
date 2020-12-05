@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 16:39:19 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/05 09:38:52 by parmarti         ###   ########.fr       */
+/*   Updated: 2020/12/05 13:22:01 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ void		cd_command(t_data *param)
 {
 	char *path;
 
+	errno = 0;
 	if (param->argc <= 2)
 	{
 		if (!param->argv[1] || !ft_strncmp(param->argv[1], "--", 3) ||
@@ -55,8 +56,8 @@ void		cd_command(t_data *param)
 		change_dir(path, param);
 		if (errno > 0)
 			ft_putstrs_fd(strerror(errno), "\n", 0, 1);
-		errno = 0;
 	}
 	else
 		ft_putstr_fd("-bash: cd: too many arguments\n", 1);
+	errno = 0;
 }
