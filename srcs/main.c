@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/16 15:16:03 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/06 10:02:27 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/06 12:00:24 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ static void	sig_handler(int sig)
 		write(1, "\n", 1);
 		write(1, "\r\033[1;31mminishell@PARMART-JSERRAN\033[0;0m", 39);
 		ft_putstrs_fd(":\033[1;34m", cwd, "\033[0;0m$ ", 1);
-		signal(SIGINT, sig_handler);
 	}
 	else if (sig == SIGQUIT)
 		exit(0);
@@ -69,7 +68,7 @@ int			main(int argc, char **argv, char **envp)
 		put_prompt(param->envp);
 		signal(SIGINT, sig_handler);
 		param->str = 0;
-		if ((get_next_line(1, &(param->str)) <= 0))
+		if ((get_next_line(0, &(param->str)) <= 0))
 		{
 			ft_putstr_fd("\nlogout\n", 1);
 			exit(0);
