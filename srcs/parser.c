@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/29 14:12:39 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/06 11:19:34 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/06 19:43:42 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ static int	change_env(int i, char **str, t_data *param)
 	char	*env;
 	char	*aux;
 
-	len = (ft_strlen_char(*str + i + 1, ':') < ft_strlen_spa(*str + i + 1)) ?
-	ft_strlen_char(*str + i + 1, ':') + 1 : ft_strlen_spa(*str + i + 1) + 1;
+	len = (ft_strlen_char(*str + i + 1, ':') < ft_strlen_token(*str + i + 1)) ?
+	ft_strlen_char(*str + i + 1, ':') + 1 : ft_strlen_token(*str + i + 1) + 1;
 	bef = ft_strldup(*str, i);
 	aux = ft_strldup(*str + i + 1, len - 1);
 	env = (!ft_memcmp(aux, "?", 2)) ? ft_itoa(param->ret) : 0;
@@ -69,6 +69,7 @@ static void	command_or_pipe(t_data *param, int j)
 	int fds[4];
 	int std_out;
 	int sons;
+	int i;
 
 	std_out = dup(0);
 	if (param->cmds[j] && !param->cmds[j][ft_strlen_pipe(param->cmds[j])])
@@ -81,8 +82,9 @@ static void	command_or_pipe(t_data *param, int j)
 		while (sons-- > 0)
 			wait(&param->ret);
 		param->ret /= 256;
-		while (sons < 4)
-			close(fds[sons++]);
+		i = -1;
+		while (++i < 4)
+			close(fds[i]);
 	}
 	dup2(std_out, 0);
 }

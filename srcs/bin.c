@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/23 22:36:37 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/06 10:18:01 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/06 18:11:15 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,12 +55,12 @@ static void	exec_bin(int fd, char *path, t_data *param)
 
 static char	**split_path(t_data *param, char *str)
 {
-	char *path_str;
+	char *path;
 	char **paths;
 
-	path_str = get_env(param->envp, "PATH");
-	if (path_str)
-		paths = ft_split(path_str, ':');
+	path = get_env(param->envp, "PATH");
+	if (path)
+		paths = ft_split(path, ':');
 	else
 	{
 		ft_putstrs_fd("-bash: ", str, ": No such file or directory\n", 1);

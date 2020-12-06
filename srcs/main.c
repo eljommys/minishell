@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/16 15:16:03 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/06 12:05:52 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/06 16:47:31 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,10 @@ static void	put_prompt(char **envp)
 {
 	char	*home;
 	char	*path;
-	char	*cwd;
-	char	buff[4097];
+	char	cwd[4097];
 
 	home = get_env(envp, "HOME");
-	cwd = getcwd(buff, 4096);
+	getcwd(cwd, 4096);
 	if (ft_memcmp(cwd, home, ft_strlen(home)))
 		path = ft_strdup(cwd);
 	else
@@ -32,12 +31,11 @@ static void	put_prompt(char **envp)
 
 static void	sig_handler(int sig)
 {
-	char *cwd;
-	char buff[4097];
+	char cwd[4097];
 
 	if (sig == SIGINT)
 	{
-		cwd = getcwd(buff, 4096);
+		getcwd(cwd, 4096);
 		write(1, "\n", 1);
 		write(1, "\r\033[1;31mminishell@PARMART-JSERRAN\033[0;0m", 39);
 		ft_putstrs_fd(":\033[1;34m", cwd, "\033[0;0m$ ", 1);

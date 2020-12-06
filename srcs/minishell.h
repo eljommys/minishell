@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/16 15:16:49 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/06 10:16:12 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/06 16:24:27 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int					check_builtins(int fd, t_data *param);
 int					check_bin(int fd, t_data *param);
 int					check_pipe(int *fds, char *str, t_data *param);
 int					count_args(char *str);
-int					ft_strlen_spa(char *str);
+int					ft_strlen_token(char *str);
 int					ft_strlen_pipe(char *str);
 int					ft_strlen_char(char *str, char c);
 #endif

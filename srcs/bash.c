@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/17 19:50:12 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/06 10:02:37 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/06 19:43:30 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,11 +54,13 @@ static void	set_filename(int len, char **new, char *str)
 			len--;
 		len--;
 	}
-	(*new)[len + 1] = 0;
-	aux = ft_strjoin(*new, "/");
+	aux = ft_strldup(*new, len);
 	free(*new);
-	*new = ft_strjoin(aux, filename);
+	*new = ft_strjoin(aux, "/");
 	free(aux);
+	aux = ft_strjoin(*new, filename);
+	free(*new);
+	*new = aux;
 	free(filename);
 }
 

@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/01 18:22:40 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/06 10:20:02 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/06 17:10:21 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ char		**check_command(char *str, t_data *param)
 			ft_putstrs_fd(0, str, ": command not found.\n", 1);
 			param->ret = 127;
 		}
-		if (fd > 1)
+		if (fd != 1)
 			close(fd);
 	}
 	free_matrix(param->argv);

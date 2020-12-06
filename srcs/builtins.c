@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/17 00:01:09 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/06 10:17:07 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/06 19:04:59 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,30 +24,25 @@ void		exit_command(t_data *param)
 
 static void	pwd_command(int fd)
 {
-	char *cwd;
-	char buff[4097];
+	char cwd[4097];
 
-	cwd = getcwd(buff, 4096);
-	ft_putstr_fd(cwd, fd);
-	write(fd, "\n", 1);
+	getcwd(cwd, 4096);
+	ft_putstrs_fd(cwd, "\n", 0, fd);
 }
 
 static void	echo_command(t_data *param, int fd)
 {
 	int i;
 
-	i = (param->argc > 1 && !ft_memcmp(param->argv[1], "-n", 3))
-	? 1 : 0;
+	i = (param->argc > 1 && !ft_memcmp(param->argv[1], "-n", 3)) ? 1 : 0;
 	while (++i < param->argc)
 	{
 		ft_putstr_fd(param->argv[i], fd);
 		if (i < param->argc - 1)
-			write(1, " ", 1);
+			write(fd, " ", 1);
 	}
 	if (param->argc > 1 && ft_memcmp(param->argv[1], "-n", 3))
 		write(fd, "\n", 1);
-	if (fd != 1)
-		close(fd);
 }
 
 int			check_builtins(int fd, t_data *param)
