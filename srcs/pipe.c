@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 16:11:27 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/05 12:15:09 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/06 11:19:38 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,10 @@ static void	pipe_son(int *flag, int *fds, char *str, t_data *param)
 
 int			check_pipe(int *fds, char *str, t_data *param)
 {
-	int		i;
+	int		sons;
 	int		*flag;
 
-	i = 0;
+	sons = 0;
 	flag = (int *)malloc(sizeof(int) * 2);
 	flag[0] = 1;
 	flag[1] = 0;
@@ -46,7 +46,7 @@ int			check_pipe(int *fds, char *str, t_data *param)
 	{
 		flag[1] = (!str[ft_strlen_pipe(str)]) ? 1 : 0;
 		pipe_son(flag, fds, str, param);
-		i++;
+		sons++;
 		str += ft_strlen_pipe(str) + 1;
 		flag[0] = 0;
 		close(fds[0]);
@@ -56,5 +56,5 @@ int			check_pipe(int *fds, char *str, t_data *param)
 		pipe(fds + 2);
 	}
 	free(flag);
-	return (i);
+	return (sons);
 }

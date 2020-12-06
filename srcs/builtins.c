@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/17 00:01:09 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/05 09:27:54 by parmarti         ###   ########.fr       */
+/*   Updated: 2020/12/06 10:17:07 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 void		exit_command(t_data *param)
 {
 	free(param->str);
-	free_env(param->envp);
-	free_env(param->argv);
-	free_env(param->com);
+	free_matrix(param->envp);
+	free_matrix(param->argv);
+	free_matrix(param->cmds);
 	free(param);
 	exit(0);
 }

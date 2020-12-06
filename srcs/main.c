@@ -6,11 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/16 15:16:03 by marvin            #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2020/12/05 12:47:01 by marvin           ###   ########.fr       */
-=======
-/*   Updated: 2020/12/05 12:46:48 by marvin           ###   ########.fr       */
->>>>>>> f9d2ed16f2e6e3915f43fe8e1b00ab93a129f2a6
+/*   Updated: 2020/12/06 10:02:27 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +59,6 @@ static void	init_param(t_data **param, char **argv, char **envp)
 int			main(int argc, char **argv, char **envp)
 {
 	t_data	*param;
-	int		input;
 
 	if (argc != 1)
 		return (1);
@@ -74,15 +69,12 @@ int			main(int argc, char **argv, char **envp)
 		put_prompt(param->envp);
 		signal(SIGINT, sig_handler);
 		param->str = 0;
-		if (!(input = get_next_line(1, &(param->str)))
-				&& !ft_strlen(param->str))
+		if ((get_next_line(1, &(param->str)) <= 0))
 		{
-			free(param->str);
 			ft_putstr_fd("\nlogout\n", 1);
 			exit(0);
 		}
-		else if (input)
-			envp = parser(param->str, param);
+		parser(param);
 	}
 	return (0);
 }

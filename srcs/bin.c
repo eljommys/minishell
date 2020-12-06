@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/23 22:36:37 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/05 12:08:48 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/06 10:18:01 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,13 +87,13 @@ static char	*search_bin(char *str, DIR **dir, struct dirent **d, t_data *param)
 			if (!ft_memcmp(str, (*d)->d_name, ft_strlen(str) + 1))
 			{
 				path = ft_strjoin(paths[i], "/");
-				free_env(paths);
+				free_matrix(paths);
 				return (path);
 			}
 		}
 		closedir(*dir);
 	}
-	free_env(paths);
+	free_matrix(paths);
 	return (NULL);
 }
 
