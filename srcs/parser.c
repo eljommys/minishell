@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/29 14:12:39 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/06 19:43:42 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/06 19:52:23 by parmarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static int	check_env(char **str, t_data *param)
 	i = 0;
 	while ((*str) && (*str)[i])
 	{
- 		if ((*str)[i] == '\'')
+		if ((*str)[i] == '\'')
 		{
 			i++;
 			while ((*str)[i] && ((*str)[i] != '\''))
@@ -54,7 +54,7 @@ static int	check_env(char **str, t_data *param)
 			if (!(*str)[i])
 			{
 				ft_putstr_fd("Non finished quotes\n", 1);
-				return (1);			
+				return (1);
 			}
 		}
 		if ((*str)[i] == '$')
