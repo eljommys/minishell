@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/16 15:16:03 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/05 12:46:48 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/05 17:30:19 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int			main(int argc, char **argv, char **envp)
 		put_prompt(param->envp);
 		signal(SIGINT, sig_handler);
 		param->str = 0;
-		if (!(input = get_next_line(1, &(param->str)))
+		if (!(input = get_next_line(0, &(param->str)))
 				&& !ft_strlen(param->str))
 		{
 			free(param->str);
