@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/23 22:36:37 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/07 09:11:55 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/07 10:37:34 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,15 +35,17 @@ static void	set_in(char **argv)
 
 static void	exec_bin(int fd, char *path, t_data *param)
 {
-	int	status;
+	int		status;
+	char	**args;
 
+	args = copy_args(param);
 	signal(SIGINT, child_sig_handler);
 	if (!fork())
 	{
 		set_in(param->argv);
 		if (fd > 1)
 			dup2(fd, 1);
-		if ((param->ret = execve(path, param->argv, param->envp)) && errno == EACCES)
+		if ((param->ret = execve(path, args, param->envp)) && errno == EACCES)
 		{
 			ft_putstrs_fd("-bash: ", param->argv[0], ": ", 1);
 			ft_putstrs_fd(strerror(errno), "\n", 0, 1);
@@ -53,6 +55,7 @@ static void	exec_bin(int fd, char *path, t_data *param)
 	}
 	wait(&status);
 	free(path);
+	free_matrix(args);
 }
 
 static char	**split_path(t_data *param, char *str)

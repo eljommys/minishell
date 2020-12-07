@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/16 15:16:49 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/06 16:24:27 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/07 10:35:46 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,12 @@ void				bash_command(t_data *param);
 void				cd_command(t_data *param);
 void				env_command(t_data *param, int fd);
 void				exit_command(t_data *param);
+void				parser(t_data *param);
 char				*get_env(char **envp, char *env);
 char				**copy_env(char **envp, int add);
 char				**export_command(t_data *param);
 char				**unset_command(t_data *param);
-void				parser(t_data *param);
+char				**copy_args(t_data *param);
 char				**check_command(char *str, t_data *param);
 int					check_builtins(int fd, t_data *param);
 int					check_bin(int fd, t_data *param);
