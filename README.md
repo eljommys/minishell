@@ -1,4 +1,4 @@
-# minishell
+# minishell ## (🚧this project is under construction🚧)
 
 ![logo](https://i.ibb.co/N6kGJWg/minishell-logo.png)
 
