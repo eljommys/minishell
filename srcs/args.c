@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   args.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jserrano <jserrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/30 17:29:24 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/07 10:35:04 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/07 10:40:41 by jserrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,16 +65,14 @@ char		**copy_args(t_data *param)
 	char	**args;
 
 	i = 0;
-	while(param->argv[i] && ft_memcmp(param->argv[i], "<", 2))
+	while (param->argv[i] && ft_memcmp(param->argv[i], "<", 2))
 		i++;
 	args = ft_calloc(sizeof(char *), i + 1);
 	i = 0;
-	while(param->argv[i] && ft_memcmp(param->argv[i], "<", 2))
+	while (param->argv[i] && ft_memcmp(param->argv[i], "<", 2))
 	{
 		args[i] = ft_strdup(param->argv[i]);
 		i++;
 	}
 	return (args);
 }
-
-

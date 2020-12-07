@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   bin.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jserrano <jserrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/23 22:36:37 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/07 10:37:34 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/07 10:40:50 by jserrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,7 @@ int			check_bin(int fd, t_data *param)
 	{
 		path = ft_strjoin(pre_path, d->d_name);
 		exec_bin(fd, path, param);
-		param->ret = 0;	
+		param->ret = 0;
 	}
 	closedir(dir);
 	free(pre_path);

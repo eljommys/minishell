@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lens.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jserrano <jserrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/01 19:09:39 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/07 10:20:53 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/07 10:40:56 by jserrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int		ft_strlen_token(char *str)
 	int		len;
 
 	len = 0;
-	while (*str && *str != ' ' && *str != '>' && *str != ';' && *str != '|' 
+	while (*str && *str != ' ' && *str != '>' && *str != ';' && *str != '|'
 	&& *str != '"' && *str != '\'' && *str != '$' && *str != '=')
 	{
 		len++;
