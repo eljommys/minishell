@@ -6,7 +6,7 @@
 /*   By: jserrano <jserrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/23 22:36:37 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/07 10:49:10 by jserrano         ###   ########.fr       */
+/*   Updated: 2020/12/07 10:55:07 by jserrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ static void	exec_bin(int fd, char *path, t_data *param)
 		{
 			ft_putstrs_fd("-bash: ", param->argv[0], ": ", 1);
 			ft_putstrs_fd(strerror(errno), "\n", 0, 1);
-			return ;
 		}
 		exit(0);
 	}
