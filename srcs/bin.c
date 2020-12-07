@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/23 22:36:37 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/06 18:11:15 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/07 09:11:55 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ static void	set_in(char **argv)
 			return ;
 		}
 		dup2(fd, 0);
+		close(fd);
 	}
 }
 
@@ -42,10 +43,11 @@ static void	exec_bin(int fd, char *path, t_data *param)
 		set_in(param->argv);
 		if (fd > 1)
 			dup2(fd, 1);
-		if (execve(path, param->argv, param->envp) && errno == EACCES)
+		if ((param->ret = execve(path, param->argv, param->envp)) && errno == EACCES)
 		{
 			ft_putstrs_fd("-bash: ", param->argv[0], ": ", 1);
 			ft_putstrs_fd(strerror(errno), "\n", 0, 1);
+			return ;
 		}
 		exit(0);
 	}
@@ -106,13 +108,13 @@ int			check_bin(int fd, t_data *param)
 
 	param->ret = 1;
 	pre_path = search_bin(param->argv[0], &dir, &d, param);
-	if (pre_path && *pre_path)
+	if (pre_path)
 	{
-		param->ret = 0;
 		path = ft_strjoin(pre_path, d->d_name);
 		exec_bin(fd, path, param);
-		closedir(dir);
-		free(pre_path);
+		param->ret = 0;	
 	}
+	closedir(dir);
+	free(pre_path);
 	return (param->ret);
 }
