@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/17 00:01:09 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/07 09:06:48 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/08 13:08:43 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,10 +59,9 @@ int			check_builtins(int fd, t_data *param)
 			!ft_memcmp(param->argv[0], "../", 3) ||
 			!ft_memcmp(param->argv[0], "/", 1))
 		bash_command(param);
-	else if (!ft_memcmp(param->argv[0], "export", 7))
-		param->envp = export_command(param);
-	else if (!ft_memcmp(param->argv[0], "unset", 6))
-		param->envp = unset_command(param);
+	else if (!ft_memcmp(param->argv[0], "export", 7) ||
+			!ft_memcmp(param->argv[0], "unset", 6))
+		param->envp = multiple_env(param, fd);
 	else if (!ft_memcmp(param->argv[0], "exit", 5) ||
 			!ft_memcmp(param->argv[0], "q", 2))
 		exit_command(param);

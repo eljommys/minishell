@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/16 15:16:49 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/07 10:35:46 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/08 12:31:01 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,9 @@ void				exit_command(t_data *param);
 void				parser(t_data *param);
 char				*get_env(char **envp, char *env);
 char				**copy_env(char **envp, int add);
-char				**export_command(t_data *param);
-char				**unset_command(t_data *param);
+char				**export_command(t_data *param, int i);
+char				**unset_command(t_data *param, int i);
+char				**multiple_env(t_data *param, int fd);
 char				**copy_args(t_data *param);
 char				**check_command(char *str, t_data *param);
 int					check_builtins(int fd, t_data *param);
