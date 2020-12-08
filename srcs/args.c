@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/30 17:29:24 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/08 22:30:14 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/09 00:16:06 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ static int	ft_strlen_arg(char *str)
 		i = 1;
 	else
 		i = (ft_strlen_char(str, '<') < i) ? ft_strlen_char(str, '<') : i;
+	printf("strlen char = %d\n", i);
 	return (i);
 }
 
@@ -50,8 +51,11 @@ int			count_args(char *str)
 void		set_args(char **argv, char *str, int argc)
 {
 	int i;
+	int j;
 	int len;
 	int quotes;
+	char *bef;
+	char *aux;
 
 	i = 0;
 	while (i < argc)
@@ -60,6 +64,20 @@ void		set_args(char **argv, char *str, int argc)
 		len = ft_strlen_arg(str);
 		quotes = (*str == '"' || *str == '\'') ? 1 : 0;
 		argv[i] = ft_strldup(str + quotes, len - quotes * 2);
+		j = 0;
+		while (argv[i][j])
+		{
+			if (argv[i][j] == '\\')
+			{
+				bef = ft_strldup(argv[i], j);
+				aux = ft_strdup(argv[i] + j + 1);
+				free(argv[i]);
+				argv[i] = ft_strjoin(bef, aux);
+				free(aux);
+				free(bef);
+			}
+			j++;
+		}
 		str += len;
 		i++;
 	}

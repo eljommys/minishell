@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/01 19:09:39 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/08 23:27:02 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/09 00:11:30 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,15 @@ int		ft_strlen_pipe(char *str)
 			c = str[i];
 			i++;
 			while (str[i] && str[i] != c)
+			{
+				if (str[i] == '\\')
+					i++;
 				i++;
+			}
 			if (!str[i])
 			{
 				ft_putstr_fd("Non finished quotes\n", 1);
-				return (0);
+				return (1);
 			}
 		}
 		i++;
@@ -43,7 +47,11 @@ int		ft_strlen_char(char *str, char c)
 
 	i = 0;
 	while (str[i] && str[i] != c)
+	{
+		if (str[i] == '\\')
+			i++;
 		i++;
+	}
 	return (i);
 }
 
