@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/16 15:16:49 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/08 19:17:43 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/08 21:14:06 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ char				**export_command(t_data *param, int i);
 char				**unset_command(t_data *param, int i);
 char				**multiple_env(t_data *param, int fd);
 char				**copy_args(t_data *param);
+char				**copy_args1(t_data *param);
 char				**check_command(char *str, t_data *param);
 int					check_builtins(int fd, t_data *param);
 int					check_bin(int fd, t_data *param);

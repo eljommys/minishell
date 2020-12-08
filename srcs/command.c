@@ -6,55 +6,13 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/01 18:22:40 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/08 20:41:05 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/08 21:17:04 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/* static int	redirect(char *str)
-{
-	int		append;
-	int		len;
-	int		fd;
-	char	c;
-
-	fd = 1;
-	str++;
-	append = (*str == '>') ? 1 : 0;
-	skip_spaces(&str);
-	if (append)
-	{
-		str++;
-		skip_spaces(&str);
-		fd = open(str, O_RDWR | O_CREAT | O_APPEND, 0666);
-		while ((len = read(fd, &c, 1)))
-			if (len == -1)
-			{
-				write(1, "Couldn't read file\n", 19);
-				break ;
-			}
-	}
-	else
-		fd = open(str, O_RDWR | O_CREAT | O_TRUNC, 0666);
-	return (fd);
-} */
-
-/* static int	set_fd(char *str)
-{
-	int fd;
-
-	fd = 1;
-	while (*str && *str != '>')
-		str++;
-	if (*str == '>')
-		fd = redirect(str);
-	if (fd < 0)
-		write(1, "Couldn't open file\n", 19);
-	return (fd);
-} */
-
-static int	set_fd(t_data *param)
+static int		set_fd(t_data *param)
 {
 	int		i;
 	int		fd;
@@ -78,6 +36,28 @@ static int	set_fd(t_data *param)
 	return (fd);
 }
 
+static char		**copy_args1(t_data *param)
+{
+	int		i;
+	char	**args;
+
+	i = 0;
+	while (param->argv[i] &&
+			ft_memcmp(param->argv[i], ">", 2) &&
+			ft_memcmp(param->argv[i], ">>", 3))
+		i++;
+	args = ft_calloc(sizeof(char *), i + 1);
+	i = 0;
+	while (param->argv[i] &&
+			ft_memcmp(param->argv[i], ">", 2) &&
+			ft_memcmp(param->argv[i], ">>", 3))
+	{
+		args[i] = ft_strdup(param->argv[i]);
+		i++;
+	}
+	return (args);
+}
+
 char		**check_command(char *str, t_data *param)
 {
 	int		fd;
@@ -89,7 +69,7 @@ char		**check_command(char *str, t_data *param)
 	if (param->argv[0] && *(param->argv[0]))
 	{
 		fd = set_fd(param);
-		aux = copy_args(param);
+		aux = copy_args1(param);
 		free_matrix(param->argv);
 		param->argv = aux;
 		param->argc = 0;
