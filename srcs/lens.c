@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/01 19:09:39 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/08 20:56:01 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/08 22:27:15 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,8 @@ int		ft_strlen_token(char *str)
 	int		len;
 
 	len = 0;
-	while (*str && *str != ' ' && *str != ';' && *str != '|'
-	&& *str != '"' && *str != '\'' && *str != '$' && *str != '=')
+	while (*str && *str != ' ' && *str != ';' && *str != '|' && *str != '<'
+	&& *str != '>' && *str != '"' && *str != '\'' && *str != '$' && *str != '=')
 	{
 		len++;
 		str++;

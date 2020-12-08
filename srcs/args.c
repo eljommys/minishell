@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/30 17:29:24 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/08 21:14:58 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/08 22:30:14 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,18 @@ static int	ft_strlen_arg(char *str)
 	int		i;
 
 	i = 0;
-	if (str[i] == '"' || str[i] == '\'')
-		i = ft_strlen_char(str + i + 1, str[i]) + 2;
+	if (*str == '"' || *str == '\'')
+		i = ft_strlen_char(str + 1, *str) + 2;
 	else if (ft_strlen_char(str, ':') < ft_strlen_token(str))
 		i = ft_strlen(str);
 	else
 		i = ft_strlen_token(str);
+	if (*str == '>')
+		i = (*(str + 1) == '>') ? 2 : 1;
+	else if (*str == '<')
+		i = 1;
+	else
+		i = (ft_strlen_char(str, '<') < i) ? ft_strlen_char(str, '<') : i;
 	return (i);
 }
 
