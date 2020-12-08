@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/16 15:16:03 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/08 15:42:26 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/08 20:50:53 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,6 @@ static void	sig_handler(int sig)
 		write(1, "\r\033[1;31mminishell@PARMART-JSERRAN\033[0;0m", 39);
 		ft_putstrs_fd(":\033[1;34m", cwd, "\033[0;0m$ ", 1);
 	}
-	else if (sig == SIGQUIT)
-		exit(0);
 }
 
 static void	init_param(t_data **param, char **argv, char **envp)

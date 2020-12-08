@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/29 14:12:39 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/08 18:20:21 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/08 20:09:13 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,10 @@ void		parser(t_data *param)
 	if (!param->str || !ft_memcmp(param->str, ";", 2))
 	{
 		if (param->str)
+		{
 			ft_putstr_fd("-bash; syntax error near unexpected token `;'\n", 1);
+			param->ret = 2;
+		}
 		free(param->str);
 		return ;
 	}

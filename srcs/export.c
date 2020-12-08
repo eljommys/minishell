@@ -70,7 +70,7 @@ static int check_error(char **argv, int *i)
 
     j = 0;
     while (ft_isalnum(argv[*i][j]) || argv[*i][j] == '_' ||
-           argv[*i][j] == '#' || argv[*i][j] == '=')
+           argv[*i][j] == '#' || argv[*i][j] == '=' || argv[*i][j] == '$')
         j++;
     if (ft_isdigit(argv[*i][0]) || argv[*i][j])
     {
@@ -85,7 +85,6 @@ static int check_error(char **argv, int *i)
             ft_putstrs_fd("bash: ", argv[0], ": `", 1);
             ft_putstrs_fd(argv[*i],  "': not a valid identifier\n", 0, 1);
         }
-        
         return (1);
     }
     return (0);
@@ -132,7 +131,7 @@ char        **multiple_env(t_data *param, int fd)
     i = 1;
     while (param->argv[i])
     {
-        if (check_error(param->argv, &i))
+        if ((param->ret += check_error(param->argv, &i)))
             i++;
         else
         {
@@ -142,5 +141,6 @@ char        **multiple_env(t_data *param, int fd)
                 param->envp = unset_command(param, i++);
         }
     }
+    param->ret = param->ret ? 1 : 0;
     return (param->envp);
 }

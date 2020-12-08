@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   bin.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jserrano <jserrano@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/23 22:36:37 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/07 10:55:07 by jserrano         ###   ########.fr       */
+/*   Updated: 2020/12/08 20:38:51 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ static void	set_in(char **argv)
 
 static void	exec_bin(int fd, char *path, t_data *param)
 {
-	int		status;
 	char	**args;
 
 	args = copy_args(param);
@@ -45,14 +44,16 @@ static void	exec_bin(int fd, char *path, t_data *param)
 		set_in(param->argv);
 		if (fd > 1)
 			dup2(fd, 1);
-		if ((param->ret = execve(path, args, param->envp)) && errno == EACCES)
+		if ((execve(path, args, param->envp)) && errno == EACCES)
 		{
-			ft_putstrs_fd("-bash: ", param->argv[0], ": ", 1);
+			param->ret = 126;
+			ft_putstrs_fd("bash: ", param->argv[0], ": ", 1);
 			ft_putstrs_fd(strerror(errno), "\n", 0, 1);
 		}
-		exit(0);
+		exit(param->ret);
 	}
-	wait(&status);
+	wait(&param->ret);
+	param->ret /= 256;
 	free(path);
 	free_matrix(args);
 }
@@ -64,11 +65,11 @@ static char	**split_path(t_data *param, char *str)
 
 	path = get_env(param->envp, "PATH");
 	if (path)
-		paths = ft_split(path, ':');
+		paths = ft_split_case(path, ':');
 	else
 	{
-		ft_putstrs_fd("-bash: ", str, ": No such file or directory\n", 1);
-		param->ret = 0;
+		ft_putstrs_fd("bash: ", str, ": No such file or directory\n", 1);
+		param->ret = 127;
 		return (NULL);
 	}
 	return (paths);
@@ -114,7 +115,6 @@ int			check_bin(int fd, t_data *param)
 	{
 		path = ft_strjoin(pre_path, d->d_name);
 		exec_bin(fd, path, param);
-		param->ret = 0;
 		closedir(dir);
 	}
 	free(pre_path);

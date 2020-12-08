@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/17 19:50:12 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/07 09:04:51 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/08 20:27:50 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,9 @@ static void	check_type(t_data *param, char *str, char *path)
 
 	if (errno == ENOENT || errno == EACCES)
 	{
-		ft_putstrs_fd("-bash: ", str, ": ", 1);
+		ft_putstrs_fd("bash: ", str, ": ", 1);
 		ft_putstrs_fd(strerror(errno), "\n", 0, 1);
+		param->ret = (errno == ENOENT) ? 127 : 126;
 	}
 	else if (!(dir = opendir(path)))
 	{
@@ -33,6 +34,7 @@ static void	check_type(t_data *param, char *str, char *path)
 	else
 	{
 		ft_putstrs_fd("-bash: ", str, ": Is a directory\n", 1);
+		param->ret = 126;
 		closedir(dir);
 	}
 }
@@ -107,7 +109,7 @@ void		bash_command(t_data *param)
 		signal(SIGINT, child_sig_handler_bash);
 		if (execve(path, param->argv, param->envp))
 			check_type(param, start, path);
-		exit(0);
+		exit(param->ret);
 	}
 	else
 		wait(&param->ret);
