@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/22 15:42:40 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/04 15:43:49 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/06 17:27:22 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static char	**erase_env(char **envp, int i)
 	while (envp[i])
 		cpy[j++] = ft_strdup(envp[i++]);
 	cpy[j] = 0;
-	free_env(envp);
+	free_matrix(envp);
 	return (cpy);
 }
 
@@ -69,7 +69,7 @@ char		**export_command(t_data *param)
 	{
 		cpy = copy_env(param->envp, 1);
 		cpy[i] = ft_strjoin(param->argv[1], param->argv[2]);
-		free_env(param->envp);
+		free_matrix(param->envp);
 	}
 	else
 	{
@@ -87,12 +87,9 @@ void		env_command(t_data *param, int fd)
 	i = 0;
 	if (param->argc != 1)
 	{
-		ft_putstr_fd("Wrong number arguments in 'env'!\n", 1);
+		ft_putstrs_fd("env: ‘", param->argv[1], "’: Permission denied\n", 1);
 		return ;
 	}
 	while (param->envp[i])
-	{
-		ft_putstr_fd(param->envp[i++], fd);
-		write(fd, "\n", 1);
-	}
+		ft_putstrs_fd(param->envp[i++], "\n", 0, fd);
 }

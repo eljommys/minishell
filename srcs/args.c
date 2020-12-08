@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   args.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jserrano <jserrano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/30 17:29:24 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/05 09:13:51 by parmarti         ###   ########.fr       */
+/*   Updated: 2020/12/07 10:40:41 by jserrano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,10 @@ static int	ft_strlen_arg(char *str)
 	i = 0;
 	if (str[i] == '"' || str[i] == '\'')
 		i = ft_strlen_char(str + i + 1, str[i]) + 2;
-	else if (ft_strlen_char(str, ':') < ft_strlen_spa(str))
+	else if (ft_strlen_char(str, ':') < ft_strlen_token(str))
 		i = ft_strlen(str);
 	else
-		i = ft_strlen_spa(str);
+		i = ft_strlen_token(str);
 	return (i);
 }
 
@@ -31,8 +31,7 @@ int			count_args(char *str)
 	int		i;
 
 	i = 0;
-	while (*str && *str != '|' && *str != '&' && *str != '>' &&
-		*str != ';')
+	while (*str)
 	{
 		skip_spaces(&str);
 		str += ft_strlen_arg(str);
@@ -58,4 +57,22 @@ void		set_args(char **argv, char *str, int argc)
 		str += len;
 		i++;
 	}
+}
+
+char		**copy_args(t_data *param)
+{
+	int		i;
+	char	**args;
+
+	i = 0;
+	while (param->argv[i] && ft_memcmp(param->argv[i], "<", 2))
+		i++;
+	args = ft_calloc(sizeof(char *), i + 1);
+	i = 0;
+	while (param->argv[i] && ft_memcmp(param->argv[i], "<", 2))
+	{
+		args[i] = ft_strdup(param->argv[i]);
+		i++;
+	}
+	return (args);
 }

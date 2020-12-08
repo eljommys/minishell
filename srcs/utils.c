@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/22 15:41:14 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/05 09:35:13 by parmarti         ###   ########.fr       */
+/*   Updated: 2020/12/06 10:19:35 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	child_sig_handler(int sig)
 {
 	if (sig == SIGINT)
-		exit(0);
+		write(1, "\n", 1);
 }
 
 void	skip_spaces(char **str)
@@ -24,14 +24,14 @@ void	skip_spaces(char **str)
 		(*str)++;
 }
 
-void	free_env(char **envp)
+void	free_matrix(char **matrix)
 {
 	int	i;
 
 	i = 0;
-	while (envp[i])
-		free(envp[i++]);
-	free(envp);
+	while (matrix[i])
+		free(matrix[i++]);
+	free(matrix);
 }
 
 char	*get_env(char **envp, char *env)

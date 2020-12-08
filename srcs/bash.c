@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/17 19:50:12 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/05 08:42:54 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/07 09:04:51 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static void	check_type(t_data *param, char *str, char *path)
 		fd = open(path, O_RDONLY, 0666);
 		free(param->str);
 		while (get_next_line(fd, &(param->str)))
-			param->envp = parser(param->str, param);
+			parser(param);
 		close(fd);
 	}
 	else
@@ -54,11 +54,13 @@ static void	set_filename(int len, char **new, char *str)
 			len--;
 		len--;
 	}
-	(*new)[len + 1] = 0;
-	aux = ft_strjoin(*new, "/");
+	aux = ft_strldup(*new, len);
 	free(*new);
-	*new = ft_strjoin(aux, filename);
+	*new = ft_strjoin(aux, "/");
 	free(aux);
+	aux = ft_strjoin(*new, filename);
+	free(*new);
+	*new = aux;
 	free(filename);
 }
 
@@ -80,6 +82,15 @@ static void	set_path(char *str, char **path)
 	free(new);
 }
 
+static void	child_sig_handler_bash(int sig)
+{
+	if (sig == SIGINT)
+	{
+		write(1, "\n", 1);
+		exit(0);
+	}
+}
+
 void		bash_command(t_data *param)
 {
 	char	buff[4097];
@@ -93,7 +104,7 @@ void		bash_command(t_data *param)
 	set_path(param->argv[0], &path);
 	if (!fork())
 	{
-		signal(SIGINT, child_sig_handler);
+		signal(SIGINT, child_sig_handler_bash);
 		if (execve(path, param->argv, param->envp))
 			check_type(param, start, path);
 		exit(0);

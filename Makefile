@@ -19,7 +19,7 @@ CC = gcc
 
 RM = rm -rf
 
-CFLAGS = -Wall -Werror -Wextra -g3
+CFLAGS = -Wall -Werror -Wextra -g3 -fsanitize=address
 
 all:		$(NAME)
 
