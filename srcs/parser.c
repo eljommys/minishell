@@ -6,13 +6,13 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/29 14:12:39 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/07 17:12:49 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/08 18:20:21 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	change_env(int i, char **str, t_data *param)
+static int	change_env(int i, int braces, char **str, t_data *param)
 {
 	int		len;
 	char	*bef;
@@ -20,10 +20,11 @@ static int	change_env(int i, char **str, t_data *param)
 	char	*env;
 	char	*aux;
 
+	braces = *((*str) + i + 1) == '{' ? 1 : 0;
 	len = (ft_strlen_char(*str + i + 1, ':') < ft_strlen_token(*str + i + 1)) ?
 	ft_strlen_char(*str + i + 1, ':') + 1 : ft_strlen_token(*str + i + 1) + 1;
 	bef = ft_strldup(*str, i);
-	aux = ft_strldup(*str + i + 1, len - 1);
+	aux = ft_strldup(*str + i + 1 + braces, len - 1 - braces * 2);
 	env = (!ft_memcmp(aux, "?", 2)) ? ft_itoa(param->ret) : 0;
 	aft = ft_strdup(*str + i + len);
 	env = (!env) ? ft_strdup(get_env(param->envp, aux)) : env;
@@ -42,8 +43,10 @@ static int	change_env(int i, char **str, t_data *param)
 static int	check_env(char **str, t_data *param)
 {
 	int i;
+	int braces;
 
 	i = 0;
+	braces = 0;
 	while ((*str) && (*str)[i])
 	{
 		if ((*str)[i] == '\'')
@@ -58,7 +61,7 @@ static int	check_env(char **str, t_data *param)
 			}
 		}
 		if ((*str)[i] == '$')
-			i += change_env(i, str, param) - 1;
+			i += change_env(i, braces, str, param) - 1;
 		i++;
 	}
 	return (0);
