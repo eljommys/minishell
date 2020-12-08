@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   args.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jserrano <jserrano@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/30 17:29:24 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/07 10:40:41 by jserrano         ###   ########.fr       */
+/*   Updated: 2020/12/07 18:12:17 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,11 +65,15 @@ char		**copy_args(t_data *param)
 	char	**args;
 
 	i = 0;
-	while (param->argv[i] && ft_memcmp(param->argv[i], "<", 2))
+	while (param->argv[i] && ft_memcmp(param->argv[i], "<", 2) &&
+			ft_memcmp(param->argv[i], ">", 2) &&
+			ft_memcmp(param->argv[i], ">>", 3))
 		i++;
 	args = ft_calloc(sizeof(char *), i + 1);
 	i = 0;
-	while (param->argv[i] && ft_memcmp(param->argv[i], "<", 2))
+	while (param->argv[i] && ft_memcmp(param->argv[i], "<", 2) &&
+			ft_memcmp(param->argv[i], ">", 2) &&
+			ft_memcmp(param->argv[i], ">>", 3))
 	{
 		args[i] = ft_strdup(param->argv[i]);
 		i++;

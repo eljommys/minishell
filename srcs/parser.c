@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/29 14:12:39 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/07 10:23:00 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/07 17:12:49 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ static void	command_or_pipe(t_data *param, int j)
 
 void		parser(t_data *param)
 {
-	int i;
+	int		i;
 
 	if (!param->str || !ft_memcmp(param->str, ";", 2))
 	{
@@ -100,7 +100,7 @@ void		parser(t_data *param)
 		free(param->str);
 		return ;
 	}
-	param->cmds = ft_split(param->str, ';');
+	param->cmds = ft_split_case(param->str, ';');
 	i = 0;
 	while (param->cmds[i])
 	{
