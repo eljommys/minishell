@@ -1,17 +1,18 @@
 NAME =	minishell
 
 SRCS =	srcs/main.c\
-		srcs/builtins.c\
-		srcs/bash.c\
-		srcs/env.c\
-		srcs/bin.c\
-		srcs/utils.c\
 		srcs/parser.c\
+		srcs/pipe.c\
 		srcs/command.c\
 		srcs/args.c\
-		srcs/lens.c\
-		srcs/pipe.c\
+		srcs/bin.c\
+		srcs/builtins.c\
+		srcs/bash.c\
 		srcs/cd.c\
+		srcs/export.c\
+		srcs/unset.c\
+		srcs/utils.c\
+		srcs/lens.c\
 
 OBJS = $(SRCS:.c=.o)
 

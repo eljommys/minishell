@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/16 15:16:49 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/08 13:27:24 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/08 17:22:40 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ void				set_args(char **argv, char *str, int argc);
 void				child_sig_handler(int sig);
 void				bash_command(t_data *param);
 void				cd_command(t_data *param);
-void				env_command(t_data *param, int fd);
 void				exit_command(t_data *param);
 void				parser(t_data *param);
 char				*get_env(char **envp, char *env);
