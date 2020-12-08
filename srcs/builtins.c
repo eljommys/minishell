@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/17 00:01:09 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/08 13:08:43 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/08 14:52:51 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ void		exit_command(t_data *param)
 {
 	free(param->str);
 	free_matrix(param->envp);
+	free_matrix(param->export);
 	free_matrix(param->argv);
 	free_matrix(param->cmds);
 	free(param);

@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/16 15:16:49 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/08 12:31:01 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/08 13:27:24 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ typedef struct		s_data{
 	int		argc;
 	char	**argv;
 	char	**envp;
+	char	**export;
 	int		ret;
 	char	*str;
 	char	**cmds;

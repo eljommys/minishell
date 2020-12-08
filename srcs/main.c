@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/16 15:16:03 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/06 16:47:31 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/08 14:55:22 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ static void	init_param(t_data **param, char **argv, char **envp)
 {
 	(*param) = (t_data *)malloc(sizeof(t_data));
 	(*param)->envp = copy_env(envp, 0);
+	(*param)->export = (char **)ft_calloc(sizeof(char *), 1);
 	(*param)->argv = argv;
 	(*param)->ret = 0;
 	(*param)->child = 0;

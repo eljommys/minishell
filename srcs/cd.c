@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 16:39:19 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/06 18:40:18 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/08 13:33:04 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,13 @@ static void	change_dir(char *path, t_data *param)
 		param->argv[0] = ft_strdup("export");
 		param->argv[1] = ft_strdup("OLDPWD=");
 		param->argv[2] = ft_strdup(oldpwd);
-		param->envp = export_command(param);
+		param->envp = export_command(param, 1);
 		free_matrix(param->argv);
 		param->argv = (char **)ft_calloc(sizeof(char *), 4);
 		param->argv[0] = ft_strdup("export");
 		param->argv[1] = ft_strdup("PWD=");
 		param->argv[2] = ft_strdup(getcwd(cwd, 4096));
-		param->envp = export_command(param);
+		param->envp = export_command(param, 1);
 	}
 	else
 		ft_putstrs_fd("-bash: cd: ", param->argv[1], ": ", 1);

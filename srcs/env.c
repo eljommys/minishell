@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/22 15:42:40 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/08 13:13:25 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/08 15:08:39 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,16 +83,16 @@ static void	sort_envp(char **envp, int fd)
 {
 	int		i;
 	int		len;
-	char	**aux;
 	char	*tmp;
+	char	**aux;
 
 	aux = copy_env(envp, 0);
 	i = 0;
-	while (aux[i + 1])
+	while (aux[i])
 	{
 		len = (ft_strlen_char(aux[i], '=') > ft_strlen_char(aux[i + 1], '='))
 			? ft_strlen_char(aux[i], '=') : ft_strlen_char(aux[i + 1], '=');
-		if (ft_memcmp(aux[i], aux[i + 1], len) > 0)
+		if (aux[i + 1] && ft_memcmp(aux[i], aux[i + 1], len) > 0)
 		{
 			tmp = aux[i];
 			aux[i] = aux [i + 1];
@@ -109,17 +109,38 @@ static void	sort_envp(char **envp, int fd)
 
 char		**multiple_env(t_data *param, int fd)
 {
-	int	i;
+	int		i;
+	int		j;
+	char	**aux;
 
-	i = 1;
 	if (!ft_memcmp(param->argv[0], "export", 7) && param->argc == 1)
+	{
 		sort_envp(param->envp, fd);
+		if (param->export)
+			sort_envp(param->export, fd);
+	}
+	i = 1;
 	while (param->argv[i])
 	{
 		if (!ft_memcmp(param->argv[0], "export", 7))
 		{
-			param->envp = export_command(param, i);
-			i += 2;
+			if ((int)ft_strlen(param->argv[i]) == ft_strlen_char(param->argv[i], '='))
+			{
+				j = 0;
+				while (param->export[j])
+					j++;
+				aux = copy_env(param->export, 1);
+				aux[j] = ft_strdup(param->export[j]);
+				free_matrix(param->export);
+				param->export = aux;
+				free_matrix(aux);
+				i++;
+			}
+			else
+			{
+				param->envp = export_command(param, i);
+				i += 2;
+			}
 		}
 		else if (!ft_memcmp(param->argv[0], "unset", 6))
 			param->envp = unset_command(param, i++);
