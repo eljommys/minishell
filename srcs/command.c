@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/01 18:22:40 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/09 14:23:12 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/09 18:52:11 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,9 +84,9 @@ char		**check_command(char *str, t_data *param)
 	param->argc = count_args(str);
 	param->argv = (char **)ft_calloc(sizeof(char *), (param->argc + 1));
 	set_args(param->argv, str, param->argc);
-	/* fd = -1;
+	fd = -1;
 	while (param->argv[++fd])
-		printf("argv[%d] = %s\n" ,fd, param->argv[fd]); */
+		printf("argv[%d] = %s\n" ,fd, param->argv[fd]);
 	if (param->argv[0] && *(param->argv[0]))
 	{
 		fd = set_fd(param);

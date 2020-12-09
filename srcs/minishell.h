@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/16 15:16:49 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/09 12:52:30 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/09 17:55:46 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ typedef struct		s_data{
 	int		child;
 }					t_data;
 
+void				put_prompt(char **envp);
 void				skip_spaces(char **str);
 void				free_matrix(char **matrix);
 void				set_args(char **argv, char *str, int argc);
@@ -42,6 +43,8 @@ void				cd_command(t_data *param);
 void				pwd_command(int fd);
 void				exit_command(t_data *param);
 void				parser(t_data *param);
+void				logout(void);
+void				ft_stty(char *action);
 char				*get_env(char **envp, char *env);
 char				**copy_env(char **envp, int add);
 char				**export_command(t_data *param, int i);
@@ -56,4 +59,6 @@ int					count_args(char *str);
 int					ft_strlen_token(char *str);
 int					ft_strlen_pipe(char *str);
 int					ft_strlen_char(char *str, char c);
+int					get_cmd(t_data *param);
+int					cmd_handler(char *buff, int *x, int *i);
 #endif

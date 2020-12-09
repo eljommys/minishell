@@ -6,13 +6,13 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/16 15:16:03 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/08 20:50:53 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/09 19:12:56 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	put_prompt(char **envp)
+void		put_prompt(char **envp)
 {
 	char	*home;
 	char	*path;

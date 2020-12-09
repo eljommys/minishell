@@ -14,6 +14,8 @@ SRCS =	srcs/main.c\
 		srcs/utils.c\
 		srcs/lens.c\
 		srcs/exit.c\
+		srcs/stty.c\
+		srcs/cmd_handler.c\
 
 OBJS = $(SRCS:.c=.o)
 
