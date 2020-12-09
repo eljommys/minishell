@@ -1,4 +1,3 @@
-#!/bin/bash
 /bin/echo -e "\e[1;31m======================>Test PATH absoluto<======================\e[0m"
 /bin/echo
 echo -e "\e[1;33m/bin/ls\e[0m"

@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/30 17:29:24 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/09 00:16:06 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/09 13:16:02 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ static int	ft_strlen_arg(char *str)
 		i = 1;
 	else
 		i = (ft_strlen_char(str, '<') < i) ? ft_strlen_char(str, '<') : i;
-	printf("strlen char = %d\n", i);
 	return (i);
 }
 
