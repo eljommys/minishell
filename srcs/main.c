@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/16 15:16:03 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/09 19:12:56 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/09 21:36:39 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static void	init_param(t_data **param, char **argv, char **envp)
 	(*param)->child = 0;
 }
 
-int			main(int argc, char **argv, char **envp)
+/* int			main(int argc, char **argv, char **envp)
 {
 	t_data	*param;
 
@@ -71,6 +71,84 @@ int			main(int argc, char **argv, char **envp)
 			exit(0);
 		}
 		parser(param);
+	}
+	return (0);
+} */
+
+void		ft_stty()
+{
+	pid_t	child;
+	char	*args[5];
+
+	child = fork();
+	if (child < 0)
+		exit (1);
+	if (!child)
+	{
+		args[0] = "/bin/stty";
+		args[1] = "discard";
+		args[2] = "\4";
+		args[3] = NULL;
+		execve(args[0], args, NULL);
+		exit (1);
+	}
+	if (child > 0)
+		wait(NULL);
+}
+
+int			check_char(char c)
+{
+	if (c == 3 || c == 4)
+		return ((int)c);
+	else if (c == '\n')
+		return (1);
+	return (0);
+}
+
+void		check_key(int key, t_data *param)
+{
+	if (key == 4 && !ft_strlen(param->str))
+		exit_command(param);
+}
+
+void		add_char(char **str, char c)
+{
+	char	*aux;
+
+	aux = ft_calloc(sizeof(char), ft_strlen(*str) + 2);
+	ft_memcpy(aux, *str, ft_strlen(*str));
+	aux[ft_strlen(aux)] = c;
+	if (*str)
+		free(*str);
+	*str = aux;
+}
+
+int			main(int argc, char **argv, char **envp)
+{
+	t_data	*param;
+	char	c;
+	int		key;
+
+	if (argc != 1)
+		return (1);
+	init_param(&param, argv, envp);
+	signal(SIGQUIT, sig_handler);
+	signal(SIGINT, sig_handler);
+	ft_stty();
+	while (1)
+	{
+		put_prompt(param->envp);
+		param->str = 0;
+		while (read(0, &c, 1))
+		{
+			if ((key = check_char(c)))
+				break ;
+			add_char(&(param->str), c);
+		}
+		if (key > 1)
+			check_key(key, param);
+		else
+			parser(param);
 	}
 	return (0);
 }
