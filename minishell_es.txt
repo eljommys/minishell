@@ -1,0 +1,76 @@
+ Ejecute un comando sencillo con un PATH absoluto como /bin/ls o cualquier otro comando sin opciones
+Argumentos
+- Ejecute un comando sencillo con un PATH absoluto como /bin/ls o cualquier otro comando, con opciones pero sin '' ni ""
+- Repita varias veces con diferentes comandos y argumentos.
+echo
+- Ejecute el comando "echo" con y sin argumentos u opciones
+- Repita varias veces con distintos argumentos
+exit
+- Ejecute el comando "exit" con y sin argumentos
+- Repita varias veces con distintos argumentos
+- No se olvide de volver a abrir el minishell
+Valor de retorno de un proceso
+- Ejecute comandos sencillos con un PATH absoluto como /bin/ls o cualquier otro comando con argumentos pero sin '' ni "", después ejecute "echo $?"
+- Compruebe el valor que se muestra en pantalla. Puede hacer lo mismo con el bash y comparar.
+- Repita varias veces con distintos comandos y argumentos, utilice comandos que no funcionen como '/bin/ls archivonulo'
+Punto y coma
+- Ejecute varios comandos sencillos con un PATH absoluto y con argumento, pero separados con ';'
+- Repita varias veces con comandos distintos; no se olvide de hacer pruebas con espacios y sin ellos alrededor de los ';'
+Señales
+- Pruebe ctrl-C en un prompt vacío
+- Pruebe ctrl-\ en un prompt vacío
+- Pruebe ctrl-D en un prompt vacío
+- Pruebe ctrl-C en un prompt después de haber escrito algo
+- Pruebe ctrl-D en un prompt después de haber escrito algo
+- Pruebe ctrl-\ en un prompt después de haber escrito algo
+- Pruebe ctrl-C después de haber ejecutado un comando que provoque un bloqueo, como cat o grep sin argumento
+- Pruebe ctrl-\ después de haber ejecutado un comando que provoque un bloqueo, como cat o grep sin argumento
+- Pruebe ctrl-D después de haber ejecutado un comando que provoque un bloqueo, como cat o grep sin argumento
+- Repita varias veces utilizando comandos distintos
+Comillas
+- Ejecute un comando sencillo con un PATH absoluto y con argumento, pero esta vez utilice comillas (Añada ';' y espacios en el interior de las comillas)
+- Utilice argumentos vacíos y '\'
+- No lo intente con líneas múltiples
+env
+- Compruebe que env le muestra las variables de entorno correctas
+export
+- Exporte variables de entorno, nuevas y remplace las antiguas
+- Compruebe el resultado con env
+unset
+- Exporte variables de entorno, nuevas y remplace las antiguas
+- Utilice "unset" para retirar algunas
+- Compruebe el resultado con env
+Variables de entorno
+- Ejecute echo con variables "$" como argumento
+- Compruebe que las comillas alrededor de las $variables funcionan correctamente (como en el bash)
+cd
+- Utilice el comando cd para desplazarse por el árbol de los directorios y utilice /bin/ls para comprobar que se encuentra en el directorio correcto
+- Repita varias veces con cd que funcionen y que no funcionen
+- Pruebe '.' y '..' como argumento
+pwd
+- Utilice el comando 'pwd', con y sin argumento
+- Repita varias veces en directorios distintos
+PATH relativo
+- Ejecute comandos utilizando un PATH relativo
+- Repita varias veces en otros directorios con un PATH relativo complejo (con muchos ..)
+PATH de entorno
+- Ejecute comandos pero sin PATH (ls, wc, awk, etc...)
+- Retire el $PATH y compruebe si sigue funcionando
+- Añada varios directorios a PATH (directory1:directory2) y compruebe que se llama a los directorios de izquierda a derecha
+Comillas simples
+- Ejecute comandos con comillas simples como argumento
+- Pruebe argumentos vacíos
+- Pruebe variables de entorno, espacios, ';' dentro de las comillas
+Redirección
+- Ejecute comandos con redirecciones < y/o >
+- Repita varias veces con distintos comandos y argumentos y, de vez en cuando, remplace > por >>
+- Compruebe si varias instancias de la misma redirección fallan
+Tuberías
+- Ejecute comandos con tuberías (también llamadas "pipes") como 'cat file | grep bla | more'
+- Repita varias veces con distintos comandos y argumentos
+- Pruebe comandos que fallen como 'ls archivonulo | grep bla | more'
+- Combine tuberías y redirecciones
+Seamos locos
+- Ejecute comandos que no funcionen como 'dskdskdksd' y compruebe que todo funciona según lo previsto
+- Pruebe comandos muy muy largos, con montones de argumentos
+- Diviértase con este magnífico minishell y disfrútelo
