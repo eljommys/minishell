@@ -1,0 +1,12 @@
+total 536
+drwxrwxrwx 1 jommys jommys   4096 Dec  9 14:56 .
+drwxrwxrwx 1 jommys jommys   4096 Dec  7 23:33 ..
+drwxrwxrwx 1 jommys jommys   4096 Dec  9 00:17 .git
+-rwxrwxrwx 1 jommys jommys    906 Dec  8 21:04 Makefile
+-rwxrwxrwx 1 jommys jommys   6755 Dec  8 21:04 README.md
+-rwxrwxrwx 1 jommys jommys      0 Dec  9 14:56 a
+drwxrwxrwx 1 jommys jommys   4096 Dec  9 13:55 libft
+-rwxrwxrwx 1 jommys jommys 234832 Dec  9 14:43 minishell
+-rwxrwxrwx 1 jommys jommys 288113 Dec  7 23:33 minishell.png
+drwxrwxrwx 1 jommys jommys   4096 Dec  9 14:43 srcs
+-rwxrwxrwx 1 jommys jommys   4832 Dec  9 12:37 test.sh

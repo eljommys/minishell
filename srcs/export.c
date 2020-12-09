@@ -85,6 +85,7 @@ static int check_error(char **argv, int *i)
             ft_putstrs_fd("bash: ", argv[0], ": `", 1);
             ft_putstrs_fd(argv[*i],  "': not a valid identifier\n", 0, 1);
         }
+        (*i)++;
         return (1);
     }
     return (0);
@@ -115,7 +116,13 @@ static void sort_envp(char **envp, int fd, char c)
     }
     i = -1;
     while (aux[++i])
-        ft_putstrs_fd("declare -x ", aux[i], "\n", fd);
+    {
+    ft_putstr_fd("declare -x ", fd);
+    ft_putstrlen_fd(aux[i], ft_strlen_char(aux[i], '=') + 1, fd);
+    if (ft_strchr(aux[i], '='))
+        ft_putstrs_fd("\"", ft_strchr(aux[i], '=') + 1, "\"", fd);
+    write(fd, "\n", 1);
+    }
     free_matrix(aux);
 }
 
@@ -123,6 +130,7 @@ char        **multiple_env(t_data *param, int fd)
 {
     int i;
 
+    param->ret = 0;
     if (!ft_memcmp(param->argv[0], "export", 7) && param->argc == 1)
     {
         sort_envp(param->envp, fd, '=');
@@ -131,8 +139,8 @@ char        **multiple_env(t_data *param, int fd)
     i = 1;
     while (param->argv[i])
     {
-        if ((param->ret += check_error(param->argv, &i)))
-            i++;
+        if (check_error(param->argv, &i))
+            (param->ret)++;
         else
         {
             if (!ft_memcmp(param->argv[0], "export", 7))

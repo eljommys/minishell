@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/17 00:01:09 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/08 20:02:21 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/09 14:44:31 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,25 +52,34 @@ static void echo_command(t_data *param, int fd)
 
 int check_builtins(int fd, t_data *param)
 {
-	if (!ft_memcmp(param->argv[0], "echo", 5))
-		echo_command(param, fd);
-	else if (!ft_memcmp(param->argv[0], "pwd", 4))
-		pwd_command(fd);
-	else if (!ft_memcmp(param->argv[0], "cd", 3))
-		cd_command(param);
-	else if (!ft_memcmp(param->argv[0], "env", 4))
-		env_command(param, fd);
-	else if (!ft_memcmp(param->argv[0], "./", 2) ||
-			 !ft_memcmp(param->argv[0], "../", 3) ||
-			 !ft_memcmp(param->argv[0], "/", 1))
-		bash_command(param);
-	else if (!ft_memcmp(param->argv[0], "export", 7) ||
-			 !ft_memcmp(param->argv[0], "unset", 6))
-		param->envp = multiple_env(param, fd);
-	else if (!ft_memcmp(param->argv[0], "exit", 5) ||
-			 !ft_memcmp(param->argv[0], "q", 2))
-		exit_command(param);
-	else
-		return (128);
-	return (param->ret);
+    char    *path;
+
+    path = 0;
+    if (!ft_memcmp(param->argv[0], "echo", 5))
+        echo_command(param, fd);
+    else if (!ft_memcmp(param->argv[0], "pwd", 4))
+        pwd_command(fd);
+    else if (!ft_memcmp(param->argv[0], "cd", 3))
+    {
+        path = ft_strdup(param->argv[1]);
+        cd_command(param);
+        if (path && !ft_strncmp(path, "-", 2))
+            pwd_command(fd);
+        free(path);
+    }
+    else if (!ft_memcmp(param->argv[0], "env", 4))
+        env_command(param, fd);
+    else if (!ft_memcmp(param->argv[0], "./", 2) ||
+             !ft_memcmp(param->argv[0], "../", 3) ||
+             !ft_memcmp(param->argv[0], "/", 1))
+        bash_command(param);
+    else if (!ft_memcmp(param->argv[0], "export", 7) ||
+             !ft_memcmp(param->argv[0], "unset", 6))
+        param->envp = multiple_env(param, fd);
+    else if (!ft_memcmp(param->argv[0], "exit", 5) ||
+             !ft_memcmp(param->argv[0], "q", 2))
+        exit_command(param);
+    else
+        return (128);
+    return (param->ret);
 }

@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/29 14:12:39 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/09 00:16:33 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/09 14:40:10 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ static int	check_env(char **str, t_data *param)
 				return (1);
 			}
 		}
-		if ((*str)[i] && (*str)[i] == '\\' && (*str)[i] == '$')
+		if ((*str)[i] && (*str)[i] == '\\' && (*str)[i + 1] == '$')
 		{
 			bef = ft_strldup(*str, i);
 			aux = ft_strdup(*str + i + 1);
