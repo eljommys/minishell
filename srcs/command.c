@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/01 18:22:40 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/10 11:10:40 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/10 12:25:43 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ char		**check_command(char *str, t_data *param)
 		while (param->argv[param->argc])
 			(param->argc)++;
 		param->ret = check_builtins(fd, param);
-		if (param->ret == 128 && (param->ret = check_bin(fd, param)) == 1)
+		if (param->ret == 127 && (param->ret = check_bin(fd, param)) == 127)
 		{
 			ft_putstrs_fd(0, str, ": command not found.\n", 1);
 			param->ret = 127;

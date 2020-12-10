@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/23 22:36:37 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/08 20:38:51 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/10 12:25:50 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ int			check_bin(int fd, t_data *param)
 	char			*pre_path;
 	char			*path;
 
-	param->ret = 1;
+	param->ret = 127;
 	pre_path = search_bin(param->argv[0], &dir, &d, param);
 	if (pre_path)
 	{

@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/29 14:12:39 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/09 23:09:47 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/10 11:45:16 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,6 +120,7 @@ void		parser(t_data *param)
 			param->ret = 2;
 		}
 		free(param->str);
+		param->str = 0;
 		return ;
 	}
 	param->cmds = ft_split_case(param->str, ';');
