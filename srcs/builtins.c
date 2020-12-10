@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/17 00:01:09 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/09 18:51:27 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/10 12:25:08 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ int check_builtins(int fd, t_data *param)
     char    *path;
 
     path = 0;
+    param->ret = 0;
     if (!ft_memcmp(param->argv[0], "echo", 5))
         echo_command(param, fd);
     else if (!ft_memcmp(param->argv[0], "pwd", 4))
@@ -80,6 +81,6 @@ int check_builtins(int fd, t_data *param)
              !ft_memcmp(param->argv[0], "q", 2))
         exit_command(param);
     else
-        return (128);
+        return (127);
     return (param->ret);
 }
