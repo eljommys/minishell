@@ -80,7 +80,7 @@ int			cmd_handler(char *buff, int *x, int *i)
 	c = ft_getchar();
 	if (disable_keys(c))					//Ignora las teclas de retroceso y escape
 		return (2);
-	//write(1, &c, 1);
+	write(1, &c, 1);
 	buff[*x] = c;
 	if (nl_handler(c, buff, *x))			//Comprueba retorno de carro
 		return (1);

@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/01 12:06:20 by jserrano          #+#    #+#             */
-/*   Updated: 2020/12/09 17:03:14 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/09 19:34:09 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,6 @@ void			ft_lstiter(t_list *lst, void (*f)(void *));
 t_list			*ft_lstmap(t_list *lst,\
 				void *(*f)(void *), void (*del)(void *));
 int				get_next_line(int fd, char **line);
-int				ft_getchar(void);
+char			ft_getchar(void);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/16 15:16:03 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/09 19:12:56 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/10 08:50:13 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,14 +62,15 @@ int			main(int argc, char **argv, char **envp)
 	signal(SIGQUIT, sig_handler);
 	while (1)
 	{
-		put_prompt(param->envp);
+/* 		put_prompt(param->envp);
 		signal(SIGINT, sig_handler);
 		param->str = 0;
 		if ((get_next_line(0, &(param->str)) <= 0))
 		{
 			ft_putstr_fd("\nlogout\n", 1);
 			exit(0);
-		}
+		} */
+		get_cmd(param);
 		parser(param);
 	}
 	return (0);

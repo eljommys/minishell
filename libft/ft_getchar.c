@@ -12,9 +12,9 @@
 
 #include "libft.h"
 
-int	ft_getchar(void)
+char	ft_getchar(void)
 {
-	int	c;
+	char	c;
 
 	read(1, &c, 1);
 	return (c);
