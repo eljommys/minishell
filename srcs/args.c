@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/30 17:29:24 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/09 13:16:02 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/10 14:00:11 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static int	ft_strlen_arg(char *str)
 {
-	int		i;
+	int i;
 
 	i = 0;
 	if (*str == '"' || *str == '\'')
@@ -34,7 +34,7 @@ static int	ft_strlen_arg(char *str)
 
 int			count_args(char *str)
 {
-	int		i;
+	int i;
 
 	i = 0;
 	while (*str)
@@ -47,14 +47,25 @@ int			count_args(char *str)
 	return (i);
 }
 
+void		strjoin_case(char **str, int j)
+{
+	char *bef;
+	char *aux;
+
+	bef = ft_strldup(*str, j);
+	aux = ft_strdup(*str + j + 1);
+	free(*str);
+	*str = ft_strjoin(bef, aux);
+	free(aux);
+	free(bef);
+}
+
 void		set_args(char **argv, char *str, int argc)
 {
 	int i;
 	int j;
 	int len;
 	int quotes;
-	char *bef;
-	char *aux;
 
 	i = 0;
 	while (i < argc)
@@ -67,14 +78,7 @@ void		set_args(char **argv, char *str, int argc)
 		while (argv[i][j])
 		{
 			if (argv[i][j] == '\\')
-			{
-				bef = ft_strldup(argv[i], j);
-				aux = ft_strdup(argv[i] + j + 1);
-				free(argv[i]);
-				argv[i] = ft_strjoin(bef, aux);
-				free(aux);
-				free(bef);
-			}
+				strjoin_case(&(argv[i]), j);
 			j++;
 		}
 		str += len;
@@ -84,8 +88,8 @@ void		set_args(char **argv, char *str, int argc)
 
 char		**copy_args(t_data *param)
 {
-	int		i;
-	char	**args;
+	int i;
+	char **args;
 
 	i = 0;
 	while (param->argv[i] && ft_memcmp(param->argv[i], "<", 2))

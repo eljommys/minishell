@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/16 15:16:49 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/10 13:38:12 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/10 13:59:28 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ void				exit_command(t_data *param);
 void				parser(t_data *param);
 void				export_value(t_data *param, int *i);
 void				sort_envp(char **envp, int fd, char c);
+void				strjoin_case(char **str, int j);
 char				*get_env(char **envp, char *env);
 char				**copy_env(char **envp, int add);
 char				**export_command(t_data *param, int i);

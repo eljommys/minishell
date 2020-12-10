@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/29 14:12:39 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/10 13:40:16 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/10 14:02:30 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,6 @@ static int	check_env(char **str, t_data *param)
 {
 	int		i;
 	int		braces;
-	char	*aux;
-	char	*bef;
 
 	i = -1;
 	braces = 0;
@@ -72,12 +70,7 @@ static int	check_env(char **str, t_data *param)
 			return (1);
 		if ((*str)[i] && (*str)[i] == '\\' && (*str)[i + 1] == '$')
 		{
-			bef = ft_strldup(*str, i);
-			aux = ft_strdup(*str + i + 1);
-			free(*str);
-			*str = ft_strjoin(bef, aux);
-			free(aux);
-			free(bef);
+			strjoin_case(str, i);
 			i++;
 		}
 		else if ((*str)[i] == '$')
