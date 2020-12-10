@@ -1,7 +1,4 @@
-NAME 		= 	libft.a
-OBJS		=	${SRCS:.c=.o}
-CC			=	gcc
-CFLAGS		=	-Wall -Wextra -Werror
+NAME = 	libft.a
 
 SRCS =	ft_memset.c \
 		ft_bzero.c \
@@ -43,6 +40,7 @@ SRCS =	ft_memset.c \
 		ft_strtrim.c\
 		ft_substr.c\
 		ft_strldup.c\
+		ft_addchr.c\
 		get_next_line.c\
 		ft_lstnew.c\
 		ft_lstadd_front.c\
@@ -56,50 +54,45 @@ SRCS =	ft_memset.c \
 		ft_lstiter.c\
 		ft_lstmap.c\
 
-###########################
+OBJS =		${SRCS:.c=.o}
 
-OPTI = -Ofast #-O3
+CC =		gcc
+
+CFLAGS =	-Wall -Wextra -Werror
+
+RM = 		rm -rf
 
 all:		$(NAME)
 
-$(NAME):	echoCL ${OBJS} echoOK echoCS echoAR
-	ar rc	$(NAME) ${OBJS}
-	ranlib	$(NAME)
+$(NAME):	echoCL ${OBJS} echoOK
+			ar rc	$(NAME) ${OBJS}
+			ranlib	$(NAME)
 
 .c.o:
-	${CC} -c ${CFLAGS} -I. -o $@ $<
-	printf "$(GREEN)█"
+			${CC} -c ${CFLAGS} -I. -o $@ $<
+			printf "$(GREEN)█"
 
 clean:
-	rm -f $(OBJS)
+			${RM} $(OBJS)
 
 fclean:		clean
-	rm -f $(NAME)
+			${RM} $(NAME)
 
 re:			fclean all
 
 .SILENT:
-###########################COLOR
-#----------------reset----------------#
-NC = \033[0m
 
-#-----------Regular Colors------------#
-BLACK = \033[0;30m
-RED = \033[0;31m
-GREEN = \033[32m
-YELLOW = \033[33;33m
-BLUE = \033[0;34m
-PURPLE = \033[35m
+##############______________Colors______________##############
+
+BLUE = \033[1;34m
+GREEN = \033[1;32m
+YELLOW = \033[1;33m
 CYAN = \033[1;36m
-WHITE = \033[0;37m
+END = \033[0m
 
-###########################ECHO
+##############______________MESSAGES______________##############
 
 echoCL:
-	echo "$(YELLOW)===> Compiling Libft$(NC)\n"
+	echo "\n$(YELLOW)===> Compiling $(BLUE)Libft$(END)\n"
 echoOK:
-	echo "$(GREEN) OK$(NC)\n"
-echoCS :
-	echo "$(GREEN)===> Compilation Success$(NC)"
-echoAR :
-	echo "$(CYAN)===> Archiving Libft$(NC)$(GREEN) OK$(NC)\n"
+	echo "$(GREEN) OK ===> Compilation Success$(END)\n"

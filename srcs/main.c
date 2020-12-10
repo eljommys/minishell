@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/16 15:16:03 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/10 12:34:43 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/10 15:46:24 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,16 +54,29 @@ static void	init_param(t_data **param, char **argv, char **envp, int *ret_len)
 	ret_len[0] = 1;
 }
 
-void		add_char(char **str, char c)
+static void	print_welcome_msg(void)
 {
-	char	*aux;
-
-	aux = ft_calloc(sizeof(char), ft_strlen(*str) + 2);
-	ft_memcpy(aux, *str, ft_strlen(*str));
-	aux[ft_strlen(aux)] = c;
-	if (*str)
-		free(*str);
-	*str = aux;
+	ft_putstr_fd("                                        \n", 2);
+	ft_putstr_fd("               ▄█████████▄              \n", 2);
+	ft_putstr_fd("            ▄███████████████▄           \n", 2);
+	ft_putstr_fd("         ██████▀   ██   ▀███████        \n", 2);
+	ft_putstr_fd("      ███   ▀███   ██   ███▀   ███      \n", 2);
+	ft_putstr_fd("     ██████   ██   ██   ██   ██████     \n", 2);
+	ft_putstr_fd("     ██   ██   ██  ██  ██   ██   ██     \n", 2);
+	ft_putstr_fd("    ███    ██  ██  ██  ██  ██    ███    \n", 2);
+	ft_putstr_fd("    ██ ██   ██  █  ██  █  ██   ██ ██    \n", 2);
+	ft_putstr_fd("    ██  ███  ██ ██ ██ ██ ██  ███  ██    \n", 2);
+	ft_putstr_fd("    ██    ██  ██ █ ██ █ ██  ██    ██    \n", 2);
+	ft_putstr_fd("    ████▄   ██ █  █  █  █ ██   ▄████    \n", 2);
+	ft_putstr_fd("       ████   █          █   ████       \n", 2);
+	ft_putstr_fd("          ██                ██          \n", 2);
+	ft_putstr_fd("          ████████▄  ▄████████          \n", 2);
+	ft_putstr_fd("                  ▀██▀                  \n", 2);
+	ft_putstr_fd("           _       _     _          _ _ \n", 2);
+	ft_putstr_fd(" _ __ ___ (_)_ __ (_)___| |__   ___| | |\n", 2);
+	ft_putstr_fd("| '_ ` _ \\| | '_ \\| / __| '_ \\ / _ \\ | |\n", 2);
+	ft_putstr_fd("| | | | | | | | | | \\__ \\ | | |  __/ | |\n", 2);
+	ft_putstr_fd("|_| |_| |_|_|_| |_|_|___/_| |_|\\___|_|_|\n\n", 2);
 }
 
 int			main(int argc, char **argv, char **envp)
@@ -75,6 +88,7 @@ int			main(int argc, char **argv, char **envp)
 	if (argc != 1)
 		return (1);
 	init_param(&param, argv, envp, ret_len);
+	print_welcome_msg();
 	signal(SIGQUIT, sig_handler);
 	while (1)
 	{
@@ -82,7 +96,7 @@ int			main(int argc, char **argv, char **envp)
 			put_prompt(param->envp);
 		signal(SIGINT, sig_handler);
 		while ((ret_len[0] = read(1, &c, 1)) && c != '\n')
-			add_char(&(param->str), c);
+			ft_addchr(&(param->str), c);
 		ret_len[1] = (int)ft_strlen(param->str);
 		if (c == '\n')
 			parser(param);
