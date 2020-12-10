@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/01 18:22:40 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/10 12:25:43 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/10 12:51:48 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static int		set_fd(t_data *param)
 	return (redirect(param, i));
 }
 
-static char		**copy_args1(t_data *param)
+static void	copy_args1(t_data *param)
 {
 	int		i;
 	char	**args;
@@ -73,13 +73,14 @@ static char		**copy_args1(t_data *param)
 		args[i] = ft_strdup(param->argv[i]);
 		i++;
 	}
-	return (args);
+	free_matrix(param->argv);
+	param->argv = args;
+	param->argc = 0;
 }
 
 char		**check_command(char *str, t_data *param)
 {
 	int		fd;
-	char	**aux;
 
 	param->argc = count_args(str);
 	param->argv = (char **)ft_calloc(sizeof(char *), (param->argc + 1));
@@ -90,10 +91,7 @@ char		**check_command(char *str, t_data *param)
 	if (param->argv[0] && *(param->argv[0]))
 	{
 		fd = set_fd(param);
-		aux = copy_args1(param);
-		free_matrix(param->argv);
-		param->argv = aux;
-		param->argc = 0;
+		copy_args1(param);
 		while (param->argv[param->argc])
 			(param->argc)++;
 		param->ret = check_builtins(fd, param);
