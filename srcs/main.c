@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/16 15:16:03 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/10 15:46:24 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/10 15:58:11 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,18 +42,6 @@ static void	sig_handler(int sig)
 	}
 }
 
-static void	init_param(t_data **param, char **argv, char **envp, int *ret_len)
-{
-	(*param) = (t_data *)malloc(sizeof(t_data));
-	(*param)->envp = copy_env(envp, 0);
-	(*param)->export = (char **)ft_calloc(sizeof(char *), 1);
-	(*param)->argv = argv;
-	(*param)->ret = 0;
-	(*param)->str = 0;
-	(*param)->child = 0;
-	ret_len[0] = 1;
-}
-
 static void	print_welcome_msg(void)
 {
 	ft_putstr_fd("                                        \n", 2);
@@ -79,6 +67,19 @@ static void	print_welcome_msg(void)
 	ft_putstr_fd("|_| |_| |_|_|_| |_|_|___/_| |_|\\___|_|_|\n\n", 2);
 }
 
+static void	init_param(t_data **param, char **argv, char **envp, int *ret_len)
+{
+	(*param) = (t_data *)malloc(sizeof(t_data));
+	(*param)->envp = copy_env(envp, 0);
+	(*param)->export = (char **)ft_calloc(sizeof(char *), 1);
+	(*param)->argv = argv;
+	(*param)->ret = 0;
+	(*param)->str = 0;
+	(*param)->child = 0;
+	ret_len[0] = 1;
+	print_welcome_msg();
+}
+
 int			main(int argc, char **argv, char **envp)
 {
 	t_data	*param;
@@ -88,7 +89,6 @@ int			main(int argc, char **argv, char **envp)
 	if (argc != 1)
 		return (1);
 	init_param(&param, argv, envp, ret_len);
-	print_welcome_msg();
 	signal(SIGQUIT, sig_handler);
 	while (1)
 	{
