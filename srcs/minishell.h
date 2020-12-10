@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/16 15:16:49 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/10 13:59:28 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/10 16:03:08 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ typedef struct		s_data{
 	int		child;
 }					t_data;
 
-void				put_prompt(char **envp);
 void				skip_spaces(char **str);
 void				free_matrix(char **matrix);
 void				set_args(char **argv, char *str, int argc);
