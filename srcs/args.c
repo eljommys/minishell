@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/30 17:29:24 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/10 14:00:11 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/10 14:03:36 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,8 +88,8 @@ void		set_args(char **argv, char *str, int argc)
 
 char		**copy_args(t_data *param)
 {
-	int i;
-	char **args;
+	int		i;
+	char	**args;
 
 	i = 0;
 	while (param->argv[i] && ft_memcmp(param->argv[i], "<", 2))
