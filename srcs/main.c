@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/16 15:16:03 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/10 00:55:45 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/10 11:17:21 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static void	sig_handler(int sig)
 	}
 }
 
-static void	init_param(t_data **param, char **argv, char **envp)
+static void	init_param(t_data **param, char **argv, char **envp, int *ret_len)
 {
 	(*param) = (t_data *)malloc(sizeof(t_data));
 	(*param)->envp = copy_env(envp, 0);
@@ -51,6 +51,7 @@ static void	init_param(t_data **param, char **argv, char **envp)
 	(*param)->ret = 0;
 	(*param)->str = 0;
 	(*param)->child = 0;
+	ret_len[0] = 1;
 }
 
 /* int			main(int argc, char **argv, char **envp)
@@ -75,6 +76,18 @@ static void	init_param(t_data **param, char **argv, char **envp)
 	return (0);
 } */
 
+void		add_char(char **str, char c)
+{
+	char	*aux;
+
+	aux = ft_calloc(sizeof(char), ft_strlen(*str) + 2);
+	ft_memcpy(aux, *str, ft_strlen(*str));
+	aux[ft_strlen(aux)] = c;
+	if (*str)
+		free(*str);
+	*str = aux;
+}
+
 int			main(int argc, char **argv, char **envp)
 {
 	t_data	*param;
@@ -83,7 +96,7 @@ int			main(int argc, char **argv, char **envp)
 
 	if (argc != 1)
 		return (1);
-	init_param(&param, argv, envp);
+	init_param(&param, argv, envp, ret_len);
 	signal(SIGQUIT, sig_handler);
 	while (1)
 	{
@@ -141,17 +154,6 @@ void		check_key(int key, t_data *param)
 }
 
 
-void		add_char(char **str, char c)
-{
-	char	*aux;
-
-	aux = ft_calloc(sizeof(char), ft_strlen(*str) + 2);
-	ft_memcpy(aux, *str, ft_strlen(*str));
-	aux[ft_strlen(aux)] = c;
-	if (*str)
-		free(*str);
-	*str = aux;
-}
 
 
 int			main(int argc, char **argv, char **envp)
