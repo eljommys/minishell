@@ -6,20 +6,20 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/08 17:05:25 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/10 13:35:58 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/10 13:48:48 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char 		**export_command(t_data *param, int j)
+char		**export_command(t_data *param, int j)
 {
 	int		i;
 	char	**cpy;
 
 	i = 0;
-	while (param->envp[i] &&
-			ft_memcmp(param->envp[i], param->argv[j], ft_strlen(param->argv[j])))
+	while (param->envp[i] && ft_memcmp(param->envp[i],
+			param->argv[j], ft_strlen(param->argv[j])))
 		i++;
 	if (!param->envp[i])
 	{
@@ -36,7 +36,7 @@ char 		**export_command(t_data *param, int j)
 	return (cpy);
 }
 
-void 		export_value(t_data *param, int *i)
+void		export_value(t_data *param, int *i)
 {
 	char	**aux;
 	int		j;
@@ -45,7 +45,7 @@ void 		export_value(t_data *param, int *i)
 	{
 		j = 0;
 		while (param->export[j] && ft_memcmp(param->export[j],
-				param -> argv[*i], ft_strlen(param->argv[*i])))
+				param->argv[*i], ft_strlen(param->argv[*i])))
 			j++;
 		if (!param->export[j])
 		{

@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/22 15:42:40 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/10 13:44:43 by parmarti         ###   ########.fr       */
+/*   Updated: 2020/12/10 13:46:56 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,12 @@ static char	**erase_env(char **envp, int i)
 	return (cpy);
 }
 
-char 		**unset_command(t_data *param, int j)
+char		**unset_command(t_data *param, int j)
 {
-	int i;
-	int len;
-	char *env;
-	char **cpy;
+	int		i;
+	int		len;
+	char	*env;
+	char	**cpy;
 
 	if (param->argc < 2)
 		return (param->envp);

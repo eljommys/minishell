@@ -6,13 +6,13 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/08 20:02:09 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/10 13:30:50 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/10 13:50:41 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void free_param(t_data *param)
+static void	free_param(t_data *param)
 {
 	free(param->str);
 	free_matrix(param->envp);
@@ -41,12 +41,11 @@ void		exit_command(t_data *param)
 		if (param->argc > 1 && param->argv[1][i])
 		{
 			ft_putstrs_fd("exit\nbash: exit: ",
-						  param->argv[1], ": numeric argument required\n", 1);
+				param->argv[1], ": numeric argument required\n", 1);
 			param->ret = 2;
 		}
 		i = (param->argc > 1 && param->ret != 2)
-				? ft_atoi(param->argv[1])
-				: param->ret;
+			? ft_atoi(param->argv[1]) : param->ret;
 		free_param(param);
 		exit(i);
 	}
