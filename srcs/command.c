@@ -6,29 +6,28 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/01 18:22:40 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/10 12:51:48 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/10 13:41:45 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int		redirect(t_data *param, int i)
+static int		redirect(t_data *param, int i, int fd)
 {
-	int		fd;
-	int		j;
+	int		ret;
 	char	c;
 
-	fd = 1;
-	while (param->argv[i] && (!ft_memcmp(param->argv[i], ">", 2) || !ft_memcmp(param->argv[i], ">>", 3)))
+	while (param->argv[i] && (!ft_memcmp(param->argv[i], ">", 2) ||
+			!ft_memcmp(param->argv[i], ">>", 3)))
 	{
 		if (!ft_memcmp(param->argv[i], ">", 2))
 			fd = open(param->argv[i + 1], O_RDWR | O_CREAT | O_TRUNC, 0666);
 		else
 		{
 			fd = open(param->argv[i + 1], O_RDWR | O_CREAT | O_APPEND, 0666);
-			j = 0;
-			while ((j = read(fd, &c, 1)))
-				if (j == -1)
+			ret = 0;
+			while ((ret = read(fd, &c, 1)))
+				if (ret == -1)
 				{
 					write(1, "Couldn't read file\n", 19);
 					break ;
@@ -36,7 +35,7 @@ static int		redirect(t_data *param, int i)
 		}
 		i += 2;
 		if (param->argv[i])
-			close (fd);
+			close(fd);
 	}
 	return (fd);
 }
@@ -44,14 +43,16 @@ static int		redirect(t_data *param, int i)
 static int		set_fd(t_data *param)
 {
 	int		i;
+	int		fd;
 
 	i = 0;
+	fd = 1;
 	while (param->argv[i] && ft_memcmp(param->argv[i], ">", 2)
 			&& ft_memcmp(param->argv[i], ">>", 3))
 		i++;
 	if (!param->argv[i])
 		return (1);
-	return (redirect(param, i));
+	return (redirect(param, i, fd));
 }
 
 static void	copy_args1(t_data *param)

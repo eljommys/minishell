@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/16 15:16:49 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/10 13:12:25 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/10 13:38:12 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,8 @@ void				cd_command(t_data *param);
 void				pwd_command(int fd);
 void				exit_command(t_data *param);
 void				parser(t_data *param);
-void 				export_value(t_data *param, int *i);
-void 				sort_envp(char **envp, int fd, char c);
+void				export_value(t_data *param, int *i);
+void				sort_envp(char **envp, int fd, char c);
 char				*get_env(char **envp, char *env);
 char				**copy_env(char **envp, int add);
 char				**export_command(t_data *param, int i);
@@ -58,5 +58,5 @@ int					count_args(char *str);
 int					ft_strlen_token(char *str);
 int					ft_strlen_pipe(char *str);
 int					ft_strlen_char(char *str, char c);
-int 				check_export_error(char **argv, int *i);
+int					check_export_error(char **argv, int *i);
 #endif

@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/08 17:05:25 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/10 13:20:46 by parmarti         ###   ########.fr       */
+/*   Updated: 2020/12/10 13:35:58 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,12 @@
 
 char 		**export_command(t_data *param, int j)
 {
-	int i;
-	char **cpy;
+	int		i;
+	char	**cpy;
 
 	i = 0;
 	while (param->envp[i] &&
-		   ft_memcmp(param->envp[i], param->argv[j], ft_strlen(param->argv[j])))
+			ft_memcmp(param->envp[i], param->argv[j], ft_strlen(param->argv[j])))
 		i++;
 	if (!param->envp[i])
 	{
@@ -38,14 +38,14 @@ char 		**export_command(t_data *param, int j)
 
 void 		export_value(t_data *param, int *i)
 {
-	char **aux;
-	int j;
+	char	**aux;
+	int		j;
 
 	if (!ft_strchr(param->argv[*i], '='))
 	{
 		j = 0;
-		while (param->export[j] &&
-			   ft_memcmp(param->export[j], param -> argv[*i], ft_strlen(param->argv[*i])))
+		while (param->export[j] && ft_memcmp(param->export[j],
+				param -> argv[*i], ft_strlen(param->argv[*i])))
 			j++;
 		if (!param->export[j])
 		{
@@ -64,20 +64,21 @@ void 		export_value(t_data *param, int *i)
 	}
 }
 
-int 		check_export_error(char **argv, int *i)
+int			check_export_error(char **argv, int *i)
 {
 	int j;
 
 	j = 0;
 	while (ft_isalnum(argv[*i][j]) || argv[*i][j] == '_' ||
-		   argv[*i][j] == '#' || argv[*i][j] == '=' || argv[*i][j] == '$')
+			argv[*i][j] == '#' || argv[*i][j] == '=' || argv[*i][j] == '$')
 		j++;
 	if (ft_isdigit(argv[*i][0]) || argv[*i][j])
 	{
 		if (ft_strchr(argv[*i], '='))
 		{
 			ft_putstrs_fd("bash: ", argv[0], ": `", 1);
-			ft_putstrs_fd(argv[*i], argv[(*i) + 1], "': not a valid identifier\n", 1);
+			ft_putstrs_fd(argv[*i], argv[(*i) + 1],
+				"': not a valid identifier\n", 1);
 			(*i)++;
 		}
 		else
@@ -91,7 +92,7 @@ int 		check_export_error(char **argv, int *i)
 	return (0);
 }
 
-static void put_envp(char **aux, int fd)
+static void	put_envp(char **aux, int fd)
 {
 	int i;
 
@@ -107,20 +108,19 @@ static void put_envp(char **aux, int fd)
 	free_matrix(aux);
 }
 
-void 		sort_envp(char **envp, int fd, char c)
+void		sort_envp(char **envp, int fd, char c)
 {
-	int i;
-	int len;
-	char **aux;
-	char *tmp;
+	int		i;
+	int		len;
+	char	**aux;
+	char	*tmp;
 
 	aux = copy_env(envp, 0);
 	i = 0;
 	while (aux[i] && aux[i + 1])
 	{
 		len = (ft_strlen_char(aux[i], c) > ft_strlen_char(aux[i + 1], c))
-				  ? ft_strlen_char(aux[i], c)
-				  : ft_strlen_char(aux[i + 1], c);
+				? ft_strlen_char(aux[i], c) : ft_strlen_char(aux[i + 1], c);
 		if (ft_memcmp(aux[i], aux[i + 1], len) > 0)
 		{
 			tmp = aux[i];

@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/17 00:01:09 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/10 13:15:14 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/10 13:24:56 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static char	**multiple_env(t_data *param, int fd)
 	return (param->envp);
 }
 
-static void env_command(t_data *param, int fd)
+static void	env_command(t_data *param, int fd)
 {
 	int i;
 
@@ -48,13 +48,13 @@ static void env_command(t_data *param, int fd)
 	{
 		ft_putstrs_fd("env: ‘", param->argv[1], "’: Permission denied\n", 1);
 		param->ret = 126;
-		return;
+		return ;
 	}
 	while (param->envp[i])
 		ft_putstrs_fd(param->envp[i++], "\n", 0, fd);
 }
 
-static void echo_command(t_data *param, int fd)
+static void	echo_command(t_data *param, int fd)
 {
 	int i;
 
@@ -92,7 +92,7 @@ static int	check_builts(int fd, t_data *param)
 	return (0);
 }
 
-int check_builtins(int fd, t_data *param)
+int			check_builtins(int fd, t_data *param)
 {
 	param->ret = 0;
 	if (!check_builts(fd, param))
@@ -100,14 +100,14 @@ int check_builtins(int fd, t_data *param)
 	else if (!ft_memcmp(param->argv[0], "env", 4))
 		env_command(param, fd);
 	else if (!ft_memcmp(param->argv[0], "./", 2) ||
-			 !ft_memcmp(param->argv[0], "../", 3) ||
-			 !ft_memcmp(param->argv[0], "/", 1))
+			!ft_memcmp(param->argv[0], "../", 3) ||
+			!ft_memcmp(param->argv[0], "/", 1))
 		bash_command(param);
 	else if (!ft_memcmp(param->argv[0], "export", 7) ||
-			 !ft_memcmp(param->argv[0], "unset", 6))
+			!ft_memcmp(param->argv[0], "unset", 6))
 		param->envp = multiple_env(param, fd);
 	else if (!ft_memcmp(param->argv[0], "exit", 5) ||
-			 !ft_memcmp(param->argv[0], "q", 2))
+			!ft_memcmp(param->argv[0], "q", 2))
 		exit_command(param);
 	else
 		return (127);

@@ -12,11 +12,11 @@
 
 #include "minishell.h"
 
-static char **erase_env(char **envp, int i)
+static char	**erase_env(char **envp, int i)
 {
-	int j;
-	int len;
-	char **cpy;
+	int		j;
+	int		len;
+	char	**cpy;
 
 	len = 0;
 	while (envp[len])
