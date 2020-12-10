@@ -1,8 +1,9 @@
-NAME = libft.a
-CC = gcc
-FLAGS = -Wall -Werror -Wextra -c
+NAME 		= 	libft.a
+OBJS		=	${SRCS:.c=.o}
+CC			=	gcc
+CFLAGS		=	-Wall -Wextra -Werror
 
-SRC =	ft_memset.c \
+SRCS =	ft_memset.c \
 		ft_bzero.c \
 		ft_memcpy.c \
 		ft_memccpy.c \
@@ -43,8 +44,7 @@ SRC =	ft_memset.c \
 		ft_substr.c\
 		ft_strldup.c\
 		get_next_line.c\
-
-SRC2 =	ft_lstnew.c\
+		ft_lstnew.c\
 		ft_lstadd_front.c\
 		ft_lstnew.c\
 		ft_lstsize.c\
@@ -56,28 +56,50 @@ SRC2 =	ft_lstnew.c\
 		ft_lstiter.c\
 		ft_lstmap.c\
 
-OBJ = $(SRC:.c=.o)
+###########################
 
-OBJ2 = $(SRC2:.c=.o)
+OPTI = -Ofast #-O3
 
-all: $(NAME)
+all:		$(NAME)
 
-$(NAME): $(OBJ)
-	@$(CC) $(FLAGS) $(SRC)
-	@echo Compiling $(NAME)
-	@ar rc $(NAME) $(OBJ)
-	@ranlib $(NAME)
+$(NAME):	echoCL ${OBJS} echoOK echoCS echoAR
+	ar rc	$(NAME) ${OBJS}
+	ranlib	$(NAME)
+
+.c.o:
+	${CC} -c ${CFLAGS} -I. -o $@ $<
+	printf "$(GREEN)█"
 
 clean:
-	@rm -f $(OBJ) $(OBJ2)
+	rm -f $(OBJS)
 
-fclean: clean
-	@rm -f $(NAME)
+fclean:		clean
+	rm -f $(NAME)
 
-re: fclean all
+re:			fclean all
 
-bonus: $(OBJ) $(OBJ2)
-	@ar rc $(NAME) $(OBJ) $(OBJ2)
-	@ranlib $(NAME)
+.SILENT:
+###########################COLOR
+#----------------reset----------------#
+NC = \033[0m
 
-.PHONY: clean fclean all re bonus
+#-----------Regular Colors------------#
+BLACK = \033[0;30m
+RED = \033[0;31m
+GREEN = \033[32m
+YELLOW = \033[33;33m
+BLUE = \033[0;34m
+PURPLE = \033[35m
+CYAN = \033[1;36m
+WHITE = \033[0;37m
+
+###########################ECHO
+
+echoCL:
+	echo "$(YELLOW)===> Compiling Libft$(NC)\n"
+echoOK:
+	echo "$(GREEN) OK$(NC)\n"
+echoCS :
+	echo "$(GREEN)===> Compilation Success$(NC)"
+echoAR :
+	echo "$(CYAN)===> Archiving Libft$(NC)$(GREEN) OK$(NC)\n"

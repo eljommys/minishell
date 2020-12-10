@@ -19,26 +19,35 @@ OBJS = $(SRCS:.c=.o)
 
 CC = gcc
 
+CFLAGS += -Wall -Werror -Wextra -g3 -fsanitize=address
+
 RM = rm -rf
 
-CFLAGS = -Wall -Werror -Wextra -g3 -fsanitize=address
+LIBFT = libft.a
+LIBFTDIR = libft/
+LIBFTLINK = -L $(LIBFTDIR) -lft
+
 
 all:		$(NAME)
 
-%.o: %.c
-	$(CC) $(CFLAGS) -c -I./libft/ $< -o $(<:.c=.o)
+$(NAME):	complib echoCL $(OBJS) echoOK echoCS
+	$(CC) $(CFLAGS) -o $@ $(OBJS) $(LIBFTLINK)
 
-$(NAME):	$(OBJS)
-		cd ./libft/ && make
-		$(CC) $(CFLAGS) -o $(NAME) $(OBJS) ./libft/libft.a
+complib:
+	$(MAKE) -C libft/
 
-clean:
-		$(RM) $(OBJS)
-		@make clean -C libft
+%.o:		%.c
+	$(CC) -c $(CFLAGS) -o $@ $<
+	printf "$(GREEN)██"
 
-fclean:		clean
-		$(RM) $(NAME)
-		@make fclean -C libft
+clean: echoCLEAN
+	$(MAKE) -C $(LIBFTDIR) clean
+	$(RM) $(OBJS)
+
+fclean: clean echoFCLEAN
+	$(MAKE) -C $(LIBFTDIR) fclean
+	$(RM) $(OBJS)
+	$(RM) $(NAME)
 
 re:		fclean all
 
@@ -55,3 +64,29 @@ norme:
 	norminette ./srcs/* ./libft/*
 
 .PHONY:		all clean fclean re leaks git norme
+.SILENT:
+
+##############______________Colors______________##############
+
+BLACK = \033[1;30m
+RED = \033[1;31m
+GREEN = \033[32m
+YELLOW = \033[33;33m
+BLUE = \033[1;34m
+PURPLE = \033[1;35m
+CYAN = \033[1;36m
+WHITE = \033[1;37m
+END = \033[0m
+
+##############______________MESSAGES______________##############
+
+echoCL:
+	echo "$(YELLOW)===> Compiling $(RED)Minishell$(END)\n"
+echoOK:
+	echo "$(GREEN) OK$(END)\n"
+echoCS :
+	echo "$(GREEN)===> Compilation Success$(END)\n"
+echoCLEAN :
+	echo "\n$(PURPLE)===> Cleanning OBJS$(END)"
+echoFCLEAN :
+	echo "$(PURPLE)===> Cleanning Exec & Lib$(END)\n"
