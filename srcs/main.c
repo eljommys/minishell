@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/16 15:16:03 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/09 21:36:39 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/10 00:55:45 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,13 +49,13 @@ static void	init_param(t_data **param, char **argv, char **envp)
 	(*param)->export = (char **)ft_calloc(sizeof(char *), 1);
 	(*param)->argv = argv;
 	(*param)->ret = 0;
+	(*param)->str = 0;
 	(*param)->child = 0;
 }
 
 /* int			main(int argc, char **argv, char **envp)
 {
 	t_data	*param;
-
 	if (argc != 1)
 		return (1);
 	init_param(&param, argv, envp);
@@ -75,7 +75,36 @@ static void	init_param(t_data **param, char **argv, char **envp)
 	return (0);
 } */
 
-void		ft_stty()
+int			main(int argc, char **argv, char **envp)
+{
+	t_data	*param;
+	int		ret_len[2];
+	char	c;
+
+	if (argc != 1)
+		return (1);
+	init_param(&param, argv, envp);
+	signal(SIGQUIT, sig_handler);
+	while (1)
+	{
+		if (ret_len[0])
+			put_prompt(param->envp);
+		signal(SIGINT, sig_handler);
+		while ((ret_len[0] = read(1, &c, 1)) && c != '\n')
+			add_char(&(param->str), c);
+		ret_len[1] = (int)ft_strlen(param->str);
+		if (c == '\n')
+			parser(param);
+		if (!ret_len[0] && !ret_len[1])
+		{
+			ft_putstr_fd("\nlogout\n", 1);
+			exit(0);
+		}
+	}
+	return (0);
+}
+
+/* void		ft_stty()
 {
 	pid_t	child;
 	char	*args[5];
@@ -111,6 +140,7 @@ void		check_key(int key, t_data *param)
 		exit_command(param);
 }
 
+
 void		add_char(char **str, char c)
 {
 	char	*aux;
@@ -122,6 +152,7 @@ void		add_char(char **str, char c)
 		free(*str);
 	*str = aux;
 }
+
 
 int			main(int argc, char **argv, char **envp)
 {
@@ -151,4 +182,4 @@ int			main(int argc, char **argv, char **envp)
 			parser(param);
 	}
 	return (0);
-}
+} */

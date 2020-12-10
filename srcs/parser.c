@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/29 14:12:39 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/09 14:40:10 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/09 23:09:47 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,5 +132,6 @@ void		parser(t_data *param)
 		i++;
 	}
 	free(param->str);
+	param->str = 0;
 	free_matrix(param->cmds);
 }
