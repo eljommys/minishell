@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/16 15:16:03 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/10 09:02:46 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/10 09:13:33 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ static void		ft_stty()
 
 int			check_char(char c)
 {
+	printf("%c\n", c);
 	if (c == 3 || c == 4)
 		return ((int)c);
 	else if (c == '\n')
@@ -119,11 +120,17 @@ int			main(int argc, char **argv, char **envp)
 		while (read(0, &c, 1))
 		{
 			if ((key = check_char(c)))
+			{
+				printf("a\n");
 				break ;
+			}
 			add_char(&(param->str), c);
 		}
 		if (key > 1)
+		{
+			printf("b\n");
 			check_key(key, param);
+		}
 		else
 			parser(param);
 	}
