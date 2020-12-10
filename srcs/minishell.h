@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/16 15:16:49 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/10 08:51:35 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/10 12:29:30 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ void				cd_command(t_data *param);
 void				pwd_command(int fd);
 void				exit_command(t_data *param);
 void				parser(t_data *param);
-void				logout(void);
 char				*get_env(char **envp, char *env);
 char				**copy_env(char **envp, int add);
 char				**export_command(t_data *param, int i);
