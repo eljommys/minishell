@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/17 00:01:09 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/11 18:06:45 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/12 14:56:09 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ static void	echo_command(t_data *param, int fd)
 	while (++i < param->argc)
 	{
 		ft_putstr_fd(param->argv[i], fd);
-		if (i < param->argc - 1)
+		if (i < param->argc - 1 && ft_strlen(param->argv[i + 1]))
 			write(fd, " ", 1);
 	}
 	if (!(param->argc > 1 && !ft_memcmp(param->argv[1], "-n", 3)))

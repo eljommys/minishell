@@ -6,23 +6,22 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/29 14:12:39 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/12 02:15:27 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/12 14:57:03 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	change_env(int i, int braces, char **str, t_data *param)
+static int change_env(int i, int braces, char **str, t_data *param)
 {
-	int		len;
-	char	*bef;
-	char	*aft;
-	char	*env;
-	char	*aux;
+	int len;
+	char *bef;
+	char *aft;
+	char *env;
+	char *aux;
 
 	braces = ((*str)[i + 1] == '{') ? 1 : 0;
-	len = (ft_strlen_char(*str + i + 1, ':') < ft_strlen_env(*str + i + 1)) ?
-	ft_strlen_char(*str + i + 1, ':') + 1 : ft_strlen_env(*str + i + 1) + 1 + braces;
+	len = (ft_strlen_char(*str + i + 1, ':') < ft_strlen_env(*str + i + 1)) ? ft_strlen_char(*str + i + 1, ':') + 1 : ft_strlen_env(*str + i + 1) + 1 + braces;
 	bef = ft_strldup(*str, i);
 	aux = ft_strldup(*str + i + 1 + braces, len - 1 - braces * 2);
 	env = (!ft_memcmp(aux, "?", 2)) ? ft_itoa(param->ret) : 0;
@@ -40,7 +39,7 @@ static int	change_env(int i, int braces, char **str, t_data *param)
 	return (len);
 }
 
-static int	check_quotes(char **str, int *i)
+static int check_quotes(char **str, int *i)
 {
 	(*i)++;
 	while ((*str)[*i] && ((*str)[*i] != '\''))
@@ -53,7 +52,7 @@ static int	check_quotes(char **str, int *i)
 	return (0);
 }
 
-static int	is_next_dollar(char *str)
+static int is_next_dollar(char *str)
 {
 	if (!str[1] || ft_isspace(str[1]) || str[1] == '\'' || str[1] == '"' ||
 		str[1] == '/')
@@ -61,10 +60,10 @@ static int	is_next_dollar(char *str)
 	return (1);
 }
 
-static int	check_env(char **str, t_data *param)
+static int check_env(char **str, t_data *param)
 {
-	int		i;
-	int		braces;
+	int i;
+	int braces;
 
 	i = -1;
 	braces = 0;
@@ -84,12 +83,12 @@ static int	check_env(char **str, t_data *param)
 	return (0);
 }
 
-static void	command_or_pipe(t_data *param, int j)
+static void command_or_pipe(t_data *param, int j)
 {
-	int	fds[4];
-	int	std_out;
-	int	sons;
-	int	i;
+	int fds[4];
+	int std_out;
+	int sons;
+	int i;
 
 	std_out = dup(0);
 	i = 0;
@@ -114,7 +113,7 @@ static void	command_or_pipe(t_data *param, int j)
 	dup2(std_out, 0);
 }
 
-void		parser(t_data *param) //se supone que en check env seg_faultS
+void parser(t_data *param) //se supone que en check env seg_faultS
 {
 	int i;
 	int j;
@@ -128,10 +127,13 @@ void		parser(t_data *param) //se supone que en check env seg_faultS
 		}
 		free(param->str);
 		param->str = 0;
-		return ;
+		return;
 	}
 	//check_env(&(param->str), param);
 	param->cmds = ft_split_case(param->str, ';');
+/* 	j = -1;
+	while (param->cmds[++j])
+		printf("cmds[%d] = ->%s<-\n", j, param->cmds[j]); */
 	i = 0;
 	while (param->cmds[i])
 	{
@@ -140,13 +142,14 @@ void		parser(t_data *param) //se supone que en check env seg_faultS
 		param->argc = count_args(param->cmds[i]);
 		param->argv = (char **)ft_calloc(sizeof(char *), (param->argc + 1));
 		set_args(param->argv, param->cmds[i], param->argc);
-		/* j = -1;
+/* 		j = -1;
 		while (param->argv[++j])
 			printf("argv[%d] = ->%s<-\n", j, param->argv[j]); */
 		//exit (0);
 		command_or_pipe(param, i);
 		//printf("despues\n");
 		i++;
+		free_matrix(param->argv);
 	}
 	free(param->str);
 	param->str = 0;

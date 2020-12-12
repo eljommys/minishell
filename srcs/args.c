@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/30 17:29:24 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/12 01:02:49 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/12 14:38:53 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,7 +156,6 @@ void		rm_token(char **arg)
 	i = 0;
 	while ((*arg)[i])
 	{
-		//printf("i = %d\n", i);
 		if ((*arg)[i] == '\'')
 		{
 			rm_char(arg, i);
@@ -166,17 +165,17 @@ void		rm_token(char **arg)
 		else if ((*arg)[i] == '"')
 		{
 			rm_char(arg, i);
-			i += (ft_strlen_char(*arg + i, '\\') < ft_strlen_char(*arg + i, '"')) ?
-				ft_strlen_char(*arg + i, '\\') : ft_strlen_char(*arg + i, '"');
-			while ((*arg)[i] && (*arg)[i] == '\\')
+/* 			i += (ft_strlen_char(*arg + i, '\\') < ft_strlen_char(*arg + i, '"')) ?
+				ft_strlen_char(*arg + i, '\\') : ft_strlen_char(*arg + i, '"'); */
+			while ((*arg)[i] /* && (*arg)[i] == '\\' */)
 			{
-				if (is_token((*arg[i + 1])))
-				{
-					rm_char(arg, i);
-					i++;
-				}
-				i += (ft_strlen_char(*arg + i, '\\') < ft_strlen_char(*arg + i, '"')) ?
-				ft_strlen_char(*arg + i, '\\') : ft_strlen_char(*arg + i, '"');
+				if ((*arg)[i] == '\\' && is_token((*arg)[i + 1]))
+ 					rm_char(arg, i);
+				else if ((*arg)[i] == '"')
+					break ;
+				i++;
+/* 				i += (ft_strlen_char(*arg + i + 1, '\\') < ft_strlen_char(*arg + i + 1, '"')) ?
+				ft_strlen_char(*arg + i + 1, '\\') : ft_strlen_char(*arg + i + 1, '"'); */
 			}
 			rm_char(arg, i);
 		}

@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 16:11:27 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/12 12:31:48 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/12 13:22:31 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static void	set_pipe_args(t_data *param, int i)
 	aux = (char **)ft_calloc(sizeof(char *), j + 1);
 	k = -1;
 	while (++k < j)
-		aux[k] = ft_strdup(param->argv[i]);
+		aux[k] = ft_strdup(param->argv[i + k]);
 	param->argv = aux;
 	param->argc = j;
 }
@@ -52,6 +52,7 @@ static void	pipe_son(int *flag, int *fds, char *str, t_data *param, int pos)
 		//check_command(command, param);
 		set_pipe_args(param, pos);
 		check_command(param->str, param);
+		free_matrix(param->argv);
 		param->argc = argc;
 		param->argv = argv;
 		exit(param->ret);
@@ -70,7 +71,7 @@ int			check_pipe(int *fds, char *str, t_data *param)
 	flag[0] = 1;
 	flag[1] = 0;
 	j = 0;
-	while (!flag[1])
+	while (param->argv[j])
 	{
 		i = 0;
 		while (param->argv[j + i] && ft_memcmp(param->argv[j + i], "|", 2))
@@ -86,7 +87,8 @@ int			check_pipe(int *fds, char *str, t_data *param)
 		fds[0] = fds[2];
 		fds[1] = fds[3];
 		pipe(fds + 2);
-		j += i;
+		j += !param->argv[j + i] ? i : i + 1;
+
 	}
 	free(flag);
 	return (sons);
