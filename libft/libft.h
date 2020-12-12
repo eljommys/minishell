@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/01 12:06:20 by jserrano          #+#    #+#             */
-/*   Updated: 2020/12/10 15:39:17 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/11 14:32:15 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ char			*ft_strnstr(const char *big, const char *little, size_t len);
 void			ft_strncpy(char *dst, const char *src, size_t size);
 int				ft_strncmp(const char *s1, const char *s2, size_t n);
 int				ft_atoi(const char *nptr);
+int				ft_isspace(int c);
 int				ft_isalpha(int c);
 int				ft_isdigit(int c);
 int				ft_isalnum(int c);

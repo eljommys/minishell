@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/16 15:16:49 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/10 16:03:08 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/11 19:21:20 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void				exit_command(t_data *param);
 void				parser(t_data *param);
 void				export_value(t_data *param, int *i);
 void				sort_envp(char **envp, int fd, char c);
-void				strjoin_case(char **str, int j);
+void				rm_char(char **str, int j);
 char				*get_env(char **envp, char *env);
 char				**copy_env(char **envp, int add);
 char				**export_command(t_data *param, int i);
@@ -56,7 +56,10 @@ int					check_bin(int fd, t_data *param);
 int					check_pipe(int *fds, char *str, t_data *param);
 int					count_args(char *str);
 int					ft_strlen_token(char *str);
+int					ft_strlen_env(char *str);
 int					ft_strlen_pipe(char *str);
 int					ft_strlen_char(char *str, char c);
+int					ft_strlen_char_token(char *str, char c);
 int					check_export_error(char **argv, int *i);
+int					is_token(char c);
 #endif

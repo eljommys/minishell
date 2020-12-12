@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/17 00:01:09 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/10 13:24:56 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/11 18:06:45 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ static void	echo_command(t_data *param, int fd)
 		if (i < param->argc - 1)
 			write(fd, " ", 1);
 	}
-	if (param->argc > 1 && ft_memcmp(param->argv[1], "-n", 3))
+	if (!(param->argc > 1 && !ft_memcmp(param->argv[1], "-n", 3)))
 		write(fd, "\n", 1);
 }
 

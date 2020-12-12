@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/22 15:41:14 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/09 23:04:13 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/11 17:04:31 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,4 +70,11 @@ char	**copy_env(char **envp, int add)
 	while (++i < len)
 		cpy[i] = ft_strdup(envp[i]);
 	return (cpy);
+}
+
+int		is_token(char c)
+{
+	if (c == '"' || c == '\\')
+		return (1);
+	return (0);
 }
