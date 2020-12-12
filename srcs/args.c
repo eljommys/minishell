@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/30 17:29:24 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/12 14:38:53 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/12 16:42:18 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,6 +143,7 @@ int		count_args(char *str)
 		skip_spaces(&str);
 		n++;
 		str += ft_strlen_arg(str);
+		skip_spaces(&str);
 	}
 	return (n);
 }
@@ -201,5 +202,6 @@ void		set_args(char **argv, char *str, int argc)
 		rm_token(&(argv[i]));
 		i++;
 		str += len;
+		skip_spaces(&str);
 	}
 }

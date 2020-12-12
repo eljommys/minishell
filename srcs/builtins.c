@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/17 00:01:09 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/12 14:56:09 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/12 16:26:01 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@ static char	**multiple_env(t_data *param, int fd)
 	int i;
 
 	param->ret = 0;
-	if (!ft_memcmp(param->argv[0], "export", 7) && param->argc == 1)
+	if (!ft_memcmp(param->argv[0], "export", 7) && param->argc == 1 &&
+		!ft_strlen(param->argv[1]))
 	{
 		sort_envp(param->envp, fd, '=');
 		sort_envp(param->export, fd, 0);

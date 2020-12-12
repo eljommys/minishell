@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/01 18:22:40 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/12 13:21:10 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/12 16:40:39 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ char		**check_command(char *str, t_data *param)
 	{
 		fd = set_fd(param);
 		copy_args1(param);
-		/* i = -1;
+/* 		i = -1;
 		while (param->argv[++i])
 			printf("argv[%d] = ->%s<-\n", i, param->argv[i]);
 		printf("argc = %d\n", param->argc); */
