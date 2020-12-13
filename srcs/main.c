@@ -6,17 +6,17 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/16 15:16:03 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/13 13:37:05 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/13 13:49:40 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	put_prompt(char **envp)
+static void put_prompt(char **envp)
 {
-	char	*home;
-	char	*path;
-	char	cwd[4097];
+	char *home;
+	char *path;
+	char cwd[4097];
 
 	home = get_env(envp, "HOME");
 	getcwd(cwd, 4096);
@@ -29,7 +29,7 @@ static void	put_prompt(char **envp)
 	free(path);
 }
 
-static void	sig_handler(int sig)
+static void sig_handler(int sig)
 {
 	char cwd[4097];
 
@@ -43,7 +43,7 @@ static void	sig_handler(int sig)
 	}
 }
 
-static void	print_welcome_msg(void)
+static void print_welcome_msg(void)
 {
 	ft_putstr_fd("                                        \n", 2);
 	ft_putstr_fd("               ▄█████████▄              \n", 2);
