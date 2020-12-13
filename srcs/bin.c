@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/23 22:36:37 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/10 12:25:50 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/13 13:29:48 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static void	set_in(char **argv)
 		fd = open(argv[i + 1], O_RDONLY, 0666);
 		if (fd < 0)
 		{
-			ft_putstr_fd("Couldn't read from file.\n", 1);
+			ft_putstr_fd("Couldn't read from file.\n", 2);
 			return ;
 		}
 		dup2(fd, 0);
@@ -47,8 +47,8 @@ static void	exec_bin(int fd, char *path, t_data *param)
 		if ((execve(path, args, param->envp)) && errno == EACCES)
 		{
 			param->ret = 126;
-			ft_putstrs_fd("bash: ", param->argv[0], ": ", 1);
-			ft_putstrs_fd(strerror(errno), "\n", 0, 1);
+			ft_putstrs_fd("bash: ", param->argv[0], ": ", 2);
+			ft_putstrs_fd(strerror(errno), "\n", 0, 2);
 		}
 		exit(param->ret);
 	}
@@ -68,7 +68,7 @@ static char	**split_path(t_data *param, char *str)
 		paths = ft_split_case(path, ':');
 	else
 	{
-		ft_putstrs_fd("bash: ", str, ": No such file or directory\n", 1);
+		ft_putstrs_fd("bash: ", str, ": No such file or directory\n", 2);
 		param->ret = 127;
 		return (NULL);
 	}

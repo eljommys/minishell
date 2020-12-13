@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/17 00:01:09 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/12 16:26:01 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/13 13:30:16 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static void	env_command(t_data *param, int fd)
 	i = 0;
 	if (param->argc != 1)
 	{
-		ft_putstrs_fd("env: ‘", param->argv[1], "’: Permission denied\n", 1);
+		ft_putstrs_fd("env: ‘", param->argv[1], "’: Permission denied\n", 2);
 		param->ret = 126;
 		return ;
 	}

@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/01 19:09:39 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/13 12:50:32 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/13 13:32:49 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int		ft_strlen_pipe(char *str)
 			}
 			if (!str[i])
 			{
-				ft_putstr_fd("Non finished quotes\n", 1);
+				ft_putstr_fd("Non finished quotes\n", 2);
 				return (i);
 			}
 		}

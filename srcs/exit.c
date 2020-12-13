@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/08 20:02:09 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/10 13:50:41 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/13 13:32:01 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void		exit_command(t_data *param)
 
 	if (param->argc > 2)
 	{
-		ft_putstrs_fd("exit\n", "bash: exit: too many arguments\n", 0, 1);
+		ft_putstrs_fd("exit\n", "bash: exit: too many arguments\n", 0, 2);
 		param->ret = 1;
 	}
 	else
@@ -41,7 +41,7 @@ void		exit_command(t_data *param)
 		if (param->argc > 1 && param->argv[1][i])
 		{
 			ft_putstrs_fd("exit\nbash: exit: ",
-				param->argv[1], ": numeric argument required\n", 1);
+				param->argv[1], ": numeric argument required\n", 2);
 			param->ret = 2;
 		}
 		i = (param->argc > 1 && param->ret != 2)

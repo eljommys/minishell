@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/22 15:41:14 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/13 12:57:34 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/13 13:36:30 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	child_sig_handler(int sig)
 {
 	if (sig == SIGINT)
-		write(1, "\n", 1);
+		write(2, "\n", 1);
 }
 
 void	free_matrix(char **matrix)

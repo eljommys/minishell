@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/01 18:22:40 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/13 13:03:54 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/13 13:31:44 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static int	redirect(t_data *param, int i, int fd)
 			while ((ret = read(fd, &c, 1)))
 				if (ret == -1)
 				{
-					write(1, "Couldn't read file\n", 19);
+					write(2, "Couldn't read file\n", 19);
 					break ;
 				}
 		}
@@ -109,7 +109,7 @@ char		**check_command(char *str, t_data *param)
 		param->ret = check_builtins(fd, param);
 		if (param->ret == 127 && (param->ret = check_bin(fd, param)) == 127)
 		{
-			ft_putstrs_fd(0, str, ": command not found.\n", 1);
+			ft_putstrs_fd(0, str, ": command not found.\n", 2);
 			param->ret = 127;
 		}
 		if (fd != 1)

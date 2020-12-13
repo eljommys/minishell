@@ -6,22 +6,24 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/29 14:12:39 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/13 13:24:59 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/13 13:35:03 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int change_env(int i, int braces, char **str, t_data *param)
+static int	change_env(int i, int braces, char **str, t_data *param)
 {
-	int len;
-	char *bef;
-	char *aft;
-	char *env;
-	char *aux;
+	int		len;
+	char	*bef;
+	char	*aft;
+	char	*env;
+	char	*aux;
 
 	braces = ((*str)[i + 1] == '{') ? 1 : 0;
-	len = (ft_strlen_char(*str + i + 1, ':') < ft_strlen_env(*str + i + 1)) ? ft_strlen_char(*str + i + 1, ':') + 1 : ft_strlen_env(*str + i + 1) + 1 + braces;
+	len = (ft_strlen_char(*str + i + 1, ':') < ft_strlen_env(*str + i + 1)) ?
+	ft_strlen_char(*str + i + 1, ':') + 1 :
+	ft_strlen_env(*str + i + 1) + 1 + braces;
 	bef = ft_strldup(*str, i);
 	aux = ft_strldup(*str + i + 1 + braces, len - 1 - braces * 2);
 	env = (!ft_memcmp(aux, "?", 2)) ? ft_itoa(param->ret) : 0;
@@ -39,20 +41,20 @@ static int change_env(int i, int braces, char **str, t_data *param)
 	return (len);
 }
 
-static int check_quotes(char **str, int *i)
+static int	check_quotes(char **str, int *i)
 {
 	(*i)++;
 	while ((*str)[*i] && ((*str)[*i] != '\''))
 		(*i)++;
 	if (!(*str)[*i])
 	{
-		ft_putstr_fd("Non finished quotes(parser)\n", 1);
+		ft_putstr_fd("Non finished quotes\n", 2);
 		return (1);
 	}
 	return (0);
 }
 
-static int check_env(char **str, t_data *param)
+static int	check_env(char **str, t_data *param)
 {
 	int i;
 	int braces;
@@ -85,7 +87,7 @@ static int	check_semicolon(t_data *param)
 	{
 		if (param->str)
 		{
-			ft_putstr_fd("-bash; syntax error near unexpected token `;'\n", 1);
+			ft_putstr_fd("-bash; syntax error near unexpected token `;'\n", 2);
 			param->ret = 2;
 		}
 		free(param->str);

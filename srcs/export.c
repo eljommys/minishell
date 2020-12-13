@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/08 17:05:25 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/12 16:53:40 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/13 13:32:31 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,15 +77,15 @@ int			check_export_error(char **argv, int *i)
 	{
 		if (ft_strchr(argv[*i], '='))
 		{
-			ft_putstrs_fd("bash: ", argv[0], ": `", 1);
+			ft_putstrs_fd("bash: ", argv[0], ": `", 2);
 			ft_putstrs_fd(argv[*i], argv[(*i) + 1],
-				"': not a valid identifier\n", 1);
+				"': not a valid identifier\n", 2);
 			(*i)++;
 		}
 		else
 		{
-			ft_putstrs_fd("bash: ", argv[0], ": `", 1);
-			ft_putstrs_fd(argv[*i], "': not a valid identifier\n", 0, 1);
+			ft_putstrs_fd("bash: ", argv[0], ": `", 2);
+			ft_putstrs_fd(argv[*i], "': not a valid identifier\n", 0, 2);
 		}
 		(*i)++;
 		return (1);

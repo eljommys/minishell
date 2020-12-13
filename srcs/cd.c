@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 16:39:19 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/09 15:06:22 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/13 13:30:49 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static void	change_dir(char *path, t_data *param)
 		param->envp = export_command(param, 1);
 	}
 	else
-		ft_putstrs_fd("bash: cd: ", param->argv[1], ": ", 1);
+		ft_putstrs_fd("bash: cd: ", param->argv[1], ": ", 2);
 }
 
 void		cd_command(t_data *param)
@@ -55,13 +55,13 @@ void		cd_command(t_data *param)
 		change_dir(path, param);
 		if (errno > 0)
 		{
-			ft_putstrs_fd(strerror(errno), "\n", 0, 1);
+			ft_putstrs_fd(strerror(errno), "\n", 0, 2);
 			param->ret = 1;
 		}
 	}
 	else
 	{
-		ft_putstr_fd("bash: cd: too many arguments\n", 1);
+		ft_putstr_fd("bash: cd: too many arguments\n", 2);
 		param->ret = 1;
 	}
 	errno = 0;

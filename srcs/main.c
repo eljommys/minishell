@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/16 15:16:03 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/13 12:30:43 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/13 13:37:05 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ static void	put_prompt(char **envp)
 		path = ft_strdup(cwd);
 	else
 		path = ft_strjoin("~", cwd + ft_strlen(home));
-	write(1, "\033[1;31mminishell@PARMART-JSERRAN\033[0;0m", 38);
-	ft_putstrs_fd(":\033[1;34m", path, "\033[0;0m$ ", 1);
+	write(2, "\033[1;31mminishell@PARMART-JSERRAN\033[0;0m", 38);
+	ft_putstrs_fd(":\033[1;34m", path, "\033[0;0m$ ", 2);
 	free(path);
 }
 
@@ -37,9 +37,9 @@ static void	sig_handler(int sig)
 	{
 		getcwd(cwd, 4096);
 		ft_putstr_fd("\033[2D\033[0K", 2);
-		write(1, "\n", 1);
-		write(1, "\r\033[1;31mminishell@PARMART-JSERRAN\033[0;0m", 39);
-		ft_putstrs_fd(":\033[1;34m", cwd, "\033[0;0m$ ", 1);
+		write(2, "\n", 1);
+		write(2, "\r\033[1;31mminishell@PARMART-JSERRAN\033[0;0m", 39);
+		ft_putstrs_fd(":\033[1;34m", cwd, "\033[0;0m$ ", 2);
 	}
 }
 
@@ -103,7 +103,7 @@ int			main(int argc, char **argv, char **envp)
 			parser(param);
 		if (!ret_len[0] && !ret_len[1])
 		{
-			ft_putstr_fd("\nlogout\n", 1);
+			ft_putstr_fd("\nlogout\n", 2);
 			exit(0);
 		}
 	}
