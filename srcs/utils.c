@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/22 15:41:14 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/13 13:36:30 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/13 14:36:00 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,16 +18,13 @@ void	child_sig_handler(int sig)
 		write(2, "\n", 1);
 }
 
-void	free_matrix(char **matrix)
+void	child_sig_handler_bash(int sig)
 {
-	int	i;
-
-	i = 0;
-	if (!matrix)
-		return ;
-	while (matrix[i])
-		free(matrix[i++]);
-	free(matrix);
+	if (sig == SIGINT)
+	{
+		write(2, "\n", 1);
+		exit(0);
+	}
 }
 
 char	*get_env(char **envp, char *env)

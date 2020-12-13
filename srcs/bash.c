@@ -6,11 +6,23 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/17 19:50:12 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/13 13:46:16 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/13 14:42:18 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static int	check_errno(t_data *param)
+{
+	if (errno == ENOENT || errno == EACCES)
+	{
+		ft_putstrs_fd("bash: ", str, ": ", 2);
+		ft_putstrs_fd(strerror(errno), "\n", 0, 2);
+		param->ret = (errno == ENOENT) ? 127 : 126;
+		return (1);
+	}
+	return (0);
+}
 
 static void	check_type(t_data *param, char *str, char *path)
 {
@@ -18,12 +30,8 @@ static void	check_type(t_data *param, char *str, char *path)
 	int			fd;
 	char		**cmds;
 
-	if (errno == ENOENT || errno == EACCES)
-	{
-		ft_putstrs_fd("bash: ", str, ": ", 2);
-		ft_putstrs_fd(strerror(errno), "\n", 0, 2);
-		param->ret = (errno == ENOENT) ? 127 : 126;
-	}
+	if (check_errno(param)
+		return ;
 	else if (!(dir = opendir(path)))
 	{
 		fd = open(path, O_RDONLY, 0666);
@@ -87,15 +95,6 @@ static void	set_path(char *str, char **path)
 		return ;
 	}
 	free(new);
-}
-
-static void	child_sig_handler_bash(int sig)
-{
-	if (sig == SIGINT)
-	{
-		write(1, "\n", 1);
-		exit(0);
-	}
 }
 
 void		bash_command(t_data *param)

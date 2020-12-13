@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/08 17:05:25 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/13 13:46:43 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/13 14:18:34 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,6 @@ void		export_value(t_data *param, int *i)
 	else
 	{
 		param->envp = export_command(param, *i);
-		
 		*i += param->argv[*i + 1] ? 2 : 1;
 	}
 }

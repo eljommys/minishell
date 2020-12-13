@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/30 17:29:24 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/13 13:13:56 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/13 14:22:28 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ static int	ft_strlen_arg(char *str)
 	return (i);
 }
 
-int		count_args(char *str)
+int			count_args(char *str)
 {
 	int		n;
 	char	c;

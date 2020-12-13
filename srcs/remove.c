@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/13 13:13:02 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/13 14:02:02 by parmarti         ###   ########.fr       */
+/*   Updated: 2020/12/13 14:11:42 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,8 @@ void		rm_token(char **arg)
 			rm_backslash(arg, &i);
 			rm_char(arg, i);
 		}
-		else if (((*arg)[i] == '\\') && (is_token((*arg)[i + 1]) || (*arg)[i + 1] == '\''))
+		else if (((*arg)[i] == '\\') &&
+		(is_token((*arg)[i + 1]) || (*arg)[i + 1] == '\''))
 			rm_char(arg, i++);
 		else
 			i++;

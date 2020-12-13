@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 16:11:27 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/13 13:35:23 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/13 14:16:13 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static void	set_pipe_args(t_data *param, int i)
 	int		k;
 
 	j = 0;
-	while (param->argv[i + j] && ft_memcmp(param->argv[i + j] , "|", 2))
+	while (param->argv[i + j] && ft_memcmp(param->argv[i + j], "|", 2))
 		j++;
 	aux = (char **)ft_calloc(sizeof(char *), j + 1);
 	k = -1;
@@ -29,7 +29,7 @@ static void	set_pipe_args(t_data *param, int i)
 	param->argc = j;
 }
 
-static void	pipe_son(int *flag, int *fds, char *str, t_data *param, int pos)
+static void	pipe_son(int *flag, int *fds, char *str, t_data *param)
 {
 	int		i;
 	char	*command;
@@ -48,7 +48,7 @@ static void	pipe_son(int *flag, int *fds, char *str, t_data *param, int pos)
 			close(fds[i++]);
 		argc = param->argc;
 		argv = param->argv;
-		set_pipe_args(param, pos);
+		set_pipe_args(param, flag[2]);
 		check_command(param->str, param);
 		free_matrix(param->argv);
 		param->argc = argc;
@@ -71,24 +71,24 @@ static int	check_pipe(int *fds, char *str, t_data *param)
 	int		sons;
 	int		*flag;
 	int		i;
-	int		j;
 
 	sons = 0;
-	flag = (int *)malloc(sizeof(int) * 2);
+	flag = (int *)malloc(sizeof(int) * 3);
 	flag[0] = 1;
 	flag[1] = 0;
-	j = 0;
-	while (param->argv[j])
+	flag[2] = 0;
+	while (param->argv[flag[2]])
 	{
 		i = 0;
-		while (param->argv[j + i] && ft_memcmp(param->argv[j + i], "|", 2))
+		while (param->argv[flag[2] + i] &&
+		ft_memcmp(param->argv[flag[2] + i], "|", 2))
 			i++;
-		flag[1] = (!param->argv[i + j]) ? 1 : 0;
-		pipe_son(flag, fds, str, param, j);
+		flag[1] = (!param->argv[i + flag[2]]) ? 1 : 0;
+		pipe_son(flag, fds, str, param);
 		sons++;
 		flag[0] = 0;
 		switch_pipes(fds);
-		j += !param->argv[j + i] ? i : i + 1;
+		flag[2] += !param->argv[flag[2] + i] ? i : i + 1;
 	}
 	free(flag);
 	return (sons);

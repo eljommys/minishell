@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/01 18:22:40 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/13 13:46:27 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/13 14:21:33 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,9 @@ static int	redirect(t_data *param, int i, int fd)
 				}
 		}
 		i++;
-		 if (param->argv[i] &&
-		 	(!ft_memcmp(param->argv[i], ">>", 3) ||
-			 !ft_memcmp(param->argv[i], ">", 2)))
+		if (param->argv[i] &&
+		(!ft_memcmp(param->argv[i], ">>", 3) ||
+		!ft_memcmp(param->argv[i], ">", 2)))
 			close(fd);
 	}
 	return (fd);
@@ -56,7 +56,7 @@ static int	set_fd(t_data *param)
 	return (redirect(param, i, fd));
 }
 
-static int count_redir(t_data *param)
+static int	count_redir(t_data *param)
 {
 	int	count;
 	int	i;
@@ -72,7 +72,7 @@ static int count_redir(t_data *param)
 			i++;
 		}
 	}
-	return(count);
+	return (count);
 }
 
 static void	copy_args1(t_data *param)

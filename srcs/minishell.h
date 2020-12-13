@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/16 15:16:49 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/13 13:26:21 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/13 14:35:57 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ typedef struct		s_data{
 void				free_matrix(char **matrix);
 void				set_args(char **argv, char *str, int argc);
 void				child_sig_handler(int sig);
+void				child_sig_handler_bash(int sig);
 void				bash_command(t_data *param);
 void				cd_command(t_data *param);
 void				pwd_command(int fd);
