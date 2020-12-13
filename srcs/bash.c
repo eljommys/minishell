@@ -6,13 +6,13 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/17 19:50:12 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/13 14:42:18 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/13 14:48:24 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	check_errno(t_data *param)
+static int	check_errno(t_data *param, char *str)
 {
 	if (errno == ENOENT || errno == EACCES)
 	{
@@ -30,7 +30,7 @@ static void	check_type(t_data *param, char *str, char *path)
 	int			fd;
 	char		**cmds;
 
-	if (check_errno(param)
+	if (check_errno(param, str))
 		return ;
 	else if (!(dir = opendir(path)))
 	{

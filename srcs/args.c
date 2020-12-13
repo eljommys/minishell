@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/30 17:29:24 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/13 14:22:28 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/13 14:46:35 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,8 @@ static int	ft_strlen_arg(char *str)
 		i = (str[i] == '>' && str[i + 1] == '>') ? 2 : 1;
 	else
 	{
-		while (str[i] && !ft_isspace(str[i]) && str[i] != '<' && str[i] != '>' && str[i] != '=' && str[i] != '|')
+		while (str[i] && !ft_isspace(str[i]) && str[i] != '<' &&
+		str[i] != '>' && str[i] != '=' && str[i] != '|')
 		{
 			if (str[i] == '\'' || str[i] == '"')
 			{

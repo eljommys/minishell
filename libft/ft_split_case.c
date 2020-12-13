@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/07 17:13:12 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/13 14:10:21 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/13 14:55:09 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,32 +14,31 @@
 
 static int	number_str(char *s, char c)
 {
-	int		i;
-	int		n;
+	int		n[2];
 	char	quote;
 
-	i = -1;
-	n = 1;
-	while (s[++i])
+	n[0] = -1;
+	n[1] = 1;
+	while (s[++n[0]])
 	{
-		if (s[i] == '\\' && (s[i + 1] == '\'' || s[i + 1] == '"' ||
-								s[i + 1] == '\\' || s[i + 1] == c))
-			i++;
-		else if (s[i] == c)
-			n++;
-		else if (s[i] && (s[i] == '"' || s[i] == '\''))
+		if (s[n[0]] == '\\' && (s[n[0] + 1] == '\'' || s[n[0] + 1] == '"' ||
+								s[n[0] + 1] == '\\' || s[n[0] + 1] == c))
+			n[0]++;
+		else if (s[n[0]] == c)
+			n[1]++;
+		else if (s[n[0]] && (s[n[0]] == '"' || s[n[0]] == '\''))
 		{
-			quote = s[i++];
-			while (s[i] && s[i] != quote)
+			quote = s[n[0]++];
+			while (s[n[0]] && s[n[0]] != quote)
 			{
-				if (s[i] == '\\' &&
-				(s[i + 1] == quote || s[i + 1] == '\\') && quote == '"')
-					i++;
-				i++;
+				if (s[n[0]] == '\\' &&
+				(s[n[0] + 1] == quote || s[n[0] + 1] == '\\') && quote == '"')
+					n[0]++;
+				n[0]++;
 			}
 		}
 	}
-	return (n);
+	return (n[1]);
 }
 
 static int	set_str_len(char *s, char c)

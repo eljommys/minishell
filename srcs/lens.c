@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/01 19:09:39 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/13 14:18:12 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/13 14:46:49 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ int		ft_strlen_env(char *str)
 	int		len;
 
 	len = 0;
-	while (*str && 
+	while (*str &&
 	(ft_isalnum(*str) || *str == '{' || *str == '?' || *str == '_'))
 	{
 		len++;
