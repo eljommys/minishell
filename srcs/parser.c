@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/29 14:12:39 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/12 16:41:05 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/12 19:07:44 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,9 +144,9 @@ void parser(t_data *param) //se supone que en check env seg_faultS
 		param->argc = count_args(param->cmds[i]);
 		param->argv = (char **)ft_calloc(sizeof(char *), (param->argc + 1));
 		set_args(param->argv, param->cmds[i], param->argc);
-		j = -1;
+/* 		j = -1;
 		while (param->argv[++j])
-			printf("argv[%d] = ->%s<-\n", j, param->argv[j]);
+			printf("argv[%d] = ->%s<-\n", j, param->argv[j]); */
 		//exit (0);
 		command_or_pipe(param, i);
 		//printf("despues\n");

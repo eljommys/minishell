@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/16 15:16:03 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/10 16:00:39 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/13 11:57:22 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,3 +108,71 @@ int			main(int argc, char **argv, char **envp)
 	}
 	return (0);
 }
+
+
+/* static void init_param(t_data **param, char **argv, char **envp, int *ret_len)
+{
+	(*param) = (t_data *)malloc(sizeof(t_data));
+	(*param)->envp = copy_env(envp, 0);
+	(*param)->export = (char **)ft_calloc(sizeof(char *), 1);
+	(*param)->argv = argv;
+	(*param)->ret = 0;
+	(*param)->str = 0;
+	(*param)->child = 0;
+	ret_len[0] = 1;
+	if (!argv[1])
+		print_welcome_msg();
+}
+
+int main(int argc, char **argv, char **envp)
+{
+	t_data *param;
+	int		ret_len[2];
+	char	c;
+	int		i;
+	char	*aux;
+	char	*tmp;
+
+	init_param(&param, argv, envp, ret_len);
+	//signal(SIGQUIT, sig_handler);
+	if (argc != 1 && !ft_memcmp(argv[1], "-c", 3))
+	{
+		param->str = ft_strdup(argv[2]);
+		parser(param);
+		exit(0);
+	}
+	else if (argc != 1 && ft_memcmp(argv[1], "-c", 3))
+	{
+		i = 1;
+		if (ft_memcmp(argv[i], "<", 2))
+			i++;
+		param->str = ft_strjoin(argv[i], " ");
+		while(argv[++i])
+		{
+			aux = ft_strjoin(argv[i], " ");
+			tmp = ft_strjoin(param->str, aux);
+			free(param->str);
+			param->str = tmp;
+		}
+		parser(param);
+		exit(0);
+	}
+	else
+		while (1)
+		{
+			if (ret_len[0])
+				put_prompt(param->envp);
+			signal(SIGINT, sig_handler);
+			while ((ret_len[0] = read(1, &c, 1)) && c != '\n')
+				ft_addchr(&(param->str), c);
+			ret_len[1] = (int)ft_strlen(param->str);
+			if (c == '\n')
+				parser(param);
+			if (!ret_len[0] && !ret_len[1])
+			{
+				ft_putstr_fd("\nlogout\n", 2);
+				exit(0);
+			}
+		}
+	return (0);
+} */

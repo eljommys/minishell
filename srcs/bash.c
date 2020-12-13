@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/17 19:50:12 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/08 20:27:50 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/13 11:55:46 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ static void	check_type(t_data *param, char *str, char *path)
 {
 	DIR			*dir;
 	int			fd;
+	char		**cmds;
 
 	if (errno == ENOENT || errno == EACCES)
 	{
@@ -28,7 +29,11 @@ static void	check_type(t_data *param, char *str, char *path)
 		fd = open(path, O_RDONLY, 0666);
 		free(param->str);
 		while (get_next_line(fd, &(param->str)))
+		{
+			cmds = param->cmds;
 			parser(param);
+			param->cmds = cmds;
+		}
 		close(fd);
 	}
 	else
