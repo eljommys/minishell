@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/01 18:22:40 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/13 14:21:33 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/13 15:05:17 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,6 @@ static void	copy_args1(t_data *param)
 char		**check_command(char *str, t_data *param)
 {
 	int		fd;
-	int		i;
 
 	if (param->argv[0] && *(param->argv[0]))
 	{

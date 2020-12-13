@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/13 13:13:02 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/13 14:11:42 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/13 15:06:16 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,6 @@ static void	rm_backslash(char **arg, int *i)
 void		rm_token(char **arg)
 {
 	int		i;
-	char	c;
-	int		len;
 
 	i = 0;
 	while ((*arg)[i])
