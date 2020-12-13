@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/01 12:06:20 by jserrano          #+#    #+#             */
-/*   Updated: 2020/12/13 14:34:47 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/13 14:56:09 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,5 @@ void			ft_addchr(char **str, char c);
 void			skip_spaces(char **str);
 void			free_matrix(char **matrix);
 int				get_next_line(int fd, char **line);
-
-
 
 #endif
