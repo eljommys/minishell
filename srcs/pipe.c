@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 16:11:27 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/12 13:22:31 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/13 13:24:02 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,6 @@ static void	pipe_son(int *flag, int *fds, char *str, t_data *param, int pos)
 			close(fds[i++]);
 		argc = param->argc;
 		argv = param->argv;
-		//command = ft_strldup(str, ft_strlen_pipe(str));
-		//check_command(command, param);
 		set_pipe_args(param, pos);
 		check_command(param->str, param);
 		free_matrix(param->argv);
@@ -59,7 +57,16 @@ static void	pipe_son(int *flag, int *fds, char *str, t_data *param, int pos)
 	}
 }
 
-int			check_pipe(int *fds, char *str, t_data *param)
+static void	switch_pipes(int *fds)
+{
+	close(fds[0]);
+	close(fds[1]);
+	fds[0] = fds[2];
+	fds[1] = fds[3];
+	pipe(fds + 2);
+}
+
+static int	check_pipe(int *fds, char *str, t_data *param)
 {
 	int		sons;
 	int		*flag;
@@ -76,20 +83,41 @@ int			check_pipe(int *fds, char *str, t_data *param)
 		i = 0;
 		while (param->argv[j + i] && ft_memcmp(param->argv[j + i], "|", 2))
 			i++;
-		//flag[1] = (!str[ft_strlen_pipe(str)]) ? 1 : 0;
 		flag[1] = (!param->argv[i + j]) ? 1 : 0;
 		pipe_son(flag, fds, str, param, j);
 		sons++;
-		//str += ft_strlen_pipe(str) + 1;
 		flag[0] = 0;
-		close(fds[0]);
-		close(fds[1]);
-		fds[0] = fds[2];
-		fds[1] = fds[3];
-		pipe(fds + 2);
+		switch_pipes(fds);
 		j += !param->argv[j + i] ? i : i + 1;
-
 	}
 	free(flag);
 	return (sons);
+}
+
+void		command_or_pipe(t_data *param, int j)
+{
+	int fds[4];
+	int std_out;
+	int sons;
+	int i;
+
+	std_out = dup(0);
+	i = 0;
+	while (param->argv[i] && ft_memcmp(param->argv[i], "|", 2))
+		i++;
+	if (!param->argv[i])
+		param->envp = check_command(param->cmds[j], param);
+	else if (param->cmds[j])
+	{
+		pipe(fds);
+		pipe(fds + 2);
+		sons = check_pipe(fds, param->cmds[j], param);
+		while (sons-- > 0)
+			wait(&param->ret);
+		param->ret /= 256;
+		i = -1;
+		while (++i < 4)
+			close(fds[i]);
+	}
+	dup2(std_out, 0);
 }

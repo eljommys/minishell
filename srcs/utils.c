@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/22 15:41:14 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/11 17:04:31 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/13 12:57:34 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,6 @@ void	child_sig_handler(int sig)
 {
 	if (sig == SIGINT)
 		write(1, "\n", 1);
-}
-
-void	skip_spaces(char **str)
-{
-	while (**str == ' ' || (9 <= **str && **str <= 13))
-		(*str)++;
 }
 
 void	free_matrix(char **matrix)

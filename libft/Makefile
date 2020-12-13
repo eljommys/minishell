@@ -42,6 +42,7 @@ SRCS =	ft_memset.c \
 		ft_substr.c\
 		ft_strldup.c\
 		ft_addchr.c\
+		ft_skip_spaces.c\
 		get_next_line.c\
 		ft_lstnew.c\
 		ft_lstadd_front.c\

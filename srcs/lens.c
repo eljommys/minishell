@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/01 19:09:39 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/12 16:01:53 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/13 12:50:32 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,12 @@ int		ft_strlen_pipe(char *str)
 	int		i;
 	char	c;
 
-	i = 0;
-	while (str[i] && str[i] != '|')
+	i = -1;
+	while (str[++i] && str[i] != '|')
 	{
 		if (str[i] == '"' || str[i] == '\'')
 		{
-			c = str[i];
-			i++;
+			c = str[i++];
 			while (str[i] && str[i] != c)
 			{
 				if (str[i] == '\\' && is_token(str[i + 1]))
@@ -32,18 +31,17 @@ int		ft_strlen_pipe(char *str)
 			}
 			if (!str[i])
 			{
-				ft_putstr_fd("Non finished quotes(lens)\n", 1);
+				ft_putstr_fd("Non finished quotes\n", 1);
 				return (i);
 			}
 		}
 		else if (str[i] == '\\')
 			i++;
-		i++;
 	}
 	return (i);
 }
 
-int		ft_strlen_char_token(char *str, char c)
+int		ft_strlen_arg_token(char *str, char c)
 {
 	int i;
 

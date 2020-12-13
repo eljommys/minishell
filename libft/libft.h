@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/01 12:06:20 by jserrano          #+#    #+#             */
-/*   Updated: 2020/12/11 14:32:15 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/13 12:56:18 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,5 +78,7 @@ t_list			*ft_lstmap(t_list *lst,\
 				void *(*f)(void *), void (*del)(void *));
 int				get_next_line(int fd, char **line);
 void			ft_addchr(char **str, char c);
+void			skip_spaces(char **str);
+
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/29 14:12:39 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/12 19:07:44 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/13 13:24:59 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,14 +52,6 @@ static int check_quotes(char **str, int *i)
 	return (0);
 }
 
-static int is_next_dollar(char *str)
-{
-	if (!str[1] || ft_isspace(str[1]) || str[1] == '\'' || str[1] == '"' ||
-		str[1] == '/')
-		return (0);
-	return (1);
-}
-
 static int check_env(char **str, t_data *param)
 {
 	int i;
@@ -78,48 +70,17 @@ static int check_env(char **str, t_data *param)
 			if ((*str)[i + 1])
 				i++;
 		}
-		else if ((*str)[i] == '$' && is_next_dollar(*str + i))
+		else if ((*str)[i] == '$' && !(!(*str)[i + 1] ||
+		ft_isspace((*str)[i + 1]) || (*str)[i + 1] == '\'' ||
+		(*str)[i + 1] == '"' || (*str)[i + 1] == '/'))
 			i += change_env(i, braces, str, param) - 1;
 		i++;
 	}
 	return (0);
 }
 
-static void command_or_pipe(t_data *param, int j)
+static int	check_semicolon(t_data *param)
 {
-	int fds[4];
-	int std_out;
-	int sons;
-	int i;
-
-	std_out = dup(0);
-	i = 0;
-	while (param->argv[i] && ft_memcmp(param->argv[i], "|", 2))
-		i++;
-	/* if (param->cmds[j] && !param->cmds[j][ft_strlen_pipe(param->cmds[j])])
-		param->envp = check_command(param->cmds[j], param); */
-	if (!param->argv[i])
-		param->envp = check_command(param->cmds[j], param);
-	else if (param->cmds[j])
-	{
-		pipe(fds);
-		pipe(fds + 2);
-		sons = check_pipe(fds, param->cmds[j], param);
-		while (sons-- > 0)
-			wait(&param->ret);
-		param->ret /= 256;
-		i = -1;
-		while (++i < 4)
-			close(fds[i]);
-	}
-	dup2(std_out, 0);
-}
-
-void parser(t_data *param) //se supone que en check env seg_faultS
-{
-	int i;
-	int j;
-
 	if (!param->str || !ft_memcmp(param->str, ";", 2))
 	{
 		if (param->str)
@@ -129,27 +90,26 @@ void parser(t_data *param) //se supone que en check env seg_faultS
 		}
 		free(param->str);
 		param->str = 0;
-		return;
+		return (1);
 	}
-	//check_env(&(param->str), param);
+	return (0);
+}
+
+void		parser(t_data *param)
+{
+	int i;
+
+	if (check_semicolon(param))
+		return ;
 	param->cmds = ft_split_case(param->str, ';');
-/* 	j = -1;
-	while (param->cmds[++j])
-		printf("cmds[%d] = ->%s<-\n", j, param->cmds[j]); */
 	i = 0;
 	while (param->cmds[i])
 	{
 		check_env(&(param->cmds[i]), param);
-		//printf("comando = %s\n", param->cmds[i]);
 		param->argc = count_args(param->cmds[i]);
 		param->argv = (char **)ft_calloc(sizeof(char *), (param->argc + 1));
 		set_args(param->argv, param->cmds[i], param->argc);
-/* 		j = -1;
-		while (param->argv[++j])
-			printf("argv[%d] = ->%s<-\n", j, param->argv[j]); */
-		//exit (0);
 		command_or_pipe(param, i);
-		//printf("despues\n");
 		i++;
 		free_matrix(param->argv);
 	}
