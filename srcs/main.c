@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/16 15:16:03 by marvin            #+#    #+#             */
-/*   Updated: 2020/12/13 17:30:57 by marvin           ###   ########.fr       */
+/*   Updated: 2020/12/13 17:55:21 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,6 +153,7 @@ int main(int argc, char **argv, char **envp)
 			free(param->str);
 			param->str = tmp;
 		}
+		//printf("str = ->%s<-\n", param->str);
 		parser(param);
 		exit(0);
 	}
@@ -165,6 +166,7 @@ int main(int argc, char **argv, char **envp)
 			while ((ret_len[0] = read(1, &c, 1)) && c != '\n')
 				ft_addchr(&(param->str), c);
 			ret_len[1] = (int)ft_strlen(param->str);
+			//printf("str = ->%s<-\n", param->str);
 			if (c == '\n')
 				parser(param);
 			if (!ret_len[0] && !ret_len[1])
