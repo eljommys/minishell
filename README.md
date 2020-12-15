@@ -1,5 +1,7 @@
 # minishell
 
+[![jaeskim's 42Project Score](https://badge42.herokuapp.com/api/project/jserrano/miniRT)](https://github.com/JaeSeoKim/badge42)
+
 ![logo](https://i.ibb.co/N6kGJWg/minishell-logo.png)
 
 ### Index 📋
